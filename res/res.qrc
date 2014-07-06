@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/notation">
+        <file alias="treble">treble_clef.png</file>
+    </qresource>
+</RCC>
