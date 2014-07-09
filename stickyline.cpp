@@ -35,6 +35,12 @@ StickyLine::StickyLine(int topLeftX, int topLeftY, int bottomRightX, int bottomR
 void StickyLine::setColour(QColor colour)
 {    
     m_defaultColour = colour;
+    //    this->update(boundingRect());
+}
+
+void StickyLine::setHighlight(QColor color)
+{
+    m_highlightColour = color;
 }
 
 void StickyLine::setCollisionMode(Qt::ItemSelectionMode mode)
@@ -55,7 +61,6 @@ QRectF StickyLine::boundingRect() const
 
 void StickyLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-
     QPen pen(Qt::black);
     QBrush brush(Qt::black);
     //QLineF staff(m_rec.topLeft(), m_rec.topRight());
@@ -67,11 +72,11 @@ void StickyLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 
     if( scene()->collidingItems(this).isEmpty() ){
         pen.setColor(m_defaultColour);
-        brush.setColor(m_defaultColour);
+        brush.setColor(m_defaultColour);        
     }
     else{        
-        pen.setColor(colours::highlighted);
-        brush.setColor(colours::highlighted);
+        pen.setColor(m_highlightColour);
+        brush.setColor(m_highlightColour);
     }
 
     //painter->setPen(pen);

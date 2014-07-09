@@ -86,6 +86,7 @@ void MainWindow::createStaff()
         QString name = objectPropertyTypes::lineType + lineStr.toString();
 
         staffLine->setColour( QColor(Qt::black) );
+        staffLine->setHighlight(QColor(colours::highlighted));
         staffLine->setData(objectPropertyKeys::type, objectPropertyTypes::lineType);
         staffLine->setData(objectPropertyKeys::name, name);
         staffLine->addSignalHandler(signalHandler);
@@ -103,10 +104,11 @@ void MainWindow::createStaff()
         name = objectPropertyTypes::whiteLineType + lineStr.toString();
         signalHandler = new StickyLineSignalHandler(this);
         whitespace->setColour(QColor(Qt::white));
+        whitespace->setHighlight(QColor(colours::highlighted));
         whitespace->setCollisionMode(Qt::ContainsItemShape);
         whitespace->setData(objectPropertyKeys::type, objectPropertyTypes::whiteLineType);
         whitespace->setData(objectPropertyKeys::name, name);
-        staffLine->addSignalHandler(signalHandler);
+        whitespace->addSignalHandler(signalHandler);
         signalHandler->m_lineName = name;
         m_lineToSignalHandler.insert(name, signalHandler);
         m_scene->addItem(whitespace);
@@ -168,7 +170,7 @@ void MainWindow::nextRound()
     QString nameStr = name.toString();
     qDebug() << m_noteLineMap.value(nameStr, "");
     m_answer = m_noteLineMap.value(nameStr, "");
-    ui->guiChallenge->setText("Find a : " + m_answer);
+    ui->guiChallenge->setText("Find the note: " + m_answer);
 }
 
 QList<QGraphicsItem *> MainWindow::getLines()
@@ -191,12 +193,14 @@ void MainWindow::userNoteMoved(QString line)
 {    
     if(m_noteLineMap.value(line) == m_answer){
         nextRound();
+        m_lineToSignalHandler.value(line)->userResult(true);
         qDebug() << "WIN!";
  //       emit userResult(true);
     }
     else{
         qDebug() << "FAIL!";
+        m_lineToSignalHandler.value(line)->userResult(false);
    //     emit userResult(false);
     }
-    m_lineToSignalHandler.value(m_answer)->test();
+
 }

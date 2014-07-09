@@ -27,7 +27,7 @@ void StickyLineSignalHandler::test()
 void StickyLineSignalHandler::userResult(bool isCorrect)
 {
 
-    qDebug() << "SETLINE address for line : " << m_line;
+    //qDebug() << "SETLINE address for line : " << m_line;
     //m_line->data(objectPropertyKeys::type);
 
 
@@ -36,26 +36,30 @@ void StickyLineSignalHandler::userResult(bool isCorrect)
 
 
 
-    //m_lineColourTimer->start();
-    /*
+    m_lineColourTimer->start();
+
     if(isCorrect){
-        m_line->setColour(colours::correct);
+        m_line->setHighlight(colours::correct);
         m_lineColourTimer->start();
     }
     else{
-        m_line->setColour(colours::incorrect);
+        m_line->setHighlight(colours::incorrect);
         m_lineColourTimer->start();
-    }*/
+    }
 }
 
 void StickyLineSignalHandler::resetLineColour()
 {
     QString type = m_line->data(objectPropertyKeys::type).toString();
+
+    qDebug() << m_line->data(objectPropertyKeys::name).toString();
     if(type == objectPropertyTypes::lineType){
-        m_line->setColour(Qt::black);
+        //m_line->setColour(Qt::black);
+        m_line->setHighlight(colours::highlighted);
     }
     else{
-        m_line->setColour(Qt::white);
+        qDebug() << "Colour reset";
+        m_line->setHighlight(colours::highlighted);
     }
-    qDebug() << "Colour reset";
+
 }

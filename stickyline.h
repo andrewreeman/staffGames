@@ -15,6 +15,7 @@ public:
     StickyLine(QRectF);
     StickyLine(int, int, int, int);
     void setColour(QColor);
+    void setHighlight(QColor);
     void userResult(bool);
     void setCollisionMode(Qt::ItemSelectionMode mode);
     void addSignalHandler(StickyLineSignalHandler*);
@@ -29,6 +30,7 @@ protected:
 private:
     QRectF m_rec;
     QColor m_defaultColour;
+    QColor m_highlightColour;
     Qt::ItemSelectionMode m_collisionMode;
     StickyLineSignalHandler* m_signalHandler;
 
