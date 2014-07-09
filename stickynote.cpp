@@ -24,7 +24,7 @@ StickyNote::StickyNote(QPoint topLeft, QPoint bottomRight)
     this->setData(objectPropertyKeys::type, "note");
 }
 */
-StickyNote::StickyNote(QRectF rec) : m_isMousePressed(false), m_currentLine(0)
+StickyNote::StickyNote(QRectF rec) : m_isMousePressed(false)
 {
     m_rec = rec;
     this->setData(objectPropertyKeys::type, objectPropertyTypes::noteType);
@@ -78,13 +78,6 @@ void StickyNote::setSignalHandler(StickyNoteSignalHandler *handler)
     m_signalHandler->setNote(this);
 }
 
-void StickyNote::userResult(bool userResult)
-{
-    if(m_currentLine){
-        m_currentLine->userResult(userResult);
-    }
-}
-
 void StickyNote::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     m_isMousePressed = true;
@@ -121,8 +114,7 @@ void StickyNote::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
             QRectF thisRec = this->boundingRect();
             qreal diff = otherRec.center().y() - thisRec.center().y();            
 
-            this->setPos(this->x(), diff);
-            m_currentLine = (StickyLine*)other;
+            this->setPos(this->x(), diff);            
             m_signalHandler->signal_submitLine(name);
         }
     }

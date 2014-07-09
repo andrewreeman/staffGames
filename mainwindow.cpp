@@ -81,27 +81,36 @@ void MainWindow::createStaff()
         //QLine staffLine(p1, p2);
         //m_scene->addLine(staffLine, staffPen);
         StickyLine* staffLine = new StickyLine(p1Staff, p2Staff);
-        StickyLineSignalHandler* signalHandler(this);
-        signalHandler->setLine(staffLine);
-
+        StickyLineSignalHandler* signalHandler = new StickyLineSignalHandler(this);
         QVariant lineStr = line;
+        QString name = objectPropertyTypes::lineType + lineStr.toString();
+
         staffLine->setColour( QColor(Qt::black) );
         staffLine->setData(objectPropertyKeys::type, objectPropertyTypes::lineType);
-        staffLine->setData(objectPropertyKeys::name, objectPropertyTypes::lineType + lineStr.toString());
+        staffLine->setData(objectPropertyKeys::name, name);
+        staffLine->addSignalHandler(signalHandler);
+        signalHandler->m_lineName = name;
+        m_lineToSignalHandler.insert(name, signalHandler);
         m_scene->addItem(staffLine);
+//        signalHandler->setLine(staffLine);
+
 
         p1Staff += staffOffset;
         p2Staff += staffOffset;
 
         StickyLine* whitespace = new StickyLine(p1White, p2White);
-        StickyLineSignalHandler* signalHandler(this);
-        signalHandler->setLine(whitespace);
-        SETTING UP COLOUR CHANGE IN LINE USING SIGNAL HANDLERS
+
+        name = objectPropertyTypes::whiteLineType + lineStr.toString();
+        signalHandler = new StickyLineSignalHandler(this);
         whitespace->setColour(QColor(Qt::white));
         whitespace->setCollisionMode(Qt::ContainsItemShape);
         whitespace->setData(objectPropertyKeys::type, objectPropertyTypes::whiteLineType);
-        whitespace->setData(objectPropertyKeys::name, objectPropertyTypes::whiteLineType + lineStr.toString());
+        whitespace->setData(objectPropertyKeys::name, name);
+        staffLine->addSignalHandler(signalHandler);
+        signalHandler->m_lineName = name;
+        m_lineToSignalHandler.insert(name, signalHandler);
         m_scene->addItem(whitespace);
+        //signalHandler->setLine(whitespace);
 
         p1White += whiteOffset;
         p2White += whiteOffset;
@@ -123,8 +132,8 @@ void MainWindow::createNote()
     QBrush noteBrush(Qt::black);
     StickyNote* note = new StickyNote(noteSize);
     StickyNoteSignalHandler* signalHandler = new StickyNoteSignalHandler(this);
+
     connect(signalHandler, SIGNAL(submitLine(QString)), this, SLOT(userNoteMoved(QString)));
-    connect(this, SIGNAL(userResult(bool)), signalHandler, SLOT(userResult(bool)));
     note->setSignalHandler(signalHandler);
     //m_scene->addEllipse(noteSize, notePen, noteBrush);
     m_scene->addItem(note);
@@ -183,10 +192,11 @@ void MainWindow::userNoteMoved(QString line)
     if(m_noteLineMap.value(line) == m_answer){
         nextRound();
         qDebug() << "WIN!";
-        emit userResult(true);
+ //       emit userResult(true);
     }
     else{
         qDebug() << "FAIL!";
-        emit userResult(false);
+   //     emit userResult(false);
     }
+    m_lineToSignalHandler.value(m_answer)->test();
 }

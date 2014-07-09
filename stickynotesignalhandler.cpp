@@ -15,8 +15,3 @@ void StickyNoteSignalHandler::setNote(StickyNote* note)
 {
     m_note = note;
 }
-
-void StickyNoteSignalHandler::userResult(bool userResult)
-{
-    m_note->userResult(userResult);
-}

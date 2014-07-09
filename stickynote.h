@@ -37,7 +37,6 @@ private:
     bool m_isMousePressed;
 
     StickyNoteSignalHandler* m_signalHandler;
-    StickyLine* m_currentLine;
 
 };
 

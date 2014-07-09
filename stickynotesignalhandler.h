@@ -16,8 +16,7 @@ public:
 
 signals:
     void submitLine(QString line);    
-public slots:
-    void userResult(bool);
+
 private:
     StickyNote* m_note;
 };

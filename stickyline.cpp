@@ -2,7 +2,7 @@
 #include <QPainter>
 #include <QGraphicsScene>
 #include <QWidget>
-#include <QTimer>
+
 
 
 
@@ -32,13 +32,8 @@ StickyLine::StickyLine(int topLeftX, int topLeftY, int bottomRightX, int bottomR
     m_rec = QRectF(topLeftX, topLeftY, bottomRightX, bottomRightY);
 }
 
-void StickyLine::userResult(bool userResult)
-{
-
-}
-
 void StickyLine::setColour(QColor colour)
-{
+{    
     m_defaultColour = colour;
 }
 
@@ -60,6 +55,7 @@ QRectF StickyLine::boundingRect() const
 
 void StickyLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+
     QPen pen(Qt::black);
     QBrush brush(Qt::black);
     //QLineF staff(m_rec.topLeft(), m_rec.topRight());
