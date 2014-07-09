@@ -2,4 +2,21 @@
     <qresource prefix="/notation">
         <file alias="treble">treble_clef.png</file>
     </qresource>
+    <qresource prefix="/audio">
+        <file alias="fail1">fail1.wav</file>
+        <file alias="fail2">fail2.wav</file>
+        <file alias="fail3">fail3.wav</file>
+        <file alias="fail4">fail4.wav</file>
+        <file alias="fail5">fail5.wav</file>
+        <file>A'.wav</file>
+        <file>B'.wav</file>
+        <file>C'.wav</file>
+        <file>D.wav</file>
+        <file>D'.wav</file>
+        <file>E.wav</file>
+        <file>E'.wav</file>
+        <file>F.wav</file>
+        <file>F'.wav</file>
+        <file>G.wav</file>
+    </qresource>
 </RCC>

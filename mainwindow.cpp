@@ -11,6 +11,7 @@
 #include <QMouseEvent>
 
 #include <QDebug>
+#include <QSound>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -192,14 +193,28 @@ QList<QGraphicsItem *> MainWindow::getLines()
 void MainWindow::userNoteMoved(QString line)
 {    
     if(m_noteLineMap.value(line) == m_answer){
-        nextRound();
+
         m_lineToSignalHandler.value(line)->userResult(true);
+        QString sound = ":/audio/"+m_answer+".wav";
+        qDebug() << sound;
+        QSound::play(sound);
         qDebug() << "WIN!";
+        nextRound();
  //       emit userResult(true);
     }
     else{
         qDebug() << "FAIL!";
         m_lineToSignalHandler.value(line)->userResult(false);
+        QStringList failFiles;
+        QString randFile;
+        failFiles << ":/audio/fail1";
+        failFiles << ":/audio/fail2";
+        failFiles << ":/audio/fail3";
+        failFiles << ":/audio/fail4";
+        failFiles << ":/audio/fail5";
+        randFile = failFiles.at(qrand() % failFiles.size());
+
+        QSound::play(randFile);
    //     emit userResult(false);
     }
 
