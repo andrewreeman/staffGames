@@ -21,7 +21,7 @@ void StickyLineSignalHandler::setLine(StickyLine* line)
 
 void StickyLineSignalHandler::test()
 {
-    //qDebug() << "test" << m_lineName;
+    qDebug() << "test" << m_lineName;
 }
 
 void StickyLineSignalHandler::userResult(bool isCorrect)
