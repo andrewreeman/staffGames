@@ -27,6 +27,8 @@ MainWindow::MainWindow(QWidget *parent) :
     m_mousePosTrigger->start();
 #endif    
     ui->graphicsView->setScene(m_scene);
+    ui->score->setValue(0);
+
     //setMouseTracking(true);
 
 
@@ -199,7 +201,11 @@ void MainWindow::userNoteMoved(QString line)
         qDebug() << sound;
         QSound::play(sound);
         qDebug() << "WIN!";
+        ui->score->setValue(ui->score->value() + 1);
+        if(ui->score->value() == ui->score->maximum())
+            ui->stackedWidget->setCurrentIndex(1);
         nextRound();
+
  //       emit userResult(true);
     }
     else{
@@ -215,7 +221,14 @@ void MainWindow::userNoteMoved(QString line)
         randFile = failFiles.at(qrand() % failFiles.size());
 
         QSound::play(randFile);
+        ui->score->setValue(ui->score->value() - 1);
    //     emit userResult(false);
     }
 
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
+    ui->score->setValue(0);
 }

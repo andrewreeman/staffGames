@@ -44,6 +44,8 @@ private slots:
     void userNoteMoved(QString line);
 
 
+    void on_pushButton_clicked();
+
 private:
     void createStaff();
     void createNote();
