@@ -8,10 +8,6 @@
 class StickyNote;
 #include "stickynotesignalhandler.h"
 
-
-
-
-
 class StickyNote : public QGraphicsItem
 {
 
@@ -33,8 +29,10 @@ protected:
     bool collidesWithItem(const QGraphicsItem *other, Qt::ItemSelectionMode mode) const;
 private:
     QLineF makeStem();
+    void checkBounds();
     QRectF m_rec;
     bool m_isMousePressed;
+
 
     StickyNoteSignalHandler* m_signalHandler;
 

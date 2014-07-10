@@ -10,6 +10,9 @@ namespace staffLayout{
     const int whitespaceHeight = 100;
     const int numStaffLines = 5;
     const int onePixel = 1;
+    const int numLedgerLines = 3;
+    const int upperBounds = -( (whitespaceHeight*numLedgerLines) + (lineHeight*numLedgerLines) );
+    const int lowerBounds = -upperBounds + ((whitespaceHeight*numStaffLines) + (lineHeight*numStaffLines));
 }
 
 namespace colours{
@@ -20,6 +23,10 @@ namespace colours{
 
 namespace noteProperties{
     const int noteDiameter = 70;
+}
+
+namespace trebleClef{
+    const int offset = -100;
 }
 
 namespace objectPropertyKeys{

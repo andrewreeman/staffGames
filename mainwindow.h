@@ -34,6 +34,7 @@ public:
 
 signals:
     void userResult(bool);
+    void scrollFinished();
 
 private slots:
 
@@ -42,13 +43,14 @@ private slots:
 #endif
 
     void userNoteMoved(QString line);
-
-
+    void scrollDown();
+    void scrollUp();
     void on_pushButton_clicked();
 
 private:
     void createStaff();
     void createNote();
+    void setBounds();
     void makeMap();
     void nextRound();
     QList<QGraphicsItem*> getLines();

@@ -1,13 +1,16 @@
 #include "stickynote.h"
+
 #include <QPainter>
 #include <QGraphicsSceneMouseEvent>
 #include <QWidget>
 #include <QGraphicsScene>
 #include <QImage>
 #include <QDebug>
+#include <QGraphicsView>
 
 
-#include <QDebug>
+
+
 
 /*StickyNote::StickyNote()
 {
@@ -67,7 +70,7 @@ void StickyNote::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     linePen.setCapStyle(Qt::RoundCap);
     painter->setPen(linePen);
 
-    painter->drawLine(staffLine);
+    painter->drawLine(staffLine);    
 
     widget->update();
 }
@@ -124,8 +127,36 @@ void StickyNote::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 
 
 void StickyNote::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
-{
+{    
     QGraphicsItem::mouseMoveEvent(event);
+    checkBounds();
+    QGraphicsView* view = scene()->views().at(0);
+    int thisGlobalPosY = view->mapFromScene(this->pos()).y();
+    int viewY = view->height();
+
+    if(thisGlobalPosY > viewY-noteProperties::noteDiameter){
+//        view->verticalScrollBar()->setValue( (view->verticalScrollBar()->value())+1);
+        m_signalHandler->signal_scrollDown();
+    }
+    else if(thisGlobalPosY < 0){
+  //      view->verticalScrollBar()->setValue( (view->verticalScrollBar()->value())-1);
+        m_signalHandler->signal_scrollUp();
+    }
+    else
+        m_signalHandler->signal_stopScroll();
+
+
+
+
+
+    /*QGraphicsView* view = scene()->views().at(0);
+    int outsideRange = view->geometry().height() - (this->boundingRect().height());
+
+    qDebug() << mapToParent(this->pos());
+    if(this->pos().y() > outsideRange || this->pos().y() < 0){
+
+        view->centerOn(this);
+    }*/
 }
 
 bool StickyNote::collidesWithItem(const QGraphicsItem *other, Qt::ItemSelectionMode mode) const
@@ -142,4 +173,27 @@ QLineF StickyNote::makeStem()
     QLineF staffLine(p1, p2);
     staffLine.translate(-5, 0);
     return staffLine;
+}
+
+void StickyNote::checkBounds()
+{
+    int y = this->pos().y();
+    int x = this->pos().x();
+    if(y > (staffLayout::lowerBounds-noteProperties::noteDiameter)){
+        y = staffLayout::lowerBounds-noteProperties::noteDiameter;
+        this->setPos(x, y);
+    }
+    else if(y < (staffLayout::upperBounds + noteProperties::noteDiameter)){
+        y = staffLayout::upperBounds+noteProperties::noteDiameter;
+        this->setPos(x, y);
+    }
+
+    if(x < noteProperties::noteDiameter){
+        x =  noteProperties::noteDiameter;
+        this->setPos(x,y);
+    }
+    else if(x > (staffLayout::lineLength - noteProperties::noteDiameter)){
+        x =  staffLayout::lineLength - noteProperties::noteDiameter;
+        this->setPos(x,y);
+    }
 }

@@ -7,7 +7,7 @@
 #include <QLine>
 #include <QRect>
 #include <QGraphicsItem>
-
+#include <QScrollBar>
 #include <QMouseEvent>
 
 #include <QDebug>
@@ -26,24 +26,23 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(m_mousePosTrigger, SIGNAL(timeout()), this, SLOT(getMousePos()));
     m_mousePosTrigger->start();
 #endif    
-    ui->graphicsView->setScene(m_scene);
-    ui->score->setValue(0);
-
-    //setMouseTracking(true);
-
-
-
+    ui->graphicsView->setScene(m_scene);    
+    ui->score->setValue(0);    
+    //QRect sceneRect(0, staffLayout::lowerBounds, m_scene->sceneRect().bottomRight().x(), staffLayout::upperBounds);
+    setBounds();
     createStaff();
     QPixmap image(":/notation/treble");
     QGraphicsPixmapItem* pixmap = m_scene->addPixmap(image);
-    pixmap->setPos(-100, -30);
+    pixmap->setPos(trebleClef::offset, -30);
     pixmap->setScale(1);
     pixmap->setData(objectPropertyKeys::type, objectPropertyTypes::trebleType);
     makeMap();
     createNote();
+    //setMouseTracking(true);
     nextRound();
 
-    //m_scene->itemAt(p1, QTransform())->setFlag(QGraphicsItem::ItemIsMovable);;
+    //m_scene->itemAt(p1, QTransform())->setFlag(QGraphicsItem::ItemIsMovable);;    
+    ui->graphicsView->setDragMode(QGraphicsView::ScrollHandDrag);
 
 //    QWidget::showMaximized();
 }
@@ -139,11 +138,24 @@ void MainWindow::createNote()
     StickyNoteSignalHandler* signalHandler = new StickyNoteSignalHandler(this);
 
     connect(signalHandler, SIGNAL(submitLine(QString)), this, SLOT(userNoteMoved(QString)));
+    connect(signalHandler, SIGNAL(scrollUp()), this, SLOT(scrollUp()));
+    connect(signalHandler, SIGNAL(scrollDown()), this, SLOT(scrollDown()));
+    connect(this, SIGNAL(scrollFinished()), signalHandler, SLOT(finishedScroll()));
     note->setSignalHandler(signalHandler);
     //m_scene->addEllipse(noteSize, notePen, noteBrush);
     m_scene->addItem(note);
     m_scene->itemAt(noteSize.center(), QTransform())->setFlag(QGraphicsItem::ItemIsMovable);
+    note->moveBy(staffLayout::lineLength/2, staffLayout::whitespaceHeight);
+    ui->graphicsView->centerOn(note);
+}
 
+void MainWindow::setBounds()
+{
+    QRect sceneOrigRect = m_scene->sceneRect().toRect();
+    QPoint p1(trebleClef::offset, staffLayout::upperBounds);
+    QPoint p2(staffLayout::lineLength+(-trebleClef::offset), staffLayout::lowerBounds);
+    QRect sceneRect(p1, p2);
+    m_scene->setSceneRect(sceneRect);
 }
 
 void MainWindow::makeMap()
@@ -225,6 +237,24 @@ void MainWindow::userNoteMoved(QString line)
    //     emit userResult(false);
     }
 
+}
+
+void MainWindow::scrollDown()
+{
+    QScrollBar* vScroll = ui->graphicsView->verticalScrollBar();
+    int value = vScroll->value();
+    vScroll->setValue(value+40);
+    //qDebug() << "Scrolled down";
+    emit scrollFinished();
+}
+
+void MainWindow::scrollUp()
+{
+    QScrollBar* vScroll = ui->graphicsView->verticalScrollBar();
+    int value = vScroll->value();
+    vScroll->setValue(value-40);
+    //qDebug() << "Scrolled up";
+    emit scrollFinished();
 }
 
 void MainWindow::on_pushButton_clicked()
