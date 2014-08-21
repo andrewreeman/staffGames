@@ -79,7 +79,7 @@ void MainWindow::createStaff()
     QPoint staffOffset(0, whitespaceHeight + lineHeight);
     QPoint whiteOffset(0, lineHeight + whitespaceHeight);
 
-    for(int line=0; line<numStaffLines; ++line){
+    for(int line=numStaffLines+numLedgerLines-1; line>numLedgerLines-1; --line){
         //QLine staffLine(p1, p2);
         //m_scene->addLine(staffLine, staffPen);
         StickyLine* staffLine = new StickyLine(p1Staff, p2Staff);
@@ -91,6 +91,7 @@ void MainWindow::createStaff()
         staffLine->setHighlight(QColor(colours::highlighted));
         staffLine->setData(objectPropertyKeys::type, objectPropertyTypes::lineType);
         staffLine->setData(objectPropertyKeys::name, name);
+        staffLine->setData(objectPropertyKeys::ledgerType, ledgerType::stave);
         staffLine->addSignalHandler(signalHandler);
         signalHandler->m_lineName = name;
         m_lineToSignalHandler.insert(name, signalHandler);
@@ -110,6 +111,73 @@ void MainWindow::createStaff()
         whitespace->setCollisionMode(Qt::ContainsItemShape);
         whitespace->setData(objectPropertyKeys::type, objectPropertyTypes::whiteLineType);
         whitespace->setData(objectPropertyKeys::name, name);
+        whitespace->setData(objectPropertyKeys::ledgerType, ledgerType::stave);
+        whitespace->addSignalHandler(signalHandler);
+        signalHandler->m_lineName = name;
+        m_lineToSignalHandler.insert(name, signalHandler);
+        m_scene->addItem(whitespace);
+        //signalHandler->setLine(whitespace);
+
+        p1White += whiteOffset;
+        p2White += whiteOffset;
+    }
+    createLedgerLines(QPoint(p1White.x(), p2White.y() - whiteOffset.y()));
+
+}
+
+void MainWindow::createLedgerLines(QPoint startPoint)
+{
+
+    using namespace staffLayout;
+
+    QPen staffPen(Qt::black);
+    staffPen.setWidth(lineHeight);
+    QPoint p1Staff(0, 0);
+    QPoint p2Staff(lineLength, lineHeight);
+    p1Staff += startPoint;
+    p2Staff += startPoint;
+
+    QPoint p1White(0, lineHeight + onePixel );
+    QPoint p2White(lineLength, whitespaceHeight+lineHeight - onePixel);
+    p1White += startPoint;
+    p2White += startPoint;
+
+    QPoint staffOffset(0, whitespaceHeight + lineHeight);
+    QPoint whiteOffset(0, lineHeight + whitespaceHeight);
+
+    for(int line=numLedgerLines-1; line>=0; --line){
+        //QLine staffLine(p1, p2);
+        //m_scene->addLine(staffLine, staffPen);
+        StickyLine* staffLine = new StickyLine(p1Staff, p2Staff);
+        StickyLineSignalHandler* signalHandler = new StickyLineSignalHandler(this);
+        QVariant lineStr = line;
+        QString name = objectPropertyTypes::lineType + lineStr.toString();
+
+        staffLine->setColour( QColor(Qt::white) );
+        staffLine->setHighlight(QColor(colours::highlighted));
+        staffLine->setData(objectPropertyKeys::type, objectPropertyTypes::lineType);
+        staffLine->setData(objectPropertyKeys::name, name);
+        staffLine->setData(objectPropertyKeys::ledgerType, ledgerType::ledger);
+        staffLine->addSignalHandler(signalHandler);
+        signalHandler->m_lineName = name;
+        m_lineToSignalHandler.insert(name, signalHandler);
+        m_scene->addItem(staffLine);
+//        signalHandler->setLine(staffLine);
+
+
+        p1Staff += staffOffset;
+        p2Staff += staffOffset;
+
+        StickyLine* whitespace = new StickyLine(p1White, p2White);
+
+        name = objectPropertyTypes::whiteLineType + lineStr.toString();
+        signalHandler = new StickyLineSignalHandler(this);
+        whitespace->setColour(QColor(Qt::white));
+        whitespace->setHighlight(QColor(colours::highlighted));
+        whitespace->setCollisionMode(Qt::ContainsItemShape);
+        whitespace->setData(objectPropertyKeys::type, objectPropertyTypes::whiteLineType);
+        whitespace->setData(objectPropertyKeys::name, name);
+        whitespace->setData(objectPropertyKeys::ledgerType, ledgerType::ledger);
         whitespace->addSignalHandler(signalHandler);
         signalHandler->m_lineName = name;
         m_lineToSignalHandler.insert(name, signalHandler);
@@ -132,8 +200,6 @@ void MainWindow::createNote()
     QPoint centre((noteProperties::noteDiameter-10)/2, (noteProperties::noteDiameter-10)/2);
     centre += topLeft;
 
-    QPen notePen(Qt::black);
-    QBrush noteBrush(Qt::black);
     StickyNote* note = new StickyNote(noteSize);
     StickyNoteSignalHandler* signalHandler = new StickyNoteSignalHandler(this);
 
@@ -151,7 +217,7 @@ void MainWindow::createNote()
 
 void MainWindow::setBounds()
 {
-    QRect sceneOrigRect = m_scene->sceneRect().toRect();
+ //   QRect sceneOrigRect = m_scene->sceneRect().toRect();
     QPoint p1(trebleClef::offset, staffLayout::upperBounds);
     QPoint p2(staffLayout::lineLength+(-trebleClef::offset), staffLayout::lowerBounds);
     QRect sceneRect(p1, p2);
@@ -163,27 +229,32 @@ void MainWindow::makeMap()
 
     QList<QGraphicsItem*> lines = getLines();
 
-    m_noteLineMap.insert(lines.at(0)->data(objectPropertyKeys::name).toString(), "D");
-    m_noteLineMap.insert(lines.at(1)->data(objectPropertyKeys::name).toString(), "E");
-    m_noteLineMap.insert(lines.at(2)->data(objectPropertyKeys::name).toString(), "F");
-    m_noteLineMap.insert(lines.at(3)->data(objectPropertyKeys::name).toString(), "G");
-    m_noteLineMap.insert(lines.at(4)->data(objectPropertyKeys::name).toString(), "A'");
-    m_noteLineMap.insert(lines.at(5)->data(objectPropertyKeys::name).toString(), "B'");
-    m_noteLineMap.insert(lines.at(6)->data(objectPropertyKeys::name).toString(), "C'");
-    m_noteLineMap.insert(lines.at(7)->data(objectPropertyKeys::name).toString(), "D'");
-    m_noteLineMap.insert(lines.at(8)->data(objectPropertyKeys::name).toString(), "E'");
-    m_noteLineMap.insert(lines.at(9)->data(objectPropertyKeys::name).toString(), "F'");
+    m_noteLineMap.insert(lines.at(0)->data(objectPropertyKeys::name).toString(), "'E");
+    m_noteLineMap.insert(lines.at(1)->data(objectPropertyKeys::name).toString(), "'F");
+    m_noteLineMap.insert(lines.at(2)->data(objectPropertyKeys::name).toString(), "'G");
+    m_noteLineMap.insert(lines.at(3)->data(objectPropertyKeys::name).toString(), "A");
+    m_noteLineMap.insert(lines.at(4)->data(objectPropertyKeys::name).toString(), "B");
+    m_noteLineMap.insert(lines.at(5)->data(objectPropertyKeys::name).toString(), "C");
+    m_noteLineMap.insert(lines.at(6)->data(objectPropertyKeys::name).toString(), "D");
+    m_noteLineMap.insert(lines.at(7)->data(objectPropertyKeys::name).toString(), "E");
+    m_noteLineMap.insert(lines.at(8)->data(objectPropertyKeys::name).toString(), "F");
+    m_noteLineMap.insert(lines.at(9)->data(objectPropertyKeys::name).toString(), "G");
+    m_noteLineMap.insert(lines.at(10)->data(objectPropertyKeys::name).toString(), "A'");
+    m_noteLineMap.insert(lines.at(11)->data(objectPropertyKeys::name).toString(), "B'");
+    m_noteLineMap.insert(lines.at(12)->data(objectPropertyKeys::name).toString(), "C'");
+    m_noteLineMap.insert(lines.at(13)->data(objectPropertyKeys::name).toString(), "D'");
+    m_noteLineMap.insert(lines.at(14)->data(objectPropertyKeys::name).toString(), "E'");
+    m_noteLineMap.insert(lines.at(15)->data(objectPropertyKeys::name).toString(), "F'");
+
 
 }
 
 void MainWindow::nextRound()
 {
-
     QList<QGraphicsItem*> lines = getLines();
     int randNum = qrand() % lines.size();
     QVariant name = lines.at(randNum)->data(objectPropertyKeys::name);
-    QString nameStr = name.toString();
-    qDebug() << m_noteLineMap.value(nameStr, "");
+    QString nameStr = name.toString();    
     m_answer = m_noteLineMap.value(nameStr, "");
     ui->guiChallenge->setText("Find the note: " + m_answer);
 }
@@ -206,22 +277,19 @@ QList<QGraphicsItem *> MainWindow::getLines()
 
 void MainWindow::userNoteMoved(QString line)
 {    
+    qDebug() << line;
     if(m_noteLineMap.value(line) == m_answer){
 
         m_lineToSignalHandler.value(line)->userResult(true);
-        QString sound = ":/audio/"+m_answer+".wav";
-        qDebug() << sound;
+        QString sound = ":/audio/"+m_answer+".wav";        
         QSound::play(sound);
-        qDebug() << "WIN!";
         ui->score->setValue(ui->score->value() + 1);
         if(ui->score->value() == ui->score->maximum())
             ui->stackedWidget->setCurrentIndex(1);
         nextRound();
 
- //       emit userResult(true);
     }
-    else{
-        qDebug() << "FAIL!";
+    else{        
         m_lineToSignalHandler.value(line)->userResult(false);
         QStringList failFiles;
         QString randFile;
@@ -234,7 +302,6 @@ void MainWindow::userNoteMoved(QString line)
 
         QSound::play(randFile);
         ui->score->setValue(ui->score->value() - 1);
-   //     emit userResult(false);
     }
 
 }

@@ -18,5 +18,11 @@
         <file>F.wav</file>
         <file>F'.wav</file>
         <file>G.wav</file>
+        <file>A.wav</file>
+        <file>B.wav</file>
+        <file>C.wav</file>
+        <file>'E.wav</file>
+        <file>'F.wav</file>
+        <file>'G.wav</file>
     </qresource>
 </RCC>

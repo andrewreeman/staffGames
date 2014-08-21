@@ -20,7 +20,7 @@ public:
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void setSignalHandler(StickyNoteSignalHandler* handler);
-    void userResult(bool);
+
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);

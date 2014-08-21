@@ -66,11 +66,14 @@ void StickyNote::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     QPen linePen(Qt::black);
     QLineF staffLine = makeStem();
 
+
     linePen.setWidth(6);
     linePen.setCapStyle(Qt::RoundCap);
     painter->setPen(linePen);
 
     painter->drawLine(staffLine);    
+
+    //makeLedgers();
 
     widget->update();
 }

@@ -36,3 +36,6 @@ MOBILITY =
 RESOURCES += \
     res/res.qrc
 
+OTHER_FILES += \
+    Urls.txt
+

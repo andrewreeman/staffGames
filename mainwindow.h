@@ -32,8 +32,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-signals:
-    void userResult(bool);
+signals:    
     void scrollFinished();
 
 private slots:
@@ -49,6 +48,7 @@ private slots:
 
 private:
     void createStaff();
+    void createLedgerLines(QPoint startPoint);
     void createNote();
     void setBounds();
     void makeMap();
