@@ -9,16 +9,17 @@
 #include "stickynote.h"
 #include "stickylinesignalhandler.h"
 
+#include "staffscene.h"
+
+
 #ifdef QT_DEBUG
+    // Enable for mouse tracking
     //#define MOUSE_TRACKING
 #endif
 
 #ifdef MOUSE_TRACKING
     #include <QTimer>
 #endif
-
-
-
 
 namespace Ui {
 class MainWindow;
@@ -41,7 +42,7 @@ private slots:
     void getMousePos();
 #endif
 
-    void userNoteMoved(QString line);
+    void lineSelected(int line);
     void scrollDown();
     void scrollUp();
     void on_pushButton_clicked();
@@ -56,7 +57,8 @@ private:
     QList<QGraphicsItem*> getLines();
 
     Ui::MainWindow *ui;
-    QGraphicsScene* m_scene;
+    //QGraphicsScene* m_scene;
+    StaffScene* m_scene;
 
     QMap<QString, QString> m_noteLineMap;
     QString m_answer;

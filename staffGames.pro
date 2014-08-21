@@ -18,14 +18,25 @@ SOURCES += main.cpp\
     stickyline.cpp \
     stickynote.cpp \
     stickynotesignalhandler.cpp \
-    stickylinesignalhandler.cpp
+    stickylinesignalhandler.cpp \    
+    ledgerline.cpp \
+    linemanager.cpp \
+    note.cpp \
+    staffline.cpp \
+    staffscene.cpp
 
 HEADERS  += mainwindow.h \
     staffGamesConstants.h \
     stickyline.h \
     stickynote.h \
     stickynotesignalhandler.h \
-    stickylinesignalhandler.h
+    stickylinesignalhandler.h \
+    ledgerline.h \
+    linemanager.h \
+    note.h \
+    staffline.h \
+    staffscene.h \
+    projectConstants.hh
 
 FORMS    += mainwindow.ui
 

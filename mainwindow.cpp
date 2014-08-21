@@ -19,7 +19,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    m_scene = new QGraphicsScene(this);
+    m_scene = new StaffScene(this);
+    connect(m_scene, SIGNAL( lineSelected(int) ), this, SLOT( lineSelected(int) ));
+
 #ifdef MOUSE_TRACKING
     m_mousePosTrigger = new QTimer(this);
     m_mousePosTrigger->setInterval(10);
@@ -30,18 +32,19 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->score->setValue(0);    
     //QRect sceneRect(0, staffLayout::lowerBounds, m_scene->sceneRect().bottomRight().x(), staffLayout::upperBounds);
     setBounds();
-    createStaff();
+//    createStaff();
     QPixmap image(":/notation/treble");
     QGraphicsPixmapItem* pixmap = m_scene->addPixmap(image);
     pixmap->setPos(trebleClef::offset, -30);
     pixmap->setScale(1);
     pixmap->setData(objectPropertyKeys::type, objectPropertyTypes::trebleType);
-    makeMap();
-    createNote();
+    //makeMap();
+//    createNote();
     //setMouseTracking(true);
-    nextRound();
+//    nextRound();
 
     //m_scene->itemAt(p1, QTransform())->setFlag(QGraphicsItem::ItemIsMovable);;    
+    //TODO check if this overrides the other drag behaviour
     ui->graphicsView->setDragMode(QGraphicsView::ScrollHandDrag);
 
 //    QWidget::showMaximized();
@@ -50,6 +53,11 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::lineSelected(int line)
+{
+    qDebug() << line;
 }
 
 #ifdef MOUSE_TRACKING
@@ -274,7 +282,7 @@ QList<QGraphicsItem *> MainWindow::getLines()
     }
     return lines;
 }
-
+/*
 void MainWindow::userNoteMoved(QString line)
 {    
     qDebug() << line;
@@ -304,7 +312,7 @@ void MainWindow::userNoteMoved(QString line)
         ui->score->setValue(ui->score->value() - 1);
     }
 
-}
+}*/
 
 void MainWindow::scrollDown()
 {
