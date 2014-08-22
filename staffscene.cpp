@@ -1,5 +1,6 @@
 #include "staffscene.h"
 #include "projectConstants.hh"
+#include "staffGamesConstants.h"
 #include <QDebug>
 #include <QTimer>
 
@@ -19,11 +20,11 @@ void StaffScene::makeLine(){
 
 void StaffScene::makeCircle()
 {    
-    QBrush brush(projectConstants::noteColour);
+    QBrush brush(colours::note);
     QPoint p1(0, 0);    
-    QPoint p2(projectConstants::noteDiameter, 0);
+    QPoint p2(noteProperties::noteDiameter, 0);
     QRectF rec(p1, p2);
-    rec.setHeight(projectConstants::noteDiameter);
+    rec.setHeight(noteProperties::noteDiameter);
     m_circle = new Note(rec);    
     m_circle->setFlag(QGraphicsItem::ItemIsMovable, true);
     m_circle->moveBy(0, -25);

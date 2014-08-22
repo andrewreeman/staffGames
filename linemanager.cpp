@@ -1,5 +1,6 @@
 #include "linemanager.h"
 #include "projectConstants.hh"
+#include "staffGamesConstants.h"
 #include "note.h"
 #include "staffscene.h"
 
@@ -34,7 +35,8 @@ void lineManager::createStaff()
     brushes.push_back(m_whiteLineBrush);
     QList<QRectF> lineTemplates = createLineTemplates();
 
-    int Yoffset = projectConstants::blackWidth + projectConstants::whiteWidth;
+    //int Yoffset = projectConstants::blackWidth + projectConstants::whiteWidth;
+    int Yoffset = staffLayout::blackLineHeight + staffLayout::whiteLineHeight;
     QPen pen;
     pen.setStyle(Qt::NoPen);
 
@@ -44,8 +46,8 @@ void lineManager::createStaff()
             m_staffLines.push_back(new StaffLine(lineTemplates.at(parity), this) );
             m_staffLines.at(line)->setDefaultBrush( brushes.at(parity) );
             m_staffLines.at(line)->setPen(pen);
-            m_staffLines.at(line)->setData(projectConstants::keyType, projectConstants::typeStaffLine);
-            m_staffLines.at(line)->setData(projectConstants::keyLineNumber, line);            
+            m_staffLines.at(line)->setData(objectPropertyKeys::type, objectPropertyTypes::lineType);
+            m_staffLines.at(line)->setData(objectPropertyKeys::name, line);
         }
         offsetRects(lineTemplates, Yoffset);
     }
@@ -53,8 +55,8 @@ void lineManager::createStaff()
 
 QList<QRectF> lineManager::createLineTemplates()
 {
-    QRectF blackLine(0, 0, projectConstants::staffLineLength, projectConstants::blackWidth);
-    QRectF whiteLine(0, projectConstants::blackWidth, projectConstants::staffLineLength, projectConstants::whiteWidth);
+    QRectF blackLine(0, 0, staffLayout::lineLength, staffLayout::blackLineHeight);
+    QRectF whiteLine(0, staffLayout::blackLineHeight, staffLayout::lineLength, staffLayout::whiteLineHeight);
     QList<QRectF> lineTemplates;    
     lineTemplates.push_back(blackLine);
     lineTemplates.push_back(whiteLine);
@@ -83,7 +85,7 @@ void lineManager::createUpperLedgers()
     brushes.push_back(m_blackLineBrush);
     brushes.push_back(m_whiteLineBrush);
     QList<QRectF> lineTemplates = createLineTemplates();
-    int Yoffset = -(projectConstants::blackWidth + projectConstants::whiteWidth);
+    int Yoffset = -(staffLayout::blackLineHeight + staffLayout::whiteLineHeight);
     QPen pen;
 
     offsetRects(lineTemplates, Yoffset);
@@ -95,8 +97,8 @@ void lineManager::createUpperLedgers()
             m_upperLines.push_back(new LedgerLine(lineTemplates.at(parity), this) );
             m_upperLines.at(line)->setDefaultBrush( brushes.at(parity) );
             m_upperLines.at(line)->setPen(pen);
-            m_upperLines.at(line)->setData(projectConstants::keyType, projectConstants::typeStaffLine);
-            m_upperLines.at(line)->setData(projectConstants::keyLineNumber,lineNumber);
+            m_upperLines.at(line)->setData(objectPropertyKeys::type, objectPropertyTypes::lineType);
+            m_upperLines.at(line)->setData(objectPropertyKeys::name,lineNumber);
             m_upperLines.at(line)->setOpacity(0);
 
         }
@@ -110,7 +112,7 @@ void lineManager::createLowerLedgers()
     brushes.push_back(m_blackLineBrush);
     brushes.push_back(m_whiteLineBrush);
     QList<QRectF> lineTemplates = createLineTemplates();
-    int Yoffset = projectConstants::blackWidth + projectConstants::whiteWidth;
+    int Yoffset = staffLayout::blackLineHeight + staffLayout::whiteLineHeight;
     QPen pen;
 
     for(int i=0; i<m_numBlackStaffLines; ++i){   // mmm magic number...
@@ -124,8 +126,8 @@ void lineManager::createLowerLedgers()
             m_lowerLines.push_back(new LedgerLine(lineTemplates.at(parity), this) );
             m_lowerLines.at(line)->setDefaultBrush( brushes.at(parity) );
             m_lowerLines.at(line)->setPen(pen);
-            m_lowerLines.at(line)->setData(projectConstants::keyType, projectConstants::typeStaffLine);
-            m_lowerLines.at(line)->setData(projectConstants::keyLineNumber,lineNumber);
+            m_lowerLines.at(line)->setData(objectPropertyKeys::type, objectPropertyTypes::lineType);
+            m_lowerLines.at(line)->setData(objectPropertyKeys::name,lineNumber);
             m_lowerLines.at(line)->setOpacity(0);
         }
         offsetRects(lineTemplates, Yoffset);
@@ -141,9 +143,9 @@ QRectF lineManager::boundingRect() const
 bool lineManager::sceneEventFilter(QGraphicsItem *watched, QEvent *event)
 {
     bool isEventConsumed = false;
-    QString type = watched->data(projectConstants::keyType).toString();
+    QString type = watched->data(objectPropertyKeys::type).toString();
 
-    if(type == projectConstants::typeNote){
+    if(type == objectPropertyTypes::noteType){
         if(event->type() == QEvent::GraphicsSceneMouseMove){
             QPointF circleCentre = watched->boundingRect().center();
 
@@ -190,9 +192,9 @@ QList<int> lineManager::getCollidedLineNumbers(QList<QGraphicsItem *> *collidedI
     int numItems = (*collidedItems).size();
     for(int i=0; i<numItems; ++i){
         item = (*collidedItems).at(i);
-        type = item->data(projectConstants::keyType);
-        if(type == projectConstants::typeStaffLine){
-            lineNumber = item->data(projectConstants::keyLineNumber).toInt();
+        type = item->data(objectPropertyKeys::type);
+        if(type == objectPropertyTypes::lineType){
+            lineNumber = item->data(objectPropertyKeys::name).toInt();
             lineNumbers.push_back(lineNumber);
         }
     }        

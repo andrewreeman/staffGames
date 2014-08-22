@@ -1,9 +1,10 @@
 #include "staffline.h"
 #include "projectConstants.hh"
+#include "staffGamesConstants.h"
 
 StaffLine::StaffLine(QRectF rect, QGraphicsItem *parent) :
-    QGraphicsRectItem(rect, parent), m_defaultBrush(Qt::black), m_selectedBrush(projectConstants::selectedColour),
-    m_correctBrush(projectConstants::correctColour), m_incorrectBrush(projectConstants::incorrectColour)
+    QGraphicsRectItem(rect, parent), m_defaultBrush(Qt::black), m_selectedBrush(colours::highlighted),
+    m_correctBrush(colours::correct), m_incorrectBrush(colours::incorrect)
 {
     setBrush(m_defaultBrush);
 }

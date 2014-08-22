@@ -1,5 +1,6 @@
 #include "ledgerline.h"
 #include "projectConstants.hh"
+#include "staffGamesConstants.h"
 
 #include <QDebug>
 #include <QWidget>
@@ -29,7 +30,7 @@ void LedgerLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     QPen pen;
     pen.setStyle(Qt::NoPen);
 
-    rec.setWidth(projectConstants::ledgerLineLength );
+    rec.setWidth(staffLayout::ledgerLinelength);
     rec.moveCenter( QPointF(m_circleCentreX, rec.center().y() ) );
     painter->setPen(pen);
     painter->setBrush( brush() );

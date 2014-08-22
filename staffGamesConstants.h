@@ -5,24 +5,29 @@
 #include <QColor>
 
 namespace staffLayout{
-    const int lineHeight = 10;
+    const int blackLineHeight = 10;
+    const int whiteLineHeight = blackLineHeight*7;
+}
+
+namespace noteProperties{
+    const int noteDiameter = staffLayout::whiteLineHeight;
+}
+
+namespace  staffLayout{
     const int lineLength = 800;
-    const int whitespaceHeight = 100;
+    const int ledgerLinelength = noteProperties::noteDiameter*4;
     const int numStaffLines = 5;
     const int onePixel = 1;
     const int numLedgerLines = 3;
-    const int upperBounds = -( (whitespaceHeight*numLedgerLines) + (lineHeight*numLedgerLines) );
-    const int lowerBounds = -upperBounds + ((whitespaceHeight*numStaffLines) + (lineHeight*numStaffLines));    
+    const int upperBounds = -( (whiteLineHeight*numLedgerLines) + (blackLineHeight*numLedgerLines) );
+    const int lowerBounds = -upperBounds + ((whiteLineHeight*numStaffLines) + (blackLineHeight*numStaffLines));
 }
 
 namespace colours{
     const QColor highlighted("lightseagreen");
     const QColor incorrect(Qt::red);
     const QColor correct(Qt::green);
-}
-
-namespace noteProperties{
-    const int noteDiameter = 70;
+    const QColor note(Qt::white);
 }
 
 namespace trebleClef{

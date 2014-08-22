@@ -1,8 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "staffGamesConstants.h"
-#include "stickylinesignalhandler.h"
-#include "stickynotesignalhandler.h"
+//#include "staffGamesConstants.h"
+//#include "stickylinesignalhandler.h"
+//#include "stickynotesignalhandler.h"
 
 #include <QLine>
 #include <QRect>
@@ -69,7 +69,7 @@ void MainWindow::getMousePos()
     qDebug() << QCursor::pos();
 }
 #endif
-
+/*
 void MainWindow::createStaff()
 {
 
@@ -222,7 +222,7 @@ void MainWindow::createNote()
     note->moveBy(staffLayout::lineLength/2, staffLayout::whitespaceHeight);
     ui->graphicsView->centerOn(note);
 }
-
+*/
 void MainWindow::setBounds()
 {
  //   QRect sceneOrigRect = m_scene->sceneRect().toRect();

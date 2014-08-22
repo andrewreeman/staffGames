@@ -172,7 +172,7 @@ QLineF StickyNote::makeStem()
 {
     QRectF thisRec = boundingRect();
     QPointF p1 = thisRec.topRight() - QPointF(noteProperties::noteDiameter*0.01 , -(noteProperties::noteDiameter*0.5));
-    QPointF p2 = p1 - QPointF(0, staffLayout::whitespaceHeight * 2);
+    QPointF p2 = p1 - QPointF(0, staffLayout::whiteLineHeight * 2);
     QLineF staffLine(p1, p2);
     staffLine.translate(-5, 0);
     return staffLine;

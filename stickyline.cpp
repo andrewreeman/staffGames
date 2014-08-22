@@ -11,7 +11,7 @@
 StickyLine::StickyLine()
 {
     QPoint topLeft(10, 10);
-    QPoint bottomRight(staffLayout::lineLength, staffLayout::lineHeight);
+    QPoint bottomRight(staffLayout::blackLineHeight, staffLayout::blackLineHeight);
     m_rec = QRectF(topLeft, bottomRight);
     m_defaultColour = QColor(Qt::black);
     m_collisionMode = Qt::IntersectsItemShape;

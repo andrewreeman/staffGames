@@ -7,7 +7,7 @@
 //TODO Use staffGamesConstants
 
 
-namespace projectConstants{
+namespace projectConstantsBREAK{
     const int blackWidth = 10;
     const int whiteWidth = blackWidth*7;
     const int staffLineLength = 800;
