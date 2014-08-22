@@ -4,10 +4,12 @@
 #include <QString>
 #include <QColor>
 
+//TODO Use staffGamesConstants
+
 
 namespace projectConstants{
     const int blackWidth = 10;
-    const int whiteWidth = blackWidth*10;
+    const int whiteWidth = blackWidth*7;
     const int staffLineLength = 800;
     const int noteDiameter = whiteWidth;
     const int ledgerLineLength = noteDiameter*4;

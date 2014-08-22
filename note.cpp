@@ -22,7 +22,7 @@ bool Note::collidesWithItem(const QGraphicsItem *other, Qt::ItemSelectionMode mo
         QPointF thisCentre = this->boundingRect().center();
 
         QRectF collisionArea = otherRec;
-        collisionArea.setHeight(projectConstants::blackWidth/2);
+        collisionArea.setHeight(projectConstants::whiteWidth/2);
         collisionArea.moveCenter( otherCentre );
         if(collisionArea.contains(thisCentre)){
 #ifdef QT_DEBUG
