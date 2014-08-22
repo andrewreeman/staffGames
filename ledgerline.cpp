@@ -1,4 +1,6 @@
 #include "ledgerline.h"
+#include "projectConstants.hh"
+
 #include <QDebug>
 #include <QWidget>
 #include <QStyleOptionGraphicsItem>
@@ -27,7 +29,7 @@ void LedgerLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     QPen pen;
     pen.setStyle(Qt::NoPen);
 
-    rec.setWidth( rec.width() * 0.5);
+    rec.setWidth(projectConstants::ledgerLineLength );
     rec.moveCenter( QPointF(m_circleCentreX, rec.center().y() ) );
     painter->setPen(pen);
     painter->setBrush( brush() );

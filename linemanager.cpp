@@ -10,8 +10,6 @@
 #include <cmath>
 #include <QGraphicsScene>
 
-
-
 lineManager::lineManager() :
     m_numBlackLedgerLines(3), m_numBlackStaffLines(5), m_selectedLine(0)
 {

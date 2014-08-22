@@ -47,7 +47,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //TODO check if this overrides the other drag behaviour
     ui->graphicsView->setDragMode(QGraphicsView::ScrollHandDrag);
 
-//    QWidget::showMaximized();
+    QWidget::showMaximized();
 }
 
 MainWindow::~MainWindow()

@@ -7,9 +7,10 @@
 
 namespace projectConstants{
     const int blackWidth = 10;
-    const int whiteWidth = blackWidth*2;
-    const int staffLineLength = 150;
-    const int ledgerLineLength = 10;
+    const int whiteWidth = blackWidth*10;
+    const int staffLineLength = 800;
+    const int noteDiameter = whiteWidth;
+    const int ledgerLineLength = noteDiameter*4;
     const int keyType = 0;
     const int keyLineNumber = 1;    
     const QString typeStaffLine = "staffLine";
@@ -19,7 +20,5 @@ namespace projectConstants{
     const QColor incorrectColour = Qt::red;
     const QColor selectedColour = Qt::gray;
 }
-
-
 
 #endif // PROJECTCONSTANTS_HH

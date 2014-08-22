@@ -21,9 +21,9 @@ void StaffScene::makeCircle()
 {    
     QBrush brush(projectConstants::noteColour);
     QPoint p1(0, 0);    
-    QPoint p2(projectConstants::blackWidth*2, 0);
+    QPoint p2(projectConstants::noteDiameter, 0);
     QRectF rec(p1, p2);
-    rec.setHeight(projectConstants::blackWidth*2);
+    rec.setHeight(projectConstants::noteDiameter);
     m_circle = new Note(rec);    
     m_circle->setFlag(QGraphicsItem::ItemIsMovable, true);
     m_circle->moveBy(0, -25);
