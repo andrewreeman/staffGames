@@ -211,29 +211,27 @@ void lineManager::selectLine(int newSelectedLine)
 
 void lineManager::setSelectLine(int selectedLine, bool select)
 {
-    if(selectedLine <0){
-        m_upperLines.at( lineNumberToIndex(selectedLine ))->setSelected(select);
-    }
-    else if(selectedLine >= m_staffLines.size())
-        m_lowerLines.at( lineNumberToIndex(selectedLine) )->setSelected(select);
-    else
-        m_staffLines.at( lineNumberToIndex(selectedLine) )->setSelected(select);
+    getLine(selectedLine)->setSelected(select);
+
 }
 
 void lineManager::updateUpperLedgers(QPointF circleCentre)
 {
     int startSelection = m_selectedLine > 0 ? 0 : m_selectedLine;
     for(int i=startSelection; i<0; ++i){
-        int index = lineNumberToIndex(i);
-        LedgerLine* line = m_upperLines.at(index);
+        //int index = lineNumberToIndex(i);
+        //LedgerLine* line = m_upperLines.at(index);
+        LedgerLine* line = (LedgerLine*)getLine(i);
         QPointF circleCentre_relTo_line = mapToItem(line, circleCentre);
         line->setCentreX(circleCentre_relTo_line.x());
         line->setOpacity(1);
     }
 
     for(int i=startSelection-1; i>=-(m_upperLines.size()); --i){
-        int index = lineNumberToIndex(i);
-        LedgerLine* line = m_upperLines.at(index);        
+        //int index = lineNumberToIndex(i);
+        //LedgerLine* line = m_upperLines.at(index);
+        //WARNING use proper cast checking
+        LedgerLine* line = (LedgerLine*)getLine(i);
         line->setOpacity(0);
     }
 }
@@ -259,6 +257,23 @@ void lineManager::updateLowerLedgers(QPointF circleCentre)
     }
 }
 
+StaffLine *lineManager::getLine(int lineNumber)
+{
+    if(lineNumber<0){
+        int index = -lineNumber;
+        if(isOdd(index))
+            return m_lowerLines.at(index);
+       else
+            return m_lowerLines.at(index-2);
+    }
+    if(lineNumber >= m_staffLines.size()){
+        return m_upperLines.at( lineNumber-m_staffLines.size() );
+    }
+    else{
+        return m_staffLines.at(lineNumber);
+    }
+}
+/*
 int lineManager::lineNumberToIndex(int lineNumber)
 {
     if(lineNumber<0){
@@ -274,7 +289,7 @@ int lineManager::lineNumberToIndex(int lineNumber)
     else{
         return lineNumber;
     }
-}
+}*/
 
 bool lineManager::isOdd(int number)
 {
