@@ -40,8 +40,7 @@ private:
         void unsetSelectLine(int selectedLine);
         void updateUpperLedgers(QPointF circleCentre);
         void updateLowerLedgers(QPointF circleCentre);
-        StaffLine* getLine(int lineNumber);
-        //int lineNumberToIndex(int lineNumber);
+        StaffLine* getLine(int lineNumber);        
             bool isOdd(int);
 
     int m_numBlackLedgerLines;
