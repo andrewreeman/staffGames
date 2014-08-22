@@ -1,5 +1,4 @@
 #include "linemanager.h"
-#include "projectConstants.hh"
 #include "staffGamesConstants.h"
 #include "note.h"
 #include "staffscene.h"
@@ -35,7 +34,6 @@ void lineManager::createStaff()
     brushes.push_back(m_whiteLineBrush);
     QList<QRectF> lineTemplates = createLineTemplates();
 
-    //int Yoffset = projectConstants::blackWidth + projectConstants::whiteWidth;
     int Yoffset = staffLayout::blackLineHeight + staffLayout::whiteLineHeight;
     QPen pen;
     pen.setStyle(Qt::NoPen);

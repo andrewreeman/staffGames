@@ -1,5 +1,4 @@
 #include "ledgerline.h"
-#include "projectConstants.hh"
 #include "staffGamesConstants.h"
 
 #include <QDebug>

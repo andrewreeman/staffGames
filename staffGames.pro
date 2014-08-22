@@ -35,8 +35,7 @@ HEADERS  += mainwindow.h \
     linemanager.h \
     note.h \
     staffline.h \
-    staffscene.h \
-    projectConstants.hh
+    staffscene.h
 
 FORMS    += mainwindow.ui
 

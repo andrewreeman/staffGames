@@ -1,5 +1,4 @@
 #include "note.h"
-#include "projectConstants.hh"
 #include "staffGamesConstants.h"
 #include <QPainter>
 #include <QWidget>
@@ -17,7 +16,6 @@ bool Note::collidesWithItem(const QGraphicsItem *other, Qt::ItemSelectionMode mo
 {
     QVariant type = other->data(objectPropertyKeys::type);
     if(type.toString() == objectPropertyTypes::lineType){
-        //int lineNumber = other->data(projectConstants::keyLineNumber).toInt();
         QRectF otherRec = other->boundingRect();
         QPointF otherCentre = mapFromScene(otherRec.center());
         QPointF thisCentre = this->boundingRect().center();

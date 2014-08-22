@@ -1,5 +1,4 @@
 #include "staffline.h"
-#include "projectConstants.hh"
 #include "staffGamesConstants.h"
 
 StaffLine::StaffLine(QRectF rect, QGraphicsItem *parent) :

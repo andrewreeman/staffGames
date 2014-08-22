@@ -1,5 +1,4 @@
 #include "staffscene.h"
-#include "projectConstants.hh"
 #include "staffGamesConstants.h"
 #include <QDebug>
 #include <QTimer>
