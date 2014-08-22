@@ -27,8 +27,10 @@ private:
     void makeLine();
     void makeCircle();
     void setTargetLine();
+    void setNoteY(int selectedLineNumber);
 
-    Note* m_circle;    
+
+    Note* m_note;
     lineManager* m_line;
 
     int m_targetLine;

@@ -8,7 +8,7 @@ StaffScene::StaffScene(QObject *parent) :
 {
     makeLine();
     makeCircle();
-    m_circle->installSceneEventFilter(m_line);
+    m_note->installSceneEventFilter(m_line);
     setTargetLine();
 }
 
@@ -24,11 +24,11 @@ void StaffScene::makeCircle()
     QPoint p2(noteProperties::noteDiameter, 0);
     QRectF rec(p1, p2);
     rec.setHeight(noteProperties::noteDiameter);
-    m_circle = new Note(rec);    
-    m_circle->setFlag(QGraphicsItem::ItemIsMovable, true);
-    m_circle->moveBy(0, -25);
-    m_circle->setBrush(brush);
-    this->addItem(m_circle);
+    m_note = new Note(rec);
+    m_note->setFlag(QGraphicsItem::ItemIsMovable, true);
+    m_note->moveBy(0, -25);
+    m_note->setBrush(brush);
+    this->addItem(m_note);
 }
 
 void StaffScene::setTargetLine()
@@ -36,14 +36,23 @@ void StaffScene::setTargetLine()
     m_targetLine = 2;
 }
 
+void StaffScene::setNoteY(int selectedLineNumber)
+{
+
+    QPointF otherCentre = m_note->mapToScene(m_note->boundingRect().center());
+    qDebug() << otherCentre;
+
+}
+
 void StaffScene::selectLine(int lineNumber)
 {
+    setNoteY(lineNumber);
     if(lineNumber == m_targetLine)
         m_line->setCorrectState(lineNumber, true);
     else
         m_line->setCorrectState(lineNumber, false);
     m_selectedLine = lineNumber;
-    QTimer::singleShot(500, this, SLOT(unselectLine()));
+    QTimer::singleShot(500, this, SLOT(unselectLine()));    
     emit lineSelected(m_selectedLine);
 }
 
