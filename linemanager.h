@@ -16,32 +16,33 @@ public:
     lineManager();
 
     virtual QRectF boundingRect()const;
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-        Q_UNUSED(painter);
-        Q_UNUSED(option);
-        Q_UNUSED(widget);
-    }
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){}
     virtual bool sceneEventFilter(QGraphicsItem *watched, QEvent *event);
+
+    StaffLine* getLine(int lineNumber);
     void setCorrectState(int lineNumber, bool isCorrect);
     void unsetCorrectState(int lineNumber);
+
+
 private:    
     void setPens();
     void createStaff();
-        QList<QRectF> createLineTemplates();
-        void offsetRects(QList<QRectF> &recs, int offset);
+    QList<QRectF> createLineTemplates();
+    void offsetRects(QList<QRectF> &recs, int offset);
     void createLedgerLines();
-        void createUpperLedgers();
-        void createLowerLedgers();
+    void createUpperLedgers();
+    void createLowerLedgers();
 
     void circleCollision(QGraphicsItem* circle);
-        QList<int> getCollidedLineNumbers(QList<QGraphicsItem*>* collidedItems);
-        void selectLine(int newSelectedLine);        
-        void setSelectLine(int selectedLine, bool selectOn);
-        void unsetSelectLine(int selectedLine);
-        void updateUpperLedgers(QPointF circleCentre);
-        void updateLowerLedgers(QPointF circleCentre);
-        StaffLine* getLine(int lineNumber);        
-            bool isOdd(int);
+    QList<int> getCollidedLineNumbers(QList<QGraphicsItem*>* collidedItems);
+    void selectLine(int newSelectedLine);
+
+    void setSelectLine(int selectedLine, bool selectOn);
+    void unsetSelectLine(int selectedLine);
+
+    void updateUpperLedgers(QPointF circleCentre);
+    void updateLowerLedgers(QPointF circleCentre);
+    bool isOdd(int);
 
     int m_numBlackLedgerLines;
     int m_numBlackStaffLines;

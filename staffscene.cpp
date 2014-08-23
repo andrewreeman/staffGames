@@ -8,13 +8,13 @@ StaffScene::StaffScene(QObject *parent) :
 {
     makeLine();
     makeCircle();
-    m_note->installSceneEventFilter(m_line);
+    m_note->installSceneEventFilter(m_lineManager);
     setTargetLine();
 }
 
 void StaffScene::makeLine(){
-    m_line = new lineManager();
-    this->addItem(m_line);
+    m_lineManager = new lineManager();
+    this->addItem(m_lineManager);
 }
 
 void StaffScene::makeCircle()
@@ -38,19 +38,20 @@ void StaffScene::setTargetLine()
 
 void StaffScene::setNoteY(int selectedLineNumber)
 {
-
-    QPointF otherCentre = m_note->mapToScene(m_note->boundingRect().center());
-    qDebug() << otherCentre;
-
+    QPointF noteCentre = m_note->mapToScene(m_note->boundingRect().center());
+    StaffLine* line = m_lineManager->getLine(selectedLineNumber);
+    QPointF lineCentre = line->mapToScene(line->boundingRect().center());
+    int diffY = lineCentre.y() - noteCentre.y();
+    m_note->moveBy(0, diffY);
 }
 
 void StaffScene::selectLine(int lineNumber)
 {
     setNoteY(lineNumber);
     if(lineNumber == m_targetLine)
-        m_line->setCorrectState(lineNumber, true);
+        m_lineManager->setCorrectState(lineNumber, true);
     else
-        m_line->setCorrectState(lineNumber, false);
+        m_lineManager->setCorrectState(lineNumber, false);
     m_selectedLine = lineNumber;
     QTimer::singleShot(500, this, SLOT(unselectLine()));    
     emit lineSelected(m_selectedLine);
@@ -58,5 +59,5 @@ void StaffScene::selectLine(int lineNumber)
 
 void StaffScene::unselectLine()
 {
-    m_line->unsetCorrectState(m_selectedLine);
+    m_lineManager->unsetCorrectState(m_selectedLine);
 }

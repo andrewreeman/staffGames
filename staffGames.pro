@@ -41,6 +41,7 @@ FORMS    += mainwindow.ui
 
 CONFIG += mobility
 CONFIG += c++11
+
 MOBILITY = 
 
 RESOURCES += \

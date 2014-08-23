@@ -31,7 +31,7 @@ private:
 
 
     Note* m_note;
-    lineManager* m_line;
+    lineManager* m_lineManager;
 
     int m_targetLine;
     int m_selectedLine;
