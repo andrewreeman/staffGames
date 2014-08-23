@@ -57,6 +57,11 @@ void StaffScene::setCorrectState(int lineNumber, bool correctState)
     QTimer::singleShot(500, this, SLOT(unselectLine()));
 }
 
+StaffLine *StaffScene::getLine(int lineNumber)
+{
+    return m_lineManager->getLine(lineNumber);
+}
+
 void StaffScene::unselectLine()
 {
     m_lineManager->unsetCorrectState(m_selectedLine);

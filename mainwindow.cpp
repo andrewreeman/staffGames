@@ -10,6 +10,7 @@
 #include <QScrollBar>
 #include <QMouseEvent>
 #include <QTime>
+#include <QPointF>
 
 #include <QDebug>
 #include <QSound>
@@ -31,21 +32,11 @@ MainWindow::MainWindow(QWidget *parent) :
 #endif    
     ui->graphicsView->setScene(m_scene);    
     ui->score->setValue(0);    
-    //QRect sceneRect(0, staffLayout::lowerBounds, m_scene->sceneRect().bottomRight().x(), staffLayout::upperBounds);
-    setBounds();
-//    createStaff();
-    QPixmap image(":/notation/treble");
-    QGraphicsPixmapItem* pixmap = m_scene->addPixmap(image);
-    pixmap->setPos(trebleClef::offset, -30);
-    pixmap->setScale(1);
-    pixmap->setData(objectPropertyKeys::type, objectPropertyTypes::trebleType);
-    makeMap();
-//    createNote();
-    //setMouseTracking(true);
-    nextRound();
 
-    //m_scene->itemAt(p1, QTransform())->setFlag(QGraphicsItem::ItemIsMovable);;    
-    //TODO check if this overrides the other drag behaviour
+    setBounds();
+    makeTrebleClef();
+    makeMap();
+    nextRound();
     ui->graphicsView->setDragMode(QGraphicsView::ScrollHandDrag);
 
     QWidget::showMaximized();
@@ -65,8 +56,16 @@ void MainWindow::setBounds()
     m_scene->setSceneRect(sceneRect);
 }
 
-//TODO make use of lambda functions more.
+void MainWindow::makeTrebleClef()
+{
+    QPixmap image(":/notation/treble");
+    QGraphicsPixmapItem* pixmap = m_scene->addPixmap(image);
+    pixmap->setPos(trebleClef::offset, m_scene->getLine(6)->pos().y() - 130);
+    pixmap->setScale(1);
+    pixmap->setData(objectPropertyKeys::type, objectPropertyTypes::trebleType);
+}
 
+//TODO make use of lambda functions more.
 void MainWindow::makeMap()
 {
 
@@ -192,39 +191,12 @@ QList<QGraphicsItem *> MainWindow::getLines()
     }
     return lines;
 }
-/*
-void MainWindow::userNoteMoved(QString line)
-{    
-    qDebug() << line;
-    if(m_noteLineMap.value(line) == m_answer){
-
-        m_lineToSignalHandler.value(line)->userResult(true);        
-        nextRound();
-
-    }
-    else{        
-        m_lineToSignalHandler.value(line)->userResult(false);
-        QStringList failFiles;
-        QString randFile;
-        failFiles << ":/audio/fail1";
-        failFiles << ":/audio/fail2";
-        failFiles << ":/audio/fail3";
-        failFiles << ":/audio/fail4";
-        failFiles << ":/audio/fail5";
-        randFile = failFiles.at(qrand() % failFiles.size());
-
-        QSound::play(randFile);
-        ui->score->setValue(ui->score->value() - 1);
-    }
-
-}*/
 
 void MainWindow::scrollDown()
 {
     QScrollBar* vScroll = ui->graphicsView->verticalScrollBar();
     int value = vScroll->value();
     vScroll->setValue(value+40);
-    //qDebug() << "Scrolled down";
     emit scrollFinished();
 }
 
@@ -232,8 +204,7 @@ void MainWindow::scrollUp()
 {
     QScrollBar* vScroll = ui->graphicsView->verticalScrollBar();
     int value = vScroll->value();
-    vScroll->setValue(value-40);
-    //qDebug() << "Scrolled up";
+    vScroll->setValue(value-40);    
     emit scrollFinished();
 }
 

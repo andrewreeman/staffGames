@@ -48,10 +48,10 @@ private slots:
     void on_pushButton_clicked();
 
 private:
-    void createStaff();
-    void createLedgerLines(QPoint startPoint);
-    void createNote();
+
+
     void setBounds();
+    void makeTrebleClef();
     void makeMap();
     void correct();
     void incorrect();

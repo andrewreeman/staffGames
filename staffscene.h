@@ -16,6 +16,7 @@ public:
     explicit StaffScene(QObject *parent = 0);    
     void selectLine(int lineNumber);
     void setCorrectState(int lineNumber, bool correctState);
+    StaffLine* getLine(int lineNumber);
 
 signals:
     void lineSelected(int lineNumber);
