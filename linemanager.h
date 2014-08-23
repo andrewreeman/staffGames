@@ -44,8 +44,6 @@ private:
     void updateLowerLedgers(QPointF circleCentre);
     bool isOdd(int);
 
-    int m_numBlackLedgerLines;
-    int m_numBlackStaffLines;
     int m_selectedLine;      
     QList<StaffLine*> m_staffLines;
     QList<LedgerLine*> m_upperLines;

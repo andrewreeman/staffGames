@@ -11,7 +11,7 @@
 #include <QGraphicsScene>
 
 lineManager::lineManager() :
-    m_numBlackLedgerLines(3), m_numBlackStaffLines(5), m_selectedLine(0)
+    m_selectedLine(0)
 {
     setPens();
     createStaff();
@@ -38,7 +38,7 @@ void lineManager::createStaff()
     QPen pen;
     pen.setStyle(Qt::NoPen);
 
-    for(int i=0; i<m_numBlackStaffLines*2; i+=2){
+    for(int i=0; i<staffLayout::numStaffLines*2; i+=2){
         for(int parity=0; parity<2; ++parity){
             int line = i+parity;
             m_staffLines.push_back(new StaffLine(lineTemplates.at(parity), this) );
@@ -88,7 +88,7 @@ void lineManager::createUpperLedgers()
 
     offsetRects(lineTemplates, Yoffset);
     pen.setStyle(Qt::NoPen);
-    for(int i=0; i<m_numBlackLedgerLines*2; i+=2){
+    for(int i=0; i<staffLayout::numLedgerLines*2; i+=2){
         for(int parity=0; parity<2; ++parity){
             int line = i+parity;
             int lineNumber = -( i+(2-parity) );
@@ -113,11 +113,11 @@ void lineManager::createLowerLedgers()
     int Yoffset = staffLayout::blackLineHeight + staffLayout::whiteLineHeight;
     QPen pen;
 
-    for(int i=0; i<m_numBlackStaffLines; ++i){
+    for(int i=0; i<staffLayout::numStaffLines; ++i){
         offsetRects(lineTemplates, Yoffset);
     }
     pen.setStyle(Qt::NoPen);
-    for(int i=0; i<m_numBlackLedgerLines*2; i+=2){
+    for(int i=0; i<staffLayout::numLedgerLines*2; i+=2){
         for(int parity=0; parity<2; ++parity){
             int line = i+parity;
             int lineNumber = line+m_staffLines.size();

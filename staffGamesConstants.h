@@ -21,6 +21,7 @@ namespace  staffLayout{
     const int numLedgerLines = 3;
     const int upperBounds = -( (whiteLineHeight*numLedgerLines) + (blackLineHeight*numLedgerLines) );
     const int lowerBounds = -upperBounds + ((whiteLineHeight*numStaffLines) + (blackLineHeight*numStaffLines));
+
 }
 
 namespace colours{

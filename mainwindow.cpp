@@ -38,7 +38,7 @@ MainWindow::MainWindow(QWidget *parent) :
     pixmap->setPos(trebleClef::offset, -30);
     pixmap->setScale(1);
     pixmap->setData(objectPropertyKeys::type, objectPropertyTypes::trebleType);
-    //makeMap();
+    makeMap();
 //    createNote();
     //setMouseTracking(true);
 //    nextRound();
@@ -233,38 +233,34 @@ void MainWindow::setBounds()
 }
 
 void MainWindow::makeMap()
-{
+{   
+    //int totalNumLines = staffLayout::numLedgerLines*2 + staffLayout::numStaffLines;
+    QList<QChar> noteLetters{'F', 'E', 'D', 'C', 'B', 'A', 'G'}; // top staff note first descending
+    int numLedgerNotes = staffLayout::numLedgerLines*2;
+    int numStaffNotes = staffLayout::numStaffLines;
 
-    QList<QGraphicsItem*> lines = getLines();
 
-    m_noteLineMap.insert(lines.at(0)->data(objectPropertyKeys::name).toString(), "'E");
-    m_noteLineMap.insert(lines.at(1)->data(objectPropertyKeys::name).toString(), "'F");
-    m_noteLineMap.insert(lines.at(2)->data(objectPropertyKeys::name).toString(), "'G");
-    m_noteLineMap.insert(lines.at(3)->data(objectPropertyKeys::name).toString(), "A");
-    m_noteLineMap.insert(lines.at(4)->data(objectPropertyKeys::name).toString(), "B");
-    m_noteLineMap.insert(lines.at(5)->data(objectPropertyKeys::name).toString(), "C");
-    m_noteLineMap.insert(lines.at(6)->data(objectPropertyKeys::name).toString(), "D");
-    m_noteLineMap.insert(lines.at(7)->data(objectPropertyKeys::name).toString(), "E");
-    m_noteLineMap.insert(lines.at(8)->data(objectPropertyKeys::name).toString(), "F");
-    m_noteLineMap.insert(lines.at(9)->data(objectPropertyKeys::name).toString(), "G");
-    m_noteLineMap.insert(lines.at(10)->data(objectPropertyKeys::name).toString(), "A'");
-    m_noteLineMap.insert(lines.at(11)->data(objectPropertyKeys::name).toString(), "B'");
-    m_noteLineMap.insert(lines.at(12)->data(objectPropertyKeys::name).toString(), "C'");
-    m_noteLineMap.insert(lines.at(13)->data(objectPropertyKeys::name).toString(), "D'");
-    m_noteLineMap.insert(lines.at(14)->data(objectPropertyKeys::name).toString(), "E'");
-    m_noteLineMap.insert(lines.at(15)->data(objectPropertyKeys::name).toString(), "F'");
+    for(int note=-numLedgerNotes; note<numLedgerNotes+numStaffNotes; ++note){
+        qDebug() << note;
+    }
+
+
+
+
+
+
 
 
 }
 
 void MainWindow::nextRound()
-{
+{/*
     QList<QGraphicsItem*> lines = getLines();
     int randNum = qrand() % lines.size();
     QVariant name = lines.at(randNum)->data(objectPropertyKeys::name);
     QString nameStr = name.toString();    
     m_answer = m_noteLineMap.value(nameStr, "");
-    ui->guiChallenge->setText("Find the note: " + m_answer);
+    ui->guiChallenge->setText("Find the note: " + m_answer); */
 }
 
 QList<QGraphicsItem *> MainWindow::getLines()
