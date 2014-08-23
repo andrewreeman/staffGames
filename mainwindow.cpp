@@ -58,7 +58,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::lineSelected(int line)
 {
-    qDebug() << line;
+    if(line == m_answer){
+        m_scene->setCorrectState(line, true);
+        nextRound();
+    }
+    else
+        m_scene->setCorrectState(line, false);
 }
 
 #ifdef MOUSE_TRACKING
