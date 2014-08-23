@@ -159,6 +159,7 @@ bool lineManager::sceneEventFilter(QGraphicsItem *watched, QEvent *event)
                 circleCollision(watched);
                 thisScene->selectLine(m_selectedLine);
             }
+            return isEventConsumed;
         }
     }
     return isEventConsumed;
@@ -217,13 +218,15 @@ void lineManager::setSelectLine(int selectedLine, bool select)
 void lineManager::updateUpperLedgers(QPointF circleCentre)
 {
     int upperLineSize = m_upperLines.size();
-    for(int i=-1; i>=m_selectedLine; --i){
+    int selectLineBoundry = m_selectedLine > 0 ? 0 : m_selectedLine;
+
+    for(int i=-1; i>=selectLineBoundry; --i){
         LedgerLine* line = (LedgerLine*)getLine(i);
         QPointF circleCentre_relTo_line = mapToItem(line, circleCentre);
         line->setCentreX(circleCentre_relTo_line.x());
         line->setOpacity(1);
     }
-    for(int i=m_selectedLine-1; i>=-upperLineSize && i<0; --i){
+    for(int i=selectLineBoundry-1; i>=-upperLineSize; --i){
         LedgerLine* line = (LedgerLine*)getLine(i);
         line->setOpacity(0);
     }
@@ -232,15 +235,17 @@ void lineManager::updateUpperLedgers(QPointF circleCentre)
 void lineManager::updateLowerLedgers(QPointF circleCentre)
 {   
     int lastLedgerLineNumber = m_lowerLines.last()->data(objectPropertyKeys::name).toInt();
-    for(int i=m_staffLines.size(); i<=m_selectedLine && m_selectedLine>m_staffLines.size(); ++i){
+    int selectLineBoundry = m_selectedLine >=m_staffLines.size() ? m_selectedLine : m_staffLines.size()-1;
+
+    for(int i=m_staffLines.size(); i<=selectLineBoundry; ++i){
         LedgerLine* line = (LedgerLine*)getLine(i);
         QPointF circleCentre_relTo_line = mapToItem(line, circleCentre);
         line->setCentreX(circleCentre_relTo_line.x());
         line->setOpacity(1);
     }
-    for(int i=m_selectedLine+1; i<=lastLedgerLineNumber && i>=m_staffLines.size(); ++i){
+    for(int i=selectLineBoundry+1; i<=lastLedgerLineNumber; ++i){
         LedgerLine* line = (LedgerLine*)getLine(i);
-        line->setOpacity(0);
+        line->setOpacity(0);       
     }
 }
 

@@ -13,8 +13,9 @@ class StaffScene : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    explicit StaffScene(QObject *parent = 0);
+    explicit StaffScene(QObject *parent = 0);    
     void selectLine(int lineNumber);
+    void setCorrectState(int lineNumber, bool correctState);
 
 signals:
     void lineSelected(int lineNumber);
@@ -26,14 +27,12 @@ private slots:
 private:
     void makeLine();
     void makeCircle();
-    void setTargetLine();
     void setNoteY(int selectedLineNumber);
 
 
     Note* m_note;
     lineManager* m_lineManager;
 
-    int m_targetLine;
     int m_selectedLine;
 
 };
