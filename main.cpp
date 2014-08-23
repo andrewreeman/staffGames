@@ -4,7 +4,7 @@
 int main(int argc, char *argv[])
 {
 
-    qSetMessagePattern("(%{file}:%{line}) - %{message}");
+    qSetMessagePattern("(%{file}:%{line}): %{message}");
     QApplication a(argc, argv);
     MainWindow w;
     w.show();

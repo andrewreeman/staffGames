@@ -57,7 +57,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::lineSelected(int line)
 {
-    qDebug() << line;
+    //qDebug() << line;
 }
 
 #ifdef MOUSE_TRACKING
@@ -236,21 +236,38 @@ void MainWindow::makeMap()
 {   
     //int totalNumLines = staffLayout::numLedgerLines*2 + staffLayout::numStaffLines;
     QList<QChar> noteLetters{'F', 'E', 'D', 'C', 'B', 'A', 'G'}; // top staff note first descending
+    QList<QString> totalLetters;
     int numLedgerNotes = staffLayout::numLedgerLines*2;
-    int numStaffNotes = staffLayout::numStaffLines;
+    int numStaffNotes = staffLayout::numStaffLines*2;
+    int totalNotes = (numLedgerNotes*2)+numStaffNotes;
+    int noteIndex = noteLetters.size() - numLedgerNotes;
+    int highA_Index = numLedgerNotes+5;
 
-
-    for(int note=-numLedgerNotes; note<numLedgerNotes+numStaffNotes; ++note){
-        qDebug() << note;
+    for(int i=0; i<totalNotes; ++i, ++noteIndex){
+        QChar letter = noteLetters.at( noteIndex % noteLetters.size() );
+        totalLetters.push_back(letter);
     }
 
 
-
-
-
-
-
-
+    for(int i=highA_Index; i>=0; --i){
+        int note = highA_Index-i;
+        int octave = (note/7)+1;
+        QString letter = totalLetters.at(i);
+        for(int j=0; j<octave; ++j){
+            letter += "'";
+        }
+        totalLetters.replace(i, letter);
+    }
+    for(int i=highA_Index+1; i<totalNotes; ++i){
+        int note = i-(highA_Index+1);
+        int octave = (note/7);
+        QString letter = "";
+        for(int j=0; j<octave; ++j){
+            letter += "'";
+        }
+        letter += totalLetters.at(i);
+        totalLetters.replace(i, letter);
+    }
 }
 
 void MainWindow::nextRound()
