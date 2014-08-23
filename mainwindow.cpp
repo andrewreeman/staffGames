@@ -268,6 +268,11 @@ void MainWindow::makeMap()
         letter += totalLetters.at(i);
         totalLetters.replace(i, letter);
     }
+
+    for(int i=0; i<totalNotes; ++i){
+        m_lineToNoteMap.insert(i-numLedgerNotes, totalLetters.at(i));
+    }
+
 }
 
 void MainWindow::nextRound()
