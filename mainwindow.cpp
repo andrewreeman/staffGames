@@ -56,179 +56,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::lineSelected(int line)
-{
-    if(line == m_answer){
-        m_scene->setCorrectState(line, true);
-        nextRound();
-    }
-    else
-        m_scene->setCorrectState(line, false);
-}
-
-#ifdef MOUSE_TRACKING
-void MainWindow::getMousePos()
-{
-    static QPoint oldPos = QCursor::pos();
-    if(oldPos == QCursor::pos()) return;
-    oldPos = QCursor::pos();
-    qDebug() << QCursor::pos();
-}
-#endif
-/*
-void MainWindow::createStaff()
-{
-
-
-    using namespace staffLayout;
-
-    QPen staffPen(Qt::black);
-    staffPen.setWidth(lineHeight);
-    QPoint p1Staff(0, 0);
-    QPoint p2Staff(lineLength, lineHeight);
-
-    QPoint p1White(0, lineHeight + onePixel );
-    QPoint p2White(lineLength, whitespaceHeight+lineHeight - onePixel);
-
-    QPoint staffOffset(0, whitespaceHeight + lineHeight);
-    QPoint whiteOffset(0, lineHeight + whitespaceHeight);
-
-    for(int line=numStaffLines+numLedgerLines-1; line>numLedgerLines-1; --line){
-        //QLine staffLine(p1, p2);
-        //m_scene->addLine(staffLine, staffPen);
-        StickyLine* staffLine = new StickyLine(p1Staff, p2Staff);
-        StickyLineSignalHandler* signalHandler = new StickyLineSignalHandler(this);
-        QVariant lineStr = line;
-        QString name = objectPropertyTypes::lineType + lineStr.toString();
-
-        staffLine->setColour( QColor(Qt::black) );
-        staffLine->setHighlight(QColor(colours::highlighted));
-        staffLine->setData(objectPropertyKeys::type, objectPropertyTypes::lineType);
-        staffLine->setData(objectPropertyKeys::name, name);
-        staffLine->setData(objectPropertyKeys::ledgerType, ledgerType::stave);
-        staffLine->addSignalHandler(signalHandler);
-        signalHandler->m_lineName = name;
-        m_lineToSignalHandler.insert(name, signalHandler);
-        m_scene->addItem(staffLine);
-//        signalHandler->setLine(staffLine);
-
-
-        p1Staff += staffOffset;
-        p2Staff += staffOffset;
-
-        StickyLine* whitespace = new StickyLine(p1White, p2White);
-
-        name = objectPropertyTypes::whiteLineType + lineStr.toString();
-        signalHandler = new StickyLineSignalHandler(this);
-        whitespace->setColour(QColor(Qt::white));
-        whitespace->setHighlight(QColor(colours::highlighted));
-        whitespace->setCollisionMode(Qt::ContainsItemShape);
-        whitespace->setData(objectPropertyKeys::type, objectPropertyTypes::whiteLineType);
-        whitespace->setData(objectPropertyKeys::name, name);
-        whitespace->setData(objectPropertyKeys::ledgerType, ledgerType::stave);
-        whitespace->addSignalHandler(signalHandler);
-        signalHandler->m_lineName = name;
-        m_lineToSignalHandler.insert(name, signalHandler);
-        m_scene->addItem(whitespace);
-        //signalHandler->setLine(whitespace);
-
-        p1White += whiteOffset;
-        p2White += whiteOffset;
-    }
-    createLedgerLines(QPoint(p1White.x(), p2White.y() - whiteOffset.y()));
-
-}
-
-void MainWindow::createLedgerLines(QPoint startPoint)
-{
-
-    using namespace staffLayout;
-
-    QPen staffPen(Qt::black);
-    staffPen.setWidth(lineHeight);
-    QPoint p1Staff(0, 0);
-    QPoint p2Staff(lineLength, lineHeight);
-    p1Staff += startPoint;
-    p2Staff += startPoint;
-
-    QPoint p1White(0, lineHeight + onePixel );
-    QPoint p2White(lineLength, whitespaceHeight+lineHeight - onePixel);
-    p1White += startPoint;
-    p2White += startPoint;
-
-    QPoint staffOffset(0, whitespaceHeight + lineHeight);
-    QPoint whiteOffset(0, lineHeight + whitespaceHeight);
-
-    for(int line=numLedgerLines-1; line>=0; --line){
-        //QLine staffLine(p1, p2);
-        //m_scene->addLine(staffLine, staffPen);
-        StickyLine* staffLine = new StickyLine(p1Staff, p2Staff);
-        StickyLineSignalHandler* signalHandler = new StickyLineSignalHandler(this);
-        QVariant lineStr = line;
-        QString name = objectPropertyTypes::lineType + lineStr.toString();
-
-        staffLine->setColour( QColor(Qt::white) );
-        staffLine->setHighlight(QColor(colours::highlighted));
-        staffLine->setData(objectPropertyKeys::type, objectPropertyTypes::lineType);
-        staffLine->setData(objectPropertyKeys::name, name);
-        staffLine->setData(objectPropertyKeys::ledgerType, ledgerType::ledger);
-        staffLine->addSignalHandler(signalHandler);
-        signalHandler->m_lineName = name;
-        m_lineToSignalHandler.insert(name, signalHandler);
-        m_scene->addItem(staffLine);
-//        signalHandler->setLine(staffLine);
-
-
-        p1Staff += staffOffset;
-        p2Staff += staffOffset;
-
-        StickyLine* whitespace = new StickyLine(p1White, p2White);
-
-        name = objectPropertyTypes::whiteLineType + lineStr.toString();
-        signalHandler = new StickyLineSignalHandler(this);
-        whitespace->setColour(QColor(Qt::white));
-        whitespace->setHighlight(QColor(colours::highlighted));
-        whitespace->setCollisionMode(Qt::ContainsItemShape);
-        whitespace->setData(objectPropertyKeys::type, objectPropertyTypes::whiteLineType);
-        whitespace->setData(objectPropertyKeys::name, name);
-        whitespace->setData(objectPropertyKeys::ledgerType, ledgerType::ledger);
-        whitespace->addSignalHandler(signalHandler);
-        signalHandler->m_lineName = name;
-        m_lineToSignalHandler.insert(name, signalHandler);
-        m_scene->addItem(whitespace);
-        //signalHandler->setLine(whitespace);
-
-        p1White += whiteOffset;
-        p2White += whiteOffset;
-    }
-
-}
-
-void MainWindow::createNote()
-{
-    QPoint topLeft(0, 0);
-    QPoint bottomRight(noteProperties::noteDiameter+10, noteProperties::noteDiameter+10);
-    QRect noteSize(topLeft, bottomRight );
-
-
-    QPoint centre((noteProperties::noteDiameter-10)/2, (noteProperties::noteDiameter-10)/2);
-    centre += topLeft;
-
-    StickyNote* note = new StickyNote(noteSize);
-    StickyNoteSignalHandler* signalHandler = new StickyNoteSignalHandler(this);
-
-    connect(signalHandler, SIGNAL(submitLine(QString)), this, SLOT(userNoteMoved(QString)));
-    connect(signalHandler, SIGNAL(scrollUp()), this, SLOT(scrollUp()));
-    connect(signalHandler, SIGNAL(scrollDown()), this, SLOT(scrollDown()));
-    connect(this, SIGNAL(scrollFinished()), signalHandler, SLOT(finishedScroll()));
-    note->setSignalHandler(signalHandler);
-    //m_scene->addEllipse(noteSize, notePen, noteBrush);
-    m_scene->addItem(note);
-    m_scene->itemAt(noteSize.center(), QTransform())->setFlag(QGraphicsItem::ItemIsMovable);
-    note->moveBy(staffLayout::lineLength/2, staffLayout::whitespaceHeight);
-    ui->graphicsView->centerOn(note);
-}
-*/
 void MainWindow::setBounds()
 {
  //   QRect sceneOrigRect = m_scene->sceneRect().toRect();
@@ -241,7 +68,7 @@ void MainWindow::setBounds()
 //TODO make use of lambda functions more.
 
 void MainWindow::makeMap()
-{   
+{
 
     QList<QChar> noteLetters{'F', 'E', 'D', 'C', 'B', 'A', 'G'}; // top staff note first descending
     QList<QString> totalLetters;
@@ -291,8 +118,56 @@ void MainWindow::makeMap()
 
     f_initTotalLetters();
     f_processUpperOctaves();
-    f_processLowerOctaves;
+    f_processLowerOctaves();
     f_copyTo_IntLineNumber_Map();
+}
+
+void MainWindow::lineSelected(int line)
+{
+    if(line == m_answer){
+        m_scene->setCorrectState(line, true);
+        correct();
+    }
+    else{
+        m_scene->setCorrectState(line, false);
+        incorrect();
+    }
+}
+
+#ifdef MOUSE_TRACKING
+void MainWindow::getMousePos()
+{
+    static QPoint oldPos = QCursor::pos();
+    if(oldPos == QCursor::pos()) return;
+    oldPos = QCursor::pos();
+    qDebug() << QCursor::pos();
+}
+#endif
+
+
+void MainWindow::correct()
+{
+    QString sound = ":/audio/"+ m_lineToNoteMap.value(m_answer) +".wav";
+    QSound::play(sound);
+    ui->score->setValue(ui->score->value() + 1);
+    nextRound();
+    if(ui->score->value() == ui->score->maximum())
+        ui->stackedWidget->setCurrentIndex(1);
+}
+
+void MainWindow::incorrect()
+{
+    QStringList failFiles;
+    QString randFile;
+    failFiles << ":/audio/fail1";
+    failFiles << ":/audio/fail2";
+    failFiles << ":/audio/fail3";
+    failFiles << ":/audio/fail4";
+    failFiles << ":/audio/fail5";
+    randFile = failFiles.at(qrand() % failFiles.size());
+
+    QSound::play(randFile);
+    ui->score->setValue(ui->score->value() - 1);
 }
 
 void MainWindow::nextRound()
@@ -323,12 +198,7 @@ void MainWindow::userNoteMoved(QString line)
     qDebug() << line;
     if(m_noteLineMap.value(line) == m_answer){
 
-        m_lineToSignalHandler.value(line)->userResult(true);
-        QString sound = ":/audio/"+m_answer+".wav";        
-        QSound::play(sound);
-        ui->score->setValue(ui->score->value() + 1);
-        if(ui->score->value() == ui->score->maximum())
-            ui->stackedWidget->setCurrentIndex(1);
+        m_lineToSignalHandler.value(line)->userResult(true);        
         nextRound();
 
     }
