@@ -9,6 +9,7 @@
 #include <QGraphicsItem>
 #include <QScrollBar>
 #include <QMouseEvent>
+#include <QTime>
 
 #include <QDebug>
 #include <QSound>
@@ -41,7 +42,7 @@ MainWindow::MainWindow(QWidget *parent) :
     makeMap();
 //    createNote();
     //setMouseTracking(true);
-//    nextRound();
+    nextRound();
 
     //m_scene->itemAt(p1, QTransform())->setFlag(QGraphicsItem::ItemIsMovable);;    
     //TODO check if this overrides the other drag behaviour
@@ -57,7 +58,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::lineSelected(int line)
 {
-    //qDebug() << line;
+    qDebug() << line;
 }
 
 #ifdef MOUSE_TRACKING
@@ -290,13 +291,10 @@ void MainWindow::makeMap()
 }
 
 void MainWindow::nextRound()
-{/*
-    QList<QGraphicsItem*> lines = getLines();
-    int randNum = qrand() % lines.size();
-    QVariant name = lines.at(randNum)->data(objectPropertyKeys::name);
-    QString nameStr = name.toString();    
-    m_answer = m_noteLineMap.value(nameStr, "");
-    ui->guiChallenge->setText("Find the note: " + m_answer); */
+{
+    qsrand(QTime::currentTime().msec());
+    m_answer = ( qrand() % m_lineToNoteMap.size() ) - staffLayout::numLedgerLines*2 ;
+    ui->guiChallenge->setText("Find the note: " + m_lineToNoteMap.value(m_answer));
 }
 
 QList<QGraphicsItem *> MainWindow::getLines()

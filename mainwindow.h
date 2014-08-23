@@ -63,7 +63,7 @@ private:
 
   //  QMap<QString, QString> m_noteLineMap;
     QMap<int, QString> m_lineToNoteMap;
-    QString m_answer;
+    int m_answer;
 //    QMap<QString, StickyLineSignalHandler*> m_lineToSignalHandler;
 
 
