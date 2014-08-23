@@ -223,7 +223,7 @@ void lineManager::updateUpperLedgers(QPointF circleCentre)
         line->setCentreX(circleCentre_relTo_line.x());
         line->setOpacity(1);
     }
-    for(int i=m_selectedLine-1; i>-upperLineSize && i<0; --i){
+    for(int i=m_selectedLine-1; i>=-upperLineSize && i<0; --i){
         LedgerLine* line = (LedgerLine*)getLine(i);
         line->setOpacity(0);
     }
@@ -238,7 +238,7 @@ void lineManager::updateLowerLedgers(QPointF circleCentre)
         line->setCentreX(circleCentre_relTo_line.x());
         line->setOpacity(1);
     }
-    for(int i=m_selectedLine; i<=lastLedgerLineNumber && i>=m_staffLines.size(); ++i){
+    for(int i=m_selectedLine+1; i<=lastLedgerLineNumber && i>=m_staffLines.size(); ++i){
         LedgerLine* line = (LedgerLine*)getLine(i);
         line->setOpacity(0);
     }
