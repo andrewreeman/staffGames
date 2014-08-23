@@ -53,6 +53,7 @@ private:
     void createNote();
     void setBounds();
     void makeMap();
+
     void nextRound();
     QList<QGraphicsItem*> getLines();
 

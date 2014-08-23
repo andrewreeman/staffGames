@@ -232,9 +232,11 @@ void MainWindow::setBounds()
     m_scene->setSceneRect(sceneRect);
 }
 
+//TODO make use of lambda functions more.
+
 void MainWindow::makeMap()
 {   
-    //int totalNumLines = staffLayout::numLedgerLines*2 + staffLayout::numStaffLines;
+
     QList<QChar> noteLetters{'F', 'E', 'D', 'C', 'B', 'A', 'G'}; // top staff note first descending
     QList<QString> totalLetters;
     int numLedgerNotes = staffLayout::numLedgerLines*2;
@@ -243,36 +245,48 @@ void MainWindow::makeMap()
     int noteIndex = noteLetters.size() - numLedgerNotes;
     int highA_Index = numLedgerNotes+5;
 
-    for(int i=0; i<totalNotes; ++i, ++noteIndex){
-        QChar letter = noteLetters.at( noteIndex % noteLetters.size() );
-        totalLetters.push_back(letter);
-    }
-
-
-    for(int i=highA_Index; i>=0; --i){
-        int note = highA_Index-i;
-        int octave = (note/7)+1;
-        QString letter = totalLetters.at(i);
-        for(int j=0; j<octave; ++j){
-            letter += "'";
+    auto f_initTotalLetters = [&](){
+        for(int i=0; i<totalNotes; ++i, ++noteIndex){
+            QChar letter = noteLetters.at( noteIndex % noteLetters.size() );
+            totalLetters.push_back(letter);
         }
-        totalLetters.replace(i, letter);
-    }
-    for(int i=highA_Index+1; i<totalNotes; ++i){
-        int note = i-(highA_Index+1);
-        int octave = (note/7);
-        QString letter = "";
-        for(int j=0; j<octave; ++j){
-            letter += "'";
+    };
+
+    auto f_processUpperOctaves = [&](){
+        for(int i=highA_Index; i>=0; --i){
+            int note = highA_Index-i;
+            int octave = (note/7)+1;
+            QString letter = totalLetters.at(i);
+            for(int j=0; j<octave; ++j){
+                letter += "'";
+            }
+            totalLetters.replace(i, letter);
         }
-        letter += totalLetters.at(i);
-        totalLetters.replace(i, letter);
-    }
+    };
 
-    for(int i=0; i<totalNotes; ++i){
-        m_lineToNoteMap.insert(i-numLedgerNotes, totalLetters.at(i));
-    }
+    auto f_processLowerOctaves = [&](){
+        for(int i=highA_Index+1; i<totalNotes; ++i){
+            int note = i-(highA_Index+1);
+            int octave = (note/7);
+            QString letter = "";
+            for(int j=0; j<octave; ++j){
+                letter += "'";
+            }
+            letter += totalLetters.at(i);
+            totalLetters.replace(i, letter);
+        }
+    };
 
+    auto f_copyTo_IntLineNumber_Map = [&](){
+        for(int i=0; i<totalNotes; ++i){
+            m_lineToNoteMap.insert(i-numLedgerNotes, totalLetters.at(i));
+        }
+    };
+
+    f_initTotalLetters();
+    f_processUpperOctaves();
+    f_processLowerOctaves;
+    f_copyTo_IntLineNumber_Map();
 }
 
 void MainWindow::nextRound()
