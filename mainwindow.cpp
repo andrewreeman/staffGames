@@ -1,8 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-//#include "staffGamesConstants.h"
-//#include "stickylinesignalhandler.h"
-//#include "stickynotesignalhandler.h"
+#include "staffGamesConstants.h"
 
 #include <QLine>
 #include <QRect>
@@ -33,7 +31,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->graphicsView->setScene(m_scene);    
     ui->score->setValue(0);    
 
-    setBounds();
     makeTrebleClef();
     makeMap();
     nextRound();
@@ -45,15 +42,6 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
-}
-
-void MainWindow::setBounds()
-{
- //   QRect sceneOrigRect = m_scene->sceneRect().toRect();
-    QPoint p1(trebleClef::offset, staffLayout::upperBounds);
-    QPoint p2(staffLayout::lineLength+(-trebleClef::offset), staffLayout::lowerBounds);
-    QRect sceneRect(p1, p2);
-    m_scene->setSceneRect(sceneRect);
 }
 
 void MainWindow::makeTrebleClef()
@@ -68,7 +56,6 @@ void MainWindow::makeTrebleClef()
 //TODO make use of lambda functions more.
 void MainWindow::makeMap()
 {
-
     QList<QChar> noteLetters{'F', 'E', 'D', 'C', 'B', 'A', 'G'}; // top staff note first descending
     QList<QString> totalLetters;
     int numLedgerNotes = staffLayout::numLedgerLines*2;

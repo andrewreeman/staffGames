@@ -4,13 +4,13 @@
 #include <QMainWindow>
 #include <QGraphicsScene>
 #include <QMap>
-
-#include "stickyline.h"
-#include "stickynote.h"
-#include "stickylinesignalhandler.h"
-
 #include "staffscene.h"
 
+
+//TODO scrolling
+//TODO midi audio
+//TODO proper note
+//TODO android!
 
 #ifdef QT_DEBUG
     // Enable for mouse tracking
@@ -49,8 +49,6 @@ private slots:
 
 private:
 
-
-    void setBounds();
     void makeTrebleClef();
     void makeMap();
     void correct();

@@ -15,10 +15,6 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    stickyline.cpp \
-    stickynote.cpp \
-    stickynotesignalhandler.cpp \
-    stickylinesignalhandler.cpp \    
     ledgerline.cpp \
     linemanager.cpp \
     note.cpp \
@@ -27,10 +23,6 @@ SOURCES += main.cpp\
 
 HEADERS  += mainwindow.h \
     staffGamesConstants.h \
-    stickyline.h \
-    stickynote.h \
-    stickynotesignalhandler.h \
-    stickylinesignalhandler.h \
     ledgerline.h \
     linemanager.h \
     note.h \
