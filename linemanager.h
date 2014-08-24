@@ -10,6 +10,7 @@
 #include "ledgerline.h"
 
 //TODO note stop at boundry
+//WARNING line manager should not be a QGraphicsLineItem!
 class lineManager : public QGraphicsLineItem
 {    
 public:    

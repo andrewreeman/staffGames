@@ -7,8 +7,7 @@
 #include "staffscene.h"
 
 
-//TODO scrolling boundry
-//TODO proper note
+
 //TODO midi audio
 //TODO multi-touch resize!
 //TODO bass clef

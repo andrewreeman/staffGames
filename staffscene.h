@@ -29,7 +29,7 @@ private slots:
 
 private:
     void makeLine();
-    void makeCircle();
+    void makeNote();
     void makeTrebleClef();
     void setBoundries();
     void setNoteY(int selectedLineNumber);    

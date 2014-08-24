@@ -9,8 +9,12 @@ namespace staffLayout{
     const int whiteLineHeight = blackLineHeight*7;
 }
 
+//TODO note oval instead of circle
 namespace noteProperties{
     const int noteDiameter = staffLayout::whiteLineHeight;
+    //const int stemHeight = 100;
+    const int stemHeight = staffLayout::whiteLineHeight * 3;
+    const int noteThickness = staffLayout::blackLineHeight*0.8;
 }
 
 namespace  staffLayout{
@@ -21,7 +25,6 @@ namespace  staffLayout{
     const int numLedgerLines = 3;
     const int upperBounds = -( (whiteLineHeight*numLedgerLines) + (blackLineHeight*numLedgerLines) );
     const int lowerBounds = -upperBounds + ((whiteLineHeight*numStaffLines) + (blackLineHeight*numStaffLines));
-
 }
 
 namespace colours{
@@ -29,6 +32,7 @@ namespace colours{
     const QColor incorrect(Qt::red);
     const QColor correct(Qt::green);
     const QColor note(Qt::white);
+    const QColor stem(Qt::black);
 }
 
 namespace trebleClef{

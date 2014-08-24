@@ -9,8 +9,8 @@ StaffScene::StaffScene(QObject *parent) :
     QGraphicsScene(parent)
 {
     makeLine();
-    makeCircle();
     makeTrebleClef();
+    makeNote();
     m_note->installSceneEventFilter(m_lineManager);
     setBoundries();
 }
@@ -20,17 +20,11 @@ void StaffScene::makeLine(){
     this->addItem(m_lineManager);
 }
 
-void StaffScene::makeCircle()
-{    
-    QBrush brush(colours::note);
-    QPoint p1(0, 0);    
-    QPoint p2(noteProperties::noteDiameter, 0);
-    QRectF rec(p1, p2);
-    rec.setHeight(noteProperties::noteDiameter);
-    m_note = new Note(rec);
+void StaffScene::makeNote()
+{
+    m_note = new Note();
     m_note->setFlag(QGraphicsItem::ItemIsMovable, true);
-    m_note->moveBy(0, -25);
-    m_note->setBrush(brush);
+    m_note->moveBy(0, -25);        
     this->addItem(m_note);
 }
 
@@ -42,7 +36,6 @@ void StaffScene::makeTrebleClef()
     m_treble->setScale(1);
     m_treble->setData(objectPropertyKeys::type, objectPropertyTypes::trebleType);
 }
-
 
 void StaffScene::setBoundries()
 {
