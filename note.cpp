@@ -25,14 +25,18 @@ void Note::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
 
     QRectF sceneRect = scene()->sceneRect();
+    QRectF thisRect = mapToScene(boundingRect()).boundingRect();
+
     int noteHeadRadius = noteProperties::noteDiameter/2;
-    int topBoundry = sceneRect.top() + noteHeadRadius;
+    int topBoundry = sceneRect.top();
     int bottomBoundry = sceneRect.bottom()-noteHeadRadius;
     int leftBoundry = sceneRect.left() + noteHeadRadius;
     int rightBoundry = sceneRect.right() - noteHeadRadius;
+    QPointF mouseDelta = event->scenePos() - event->lastScenePos();
 
-    if(pos().y() < topBoundry && event->scenePos().y() < topBoundry){
-        setPos(event->scenePos().x(), pos().y());
+
+    if(thisRect.top()<topBoundry && (mouseDelta.y() <=0 || event->scenePos().y()<topBoundry+noteProperties::noteDiameter)){
+        setPos(pos().x()+mouseDelta.x(), topBoundry);
         return;
     }
     if(pos().y() > bottomBoundry && event->scenePos().y() > bottomBoundry){
@@ -47,8 +51,6 @@ void Note::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         setPos(pos().x(), event->scenePos().y());
         return;
     }
-
-
 
     scene()->views().at(0)->ensureVisible(this, 10, 50);
     QGraphicsItem::mouseMoveEvent(event);
