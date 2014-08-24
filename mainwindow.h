@@ -10,7 +10,9 @@
 //TODO scrolling
 //TODO midi audio
 //TODO proper note
-//TODO android!
+//TODO multi-touch resize!
+//TODO bass clef
+
 
 #ifdef QT_DEBUG
     // Enable for mouse tracking

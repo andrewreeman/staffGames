@@ -1,7 +1,9 @@
 #include "staffscene.h"
 #include "staffGamesConstants.h"
+
 #include <QDebug>
 #include <QTimer>
+#include <QGraphicsView>
 
 StaffScene::StaffScene(QObject *parent) :
     QGraphicsScene(parent)
@@ -9,6 +11,11 @@ StaffScene::StaffScene(QObject *parent) :
     makeLine();
     makeCircle();
     m_note->installSceneEventFilter(m_lineManager);
+}
+
+void StaffScene::setup()
+{
+
 }
 
 void StaffScene::makeLine(){

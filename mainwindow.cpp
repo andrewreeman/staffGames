@@ -28,7 +28,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(m_mousePosTrigger, SIGNAL(timeout()), this, SLOT(getMousePos()));
     m_mousePosTrigger->start();
 #endif    
-    ui->graphicsView->setScene(m_scene);    
+
+    ui->graphicsView->setScene(m_scene);        
+
     ui->score->setValue(0);    
 
     makeTrebleClef();

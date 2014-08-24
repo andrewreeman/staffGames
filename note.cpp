@@ -1,7 +1,11 @@
 #include "note.h"
 #include "staffGamesConstants.h"
+
 #include <QPainter>
 #include <QWidget>
+#include <QDebug>
+#include <QGraphicsScene>
+#include <QGraphicsView>
 
 Note::Note(QRectF rec, QGraphicsItem* parent) :
     QGraphicsEllipseItem(rec, parent)
@@ -10,6 +14,12 @@ Note::Note(QRectF rec, QGraphicsItem* parent) :
 #ifdef QT_DEBUG
     m_collide = QRectF(0, 0, 0, 0);
 #endif
+}
+
+void Note::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
+    scene()->views().at(0)->ensureVisible(this, 10, 50);
+    QGraphicsEllipseItem::mouseMoveEvent(event);
 }
 
 bool Note::collidesWithItem(const QGraphicsItem *other, Qt::ItemSelectionMode mode) const
@@ -35,6 +45,7 @@ bool Note::collidesWithItem(const QGraphicsItem *other, Qt::ItemSelectionMode mo
     }
     return QGraphicsEllipseItem::collidesWithItem(other, mode);
 }
+
 #ifdef QT_DEBUG
 void Note::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {

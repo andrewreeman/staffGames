@@ -17,6 +17,7 @@ public:
     void selectLine(int lineNumber);
     void setCorrectState(int lineNumber, bool correctState);
     StaffLine* getLine(int lineNumber);
+    void setup();
 
 signals:
     void lineSelected(int lineNumber);
