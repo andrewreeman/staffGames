@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QGraphicsScene>
 #include <QGraphicsItem>
+#include <QPixmap>
+#include <QGraphicsPixmapItem>
 
 #include "note.h"
 #include "linemanager.h"
@@ -28,16 +30,14 @@ private slots:
 private:
     void makeLine();
     void makeCircle();
+    void makeTrebleClef();
     void setBoundries();
-    void setNoteY(int selectedLineNumber);
-
-
+    void setNoteY(int selectedLineNumber);    
 
     Note* m_note;
     lineManager* m_lineManager;
-
     int m_selectedLine;
-
+    QGraphicsPixmapItem* m_treble;
 };
 
 #endif // STAFFSCENE_H

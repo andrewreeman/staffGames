@@ -9,7 +9,7 @@
 #include "staffline.h"
 #include "ledgerline.h"
 
-
+//TODO note stop at boundry
 class lineManager : public QGraphicsLineItem
 {    
 public:    
@@ -21,8 +21,7 @@ public:
 
     StaffLine* getLine(int lineNumber);
     void setCorrectState(int lineNumber, bool isCorrect);
-    void unsetCorrectState(int lineNumber);
-
+    void unsetCorrectState(int lineNumber);    
 
 private:    
     void setPens();

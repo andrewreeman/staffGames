@@ -19,34 +19,19 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    m_scene = new StaffScene(this);
-    connect(m_scene, SIGNAL( lineSelected(int) ), this, SLOT( lineSelected(int) ));
-
+    m_scene = new StaffScene(this);    
     ui->graphicsView->setScene(m_scene);        
-
     ui->score->setValue(0);    
-
-    makeTrebleClef();
     makeMap();
     nextRound();
     ui->graphicsView->setDragMode(QGraphicsView::ScrollHandDrag);
-
-
     QWidget::showMaximized();
+    connect(m_scene, SIGNAL( lineSelected(int) ), this, SLOT( lineSelected(int) ));
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
-}
-
-void MainWindow::makeTrebleClef()
-{
-    QPixmap image(":/notation/treble");
-    QGraphicsPixmapItem* pixmap = m_scene->addPixmap(image);
-    pixmap->setPos(trebleClef::offset, m_scene->getLine(6)->pos().y() - 130);
-    pixmap->setScale(1);
-    pixmap->setData(objectPropertyKeys::type, objectPropertyTypes::trebleType);
 }
 
 //TODO make use of lambda functions more.

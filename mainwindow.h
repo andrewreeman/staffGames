@@ -35,7 +35,6 @@ private slots:
 
 private:
 
-    void makeTrebleClef();
     void makeMap();
     void correct();
     void incorrect();

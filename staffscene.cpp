@@ -10,6 +10,7 @@ StaffScene::StaffScene(QObject *parent) :
 {
     makeLine();
     makeCircle();
+    makeTrebleClef();
     m_note->installSceneEventFilter(m_lineManager);
     setBoundries();
 }
@@ -33,11 +34,21 @@ void StaffScene::makeCircle()
     this->addItem(m_note);
 }
 
+void StaffScene::makeTrebleClef()
+{
+    QPixmap image(":/notation/treble");
+    m_treble = addPixmap(image);
+    m_treble->setPos(trebleClef::offset, getLine(6)->pos().y() - 130);
+    m_treble->setScale(1);
+    m_treble->setData(objectPropertyKeys::type, objectPropertyTypes::trebleType);
+}
+
 
 void StaffScene::setBoundries()
 {
-
-
+    QRectF rec = sceneRect();
+    rec.setTop(rec.top() - noteProperties::noteDiameter);
+    rec.setBottom(rec.bottom() + noteProperties::noteDiameter);
     setSceneRect(rec);
 }
 
