@@ -6,8 +6,6 @@
 #include <QMap>
 #include "staffscene.h"
 
-
-
 //TODO midi audio
 //TODO multi-touch resize!
 //TODO bass clef

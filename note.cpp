@@ -7,6 +7,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QLine>
+#include <QGraphicsSceneMouseEvent>
 
 
 Note::Note()
@@ -22,6 +23,33 @@ Note::Note()
 
 void Note::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
+
+    QRectF sceneRect = scene()->sceneRect();
+    int noteHeadRadius = noteProperties::noteDiameter/2;
+    int topBoundry = sceneRect.top() + noteHeadRadius;
+    int bottomBoundry = sceneRect.bottom()-noteHeadRadius;
+    int leftBoundry = sceneRect.left() + noteHeadRadius;
+    int rightBoundry = sceneRect.right() - noteHeadRadius;
+
+    if(pos().y() < topBoundry && event->scenePos().y() < topBoundry){
+        setPos(event->scenePos().x(), pos().y());
+        return;
+    }
+    if(pos().y() > bottomBoundry && event->scenePos().y() > bottomBoundry){
+        setPos(event->scenePos().x(), pos().y());
+        return;
+    }
+    if(pos().x() < leftBoundry && event->scenePos().x() < leftBoundry){
+        setPos(pos().x(), event->scenePos().y());
+        return;
+    }
+    if(pos().x() > rightBoundry && event->scenePos().x() > rightBoundry){
+        setPos(pos().x(), event->scenePos().y());
+        return;
+    }
+
+
+
     scene()->views().at(0)->ensureVisible(this, 10, 50);
     QGraphicsItem::mouseMoveEvent(event);
 }
@@ -87,10 +115,11 @@ bool Note::collidesWithItem(const QGraphicsItem *other, Qt::ItemSelectionMode mo
     return QGraphicsItem::collidesWithItem(other, mode);
 }
 
-/*
+#ifdef QT_DEBUG
+
 void Note::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-#ifdef QT_DEBUG
+
     QBrush brush(Qt::blue);
     QPen pen(Qt::black);
 
@@ -101,9 +130,8 @@ void Note::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
     painter->drawRect(m_collide);
     painter->restore();
 
+    widget->update();
+}
 
 
 #endif
-    widget->update();
-}
-*/
