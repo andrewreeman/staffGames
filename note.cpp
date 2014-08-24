@@ -29,27 +29,38 @@ void Note::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
     int noteHeadRadius = noteProperties::noteDiameter/2;
     int topBoundry = sceneRect.top();
-    int bottomBoundry = sceneRect.bottom()-noteHeadRadius;
-    int leftBoundry = sceneRect.left() + noteHeadRadius;
-    int rightBoundry = sceneRect.right() - noteHeadRadius;
-    QPointF mouseDelta = event->scenePos() - event->lastScenePos();
+    int bottomBoundry = sceneRect.bottom();
+    int leftBoundry = sceneRect.left();
+    int rightBoundry = sceneRect.right();
 
 
-    if(thisRect.top()<topBoundry && (mouseDelta.y() <=0 || event->scenePos().y()<topBoundry+noteProperties::noteDiameter)){
-        setPos(pos().x()+mouseDelta.x(), topBoundry);
-        return;
+    if(thisRect.top()<topBoundry){
+        QPointF mouseDelta = event->scenePos() - event->lastScenePos();
+        if(mouseDelta.y() <=0 || event->scenePos().y()<topBoundry+noteProperties::noteDiameter){
+            setPos(pos().x()+mouseDelta.x(), topBoundry);
+            return;
+        }
     }
-    if(pos().y() > bottomBoundry && event->scenePos().y() > bottomBoundry){
-        setPos(event->scenePos().x(), pos().y());
-        return;
+    if(thisRect.bottom() > bottomBoundry){
+        QPointF mouseDelta = event->scenePos() - event->lastScenePos();
+        if(mouseDelta.y() >=0 || event->scenePos().y()>bottomBoundry){
+            setPos(pos().x()+mouseDelta.x(), bottomBoundry-noteProperties::noteDiameter);
+            return;
+        }
     }
-    if(pos().x() < leftBoundry && event->scenePos().x() < leftBoundry){
-        setPos(pos().x(), event->scenePos().y());
-        return;
+    if(thisRect.left() < leftBoundry){
+        QPointF mouseDelta = event->scenePos() - event->lastScenePos();
+        if(mouseDelta.x() <=0 || event->scenePos().x()<leftBoundry+noteProperties::noteDiameter){
+            setPos(leftBoundry, pos().y()+mouseDelta.y());
+            return;
+        }
     }
-    if(pos().x() > rightBoundry && event->scenePos().x() > rightBoundry){
-        setPos(pos().x(), event->scenePos().y());
-        return;
+    if(thisRect.right() > rightBoundry){
+        QPointF mouseDelta = event->scenePos() - event->lastScenePos();
+        if(mouseDelta.x() >= 0 || event->scenePos().x()>rightBoundry){
+            setPos(rightBoundry-noteProperties::noteDiameter, pos().y()+mouseDelta.y());
+            return;
+        }
     }
 
     scene()->views().at(0)->ensureVisible(this, 10, 50);
