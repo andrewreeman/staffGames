@@ -7,21 +7,12 @@
 #include "staffscene.h"
 
 
-//TODO scrolling
-//TODO midi audio
+//TODO scrolling boundry
 //TODO proper note
+//TODO midi audio
 //TODO multi-touch resize!
 //TODO bass clef
-
-
-#ifdef QT_DEBUG
-    // Enable for mouse tracking
-    //#define MOUSE_TRACKING
-#endif
-
-#ifdef MOUSE_TRACKING
-    #include <QTimer>
-#endif
+//TODO launch from title
 
 namespace Ui {
 class MainWindow;
@@ -35,18 +26,11 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-signals:    
-    void scrollFinished();
+signals:        
 
 private slots:
 
-#ifdef MOUSE_TRACKING
-    void getMousePos();
-#endif
-
-    void lineSelected(int line);
-    void scrollDown();
-    void scrollUp();
+    void lineSelected(int line);    
     void on_pushButton_clicked();
 
 private:
@@ -58,19 +42,12 @@ private:
     void nextRound();
     QList<QGraphicsItem*> getLines();
 
-    Ui::MainWindow *ui;
-    //QGraphicsScene* m_scene;
-    StaffScene* m_scene;
-
-  //  QMap<QString, QString> m_noteLineMap;
+    Ui::MainWindow *ui;    
+    StaffScene* m_scene; 
     QMap<int, QString> m_lineToNoteMap;
     int m_answer;
-//    QMap<QString, StickyLineSignalHandler*> m_lineToSignalHandler;
 
 
-#ifdef MOUSE_TRACKING
-    QTimer* m_mousePosTrigger;
-#endif
 
 };
 

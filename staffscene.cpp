@@ -11,11 +11,7 @@ StaffScene::StaffScene(QObject *parent) :
     makeLine();
     makeCircle();
     m_note->installSceneEventFilter(m_lineManager);
-}
-
-void StaffScene::setup()
-{
-
+    setBoundries();
 }
 
 void StaffScene::makeLine(){
@@ -37,6 +33,13 @@ void StaffScene::makeCircle()
     this->addItem(m_note);
 }
 
+
+void StaffScene::setBoundries()
+{
+
+
+    setSceneRect(rec);
+}
 
 void StaffScene::setNoteY(int selectedLineNumber)
 {

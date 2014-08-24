@@ -17,7 +17,6 @@ public:
     void selectLine(int lineNumber);
     void setCorrectState(int lineNumber, bool correctState);
     StaffLine* getLine(int lineNumber);
-    void setup();
 
 signals:
     void lineSelected(int lineNumber);
@@ -29,7 +28,9 @@ private slots:
 private:
     void makeLine();
     void makeCircle();
+    void setBoundries();
     void setNoteY(int selectedLineNumber);
+
 
 
     Note* m_note;

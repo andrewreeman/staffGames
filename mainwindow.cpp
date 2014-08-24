@@ -22,13 +22,6 @@ MainWindow::MainWindow(QWidget *parent) :
     m_scene = new StaffScene(this);
     connect(m_scene, SIGNAL( lineSelected(int) ), this, SLOT( lineSelected(int) ));
 
-#ifdef MOUSE_TRACKING
-    m_mousePosTrigger = new QTimer(this);
-    m_mousePosTrigger->setInterval(10);
-    connect(m_mousePosTrigger, SIGNAL(timeout()), this, SLOT(getMousePos()));
-    m_mousePosTrigger->start();
-#endif    
-
     ui->graphicsView->setScene(m_scene);        
 
     ui->score->setValue(0);    
@@ -37,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :
     makeMap();
     nextRound();
     ui->graphicsView->setDragMode(QGraphicsView::ScrollHandDrag);
+
 
     QWidget::showMaximized();
 }
@@ -122,17 +116,6 @@ void MainWindow::lineSelected(int line)
     }
 }
 
-#ifdef MOUSE_TRACKING
-void MainWindow::getMousePos()
-{
-    static QPoint oldPos = QCursor::pos();
-    if(oldPos == QCursor::pos()) return;
-    oldPos = QCursor::pos();
-    qDebug() << QCursor::pos();
-}
-#endif
-
-
 void MainWindow::correct()
 {
     QString sound = ":/audio/"+ m_lineToNoteMap.value(m_answer) +".wav";
@@ -179,22 +162,6 @@ QList<QGraphicsItem *> MainWindow::getLines()
         }
     }
     return lines;
-}
-
-void MainWindow::scrollDown()
-{
-    QScrollBar* vScroll = ui->graphicsView->verticalScrollBar();
-    int value = vScroll->value();
-    vScroll->setValue(value+40);
-    emit scrollFinished();
-}
-
-void MainWindow::scrollUp()
-{
-    QScrollBar* vScroll = ui->graphicsView->verticalScrollBar();
-    int value = vScroll->value();
-    vScroll->setValue(value-40);    
-    emit scrollFinished();
 }
 
 void MainWindow::on_pushButton_clicked()
