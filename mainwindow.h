@@ -6,7 +6,7 @@
 #include <QMap>
 #include "staffscene.h"
 
-//TODO midi audio
+//TODO midi audio: not easily possibly. Instead think about audio synthesis.
 //TODO multi-touch resize!
 //TODO bass clef
 //TODO launch from title
@@ -41,6 +41,7 @@ private:
     Ui::MainWindow *ui;    
     StaffScene* m_scene; 
     QMap<int, QString> m_lineToNoteMap;
+    QMap<int, QString> m_lineToNoteSound;
     int m_answer;
 
 

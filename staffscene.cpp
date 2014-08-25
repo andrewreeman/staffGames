@@ -55,8 +55,7 @@ void StaffScene::setNoteY(int selectedLineNumber)
 }
 
 void StaffScene::selectLine(int lineNumber)
-{
-    //TODO check if I need m_selectedLine
+{    
     setNoteY(lineNumber);    
     m_selectedLine = lineNumber;
     emit lineSelected(m_selectedLine);

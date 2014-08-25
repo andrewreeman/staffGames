@@ -12,7 +12,11 @@
 
 #include <QDebug>
 #include <QSound>
+#include <QMediaPlayer>
+#include <QFileInfo>
 
+
+//TODO correct octave places....C (obviously!) is the first note. C3-D3....B3-C4...Also.... middle C. bass C. pedal C, double pedal C, treble C, top C, double top C
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -39,11 +43,15 @@ void MainWindow::makeMap()
 {
     QList<QChar> noteLetters{'F', 'E', 'D', 'C', 'B', 'A', 'G'}; // top staff note first descending
     QList<QString> totalLetters;
+    QList<QString> noteSounds;
     int numLedgerNotes = staffLayout::numLedgerLines*2;
     int numStaffNotes = staffLayout::numStaffLines*2;
     int totalNotes = (numLedgerNotes*2)+numStaffNotes;
-    int noteIndex = noteLetters.size() - numLedgerNotes;
-    int highA_Index = numLedgerNotes+5;
+    int noteIndex = noteLetters.size() - numLedgerNotes;    
+    int currentOctave = 3;
+
+    QStringList octaves;
+    octaves << "contra" << "double low" << "low" << "bass" << "middle" << "treble" << "top";
 
     auto f_initTotalLetters = [&](){
         for(int i=0; i<totalNotes; ++i, ++noteIndex){
@@ -52,40 +60,31 @@ void MainWindow::makeMap()
         }
     };
 
-    auto f_processUpperOctaves = [&](){
-        for(int i=highA_Index; i>=0; --i){
-            int note = highA_Index-i;
-            int octave = (note/7)+1;
-            QString letter = totalLetters.at(i);
-            for(int j=0; j<octave; ++j){
-                letter += "'";
-            }
-            totalLetters.replace(i, letter);
-        }
-    };
 
-    auto f_processLowerOctaves = [&](){
-        for(int i=highA_Index+1; i<totalNotes; ++i){
-            int note = i-(highA_Index+1);
-            int octave = (note/7);
-            QString letter = "";
-            for(int j=0; j<octave; ++j){
-                letter += "'";
-            }
-            letter += totalLetters.at(i);
+    auto f_octavizeNotes = [&](){
+        for(int i=totalLetters.size()-1; i>=0; --i){
+            QString letter = totalLetters.at(i);
+            QString noteSound = letter;
+            if(letter == "C")
+                ++currentOctave;
+            letter  = octaves.at(currentOctave) + " " + letter;
+            noteSound += QString::number(currentOctave);
             totalLetters.replace(i, letter);
+            noteSounds.replace(i, noteSound);
         }
+
     };
 
     auto f_copyTo_IntLineNumber_Map = [&](){
-        for(int i=0; i<totalNotes; ++i){
+        for(int i=0; i<totalLetters.size(); ++i){
             m_lineToNoteMap.insert(i-numLedgerNotes, totalLetters.at(i));
+            m_lineToNoteSound.insert(i-numLedgerNotes, noteSounds.at(i));
         }
     };
 
     f_initTotalLetters();
-    f_processUpperOctaves();
-    f_processLowerOctaves();
+    noteSounds = totalLetters;
+    f_octavizeNotes();
     f_copyTo_IntLineNumber_Map();
 }
 
@@ -103,7 +102,8 @@ void MainWindow::lineSelected(int line)
 
 void MainWindow::correct()
 {
-    QString sound = ":/audio/"+ m_lineToNoteMap.value(m_answer) +".wav";
+    QString sound = ":/audio/"+ m_lineToNoteSound.value(m_answer) +".wav";
+    qDebug() << sound;
     QSound::play(sound);
     ui->score->setValue(ui->score->value() + 1);
     nextRound();
