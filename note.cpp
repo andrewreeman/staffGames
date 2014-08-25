@@ -33,44 +33,31 @@ void Note::checkBounds(QGraphicsSceneMouseEvent *event)
     QRectF sceneRect = scene()->sceneRect();
     QRectF thisRect = mapToScene(boundingRect()).boundingRect();
 
-    int topBoundry = sceneRect.top();
-    bool topHit = false;
-    int bottomBoundry = sceneRect.bottom();
-    bool bottomHit = false;
-    int leftBoundry = sceneRect.left();
-    bool leftHit = false;
-    int rightBoundry = sceneRect.right();
-    bool rightHit = false;
-
-    //init check
-    if(thisRect.top()<topBoundry)
-        topHit = true;
-    if(thisRect.bottom() > bottomBoundry)
-        bottomHit = true;
-    if(thisRect.left() < leftBoundry)
-        leftHit = true;
-    if(thisRect.right() > rightBoundry)
-        rightHit = true;
-    if( !(topHit || bottomHit || leftHit || rightHit) )
+    if(sceneRect.contains(thisRect))
         return;
+
+    int topBoundry = sceneRect.top();
+    int bottomBoundry = sceneRect.bottom();
+    int leftBoundry = sceneRect.left();
+    int rightBoundry = sceneRect.right();
 
     QPointF mousePos = event->scenePos();
     QPointF mouseDelta = mousePos - event->lastScenePos();
     QPointF newPos(pos().x(), pos().y());
 
-    if(topHit){
+    if(thisRect.top()<topBoundry){
         if(mouseDelta.y() <=0 || mousePos.y()<topBoundry+noteProperties::noteDiameter)
             newPos.setY(topBoundry);
     }
-    if(bottomHit){
+    if(thisRect.bottom() > bottomBoundry){
         if(mouseDelta.y() >=0 || mousePos.y()>bottomBoundry)
             newPos.setY(bottomBoundry-noteProperties::noteDiameter);
     }
-    if(leftHit){
+    if(thisRect.left() < leftBoundry){
         if(mouseDelta.x() <=0 || mousePos.x()<leftBoundry+noteProperties::noteDiameter)
             newPos.setX(leftBoundry);
     }
-    if(rightHit){
+    if(thisRect.right() > rightBoundry){
         if(mouseDelta.x() >= 0 || mousePos.x()>rightBoundry)
             newPos.setX(rightBoundry-noteProperties::noteDiameter);
     }
