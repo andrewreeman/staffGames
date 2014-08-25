@@ -9,8 +9,8 @@ class Note : public QGraphicsItem
 public:
     Note();
 
-    virtual bool collidesWithItem(const QGraphicsItem *other, Qt::ItemSelectionMode mode) const;
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    virtual bool collidesWithItem(const QGraphicsItem *other, Qt::ItemSelectionMode mode) const;    
+    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
     virtual QRectF boundingRect() const;
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){}
 
