@@ -17,6 +17,7 @@ public:
 private:
     void makeNoteHead();
     void makeStem();
+    void checkBounds(QGraphicsSceneMouseEvent* event);
 
 #ifdef QT_DEBUG
     mutable QRectF m_collide;
