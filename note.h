@@ -13,7 +13,9 @@ public:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
     virtual QRectF boundingRect() const;
 #ifndef QT_DEBUG
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){}
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+        Q_UNUSED(painter)Q_UNUSED(option)Q_UNUSED(widget)
+    }
 #else
        virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 #endif
@@ -21,9 +23,8 @@ public:
 
 private:
     void makeNoteHead();
-    void makeStem();
-    void checkBounds(QGraphicsSceneMouseEvent* event);
-//TODO middle C etc...instead of '...
+    void makeStem();    
+
 #ifdef QT_DEBUG
     mutable QRectF m_collide;
 #endif

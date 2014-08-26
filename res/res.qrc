@@ -7,28 +7,28 @@
         <file alias="fail2">fail2.wav</file>
         <file alias="fail3">fail3.wav</file>
         <file alias="fail4">fail4.wav</file>
-        <file alias="fail5">fail5.wav</file>
-        <file>A3.wav</file>
-        <file>A4.wav</file>
-        <file>A5.wav</file>
-        <file>B3.wav</file>
-        <file>B4.wav</file>
-        <file>B5.wav</file>
-        <file>C4.wav</file>
-        <file>C5.wav</file>
-        <file>C6.wav</file>
-        <file>D4.wav</file>
-        <file>D5.wav</file>
-        <file>D6.wav</file>
-        <file>E3.wav</file>
-        <file>E4.wav</file>
-        <file>E5.wav</file>
-        <file>E6.wav</file>
-        <file>F3.wav</file>
-        <file>F4.wav</file>
-        <file>F5.wav</file>
-        <file>G3.wav</file>
-        <file>G4.wav</file>
-        <file>G5.wav</file>
+        <file alias="fail5">fail5.wav</file>   
+        <file>treble-0.wav</file>
+        <file>treble-1.wav</file>
+        <file>treble-2.wav</file>
+        <file>treble-3.wav</file>
+        <file>treble-4.wav</file>
+        <file>treble-5.wav</file>
+        <file>treble-6.wav</file>
+        <file>treble-7.wav</file>
+        <file>treble-8.wav</file>
+        <file>treble-9.wav</file>
+        <file>treble-10.wav</file>
+        <file>treble-11.wav</file>
+        <file>treble-12.wav</file>
+        <file>treble-13.wav</file>
+        <file>treble-14.wav</file>
+        <file>treble-15.wav</file>
+        <file>treble--1.wav</file>
+        <file>treble--2.wav</file>
+        <file>treble--3.wav</file>
+        <file>treble--4.wav</file>
+        <file>treble--5.wav</file>
+        <file>treble--6.wav</file>
     </qresource>
 </RCC>

@@ -40,8 +40,7 @@ private:
 
     Ui::MainWindow *ui;    
     StaffScene* m_scene; 
-    QMap<int, QString> m_lineToNoteMap;
-    QMap<int, QString> m_lineToNoteSound;
+    QMap<int, QString> m_lineToNoteMap;    
     int m_answer;
 
 

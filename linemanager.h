@@ -17,7 +17,9 @@ public:
     lineManager();
 
     virtual QRectF boundingRect()const;
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){}
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+        Q_UNUSED(painter)Q_UNUSED(option)Q_UNUSED(widget)
+    }
     virtual bool sceneEventFilter(QGraphicsItem *watched, QEvent *event);
 
     StaffLine* getLine(int lineNumber);

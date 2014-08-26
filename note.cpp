@@ -38,15 +38,6 @@ QVariant Note::itemChange(GraphicsItemChange change, const QVariant &value)
     return QGraphicsItem::itemChange(change, value);
 }
 
-void Note::checkBounds(QGraphicsSceneMouseEvent *event)
-{
-    QRectF sceneRect = scene()->sceneRect();
-    QRectF thisRect = mapToScene(boundingRect()).boundingRect();
-
-    if(!sceneRect.contains(thisRect))
-        return;
-}
-
 QRectF Note::boundingRect() const
 {
     return m_noteHead->boundingRect();
