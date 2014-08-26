@@ -45,17 +45,19 @@ QRectF Note::boundingRect() const
 
 void Note::makeNoteHead()
 {
-    QBrush brush(colours::note);
-    QPen pen(colours::stem);
+    QBrush brush(colours::crotchet);
+    QPen pen(colours::crotchet);
     QPoint p1(0, 0);
-    QPoint p2(noteProperties::noteDiameter, 0);
+    QPoint p2(noteProperties::noteDiameter*1.1, 0);
     QRectF rec(p1, p2);
 
-    rec.setHeight(noteProperties::noteDiameter);
-    m_noteHead = new QGraphicsEllipseItem(rec, this);
+    rec.setHeight(noteProperties::noteDiameter*0.7);
+    m_noteHead = new QGraphicsEllipseItem(rec, this);    
     m_noteHead->setBrush(brush);
     pen.setWidth(noteProperties::noteThickness);
     m_noteHead->setPen(pen);
+    m_noteHead->setTransformOriginPoint(this->boundingRect().center());
+    m_noteHead->setRotation(-30);
 }
 
 void Note::makeStem()
@@ -71,7 +73,7 @@ void Note::makeStem()
     pen.setWidth(noteProperties::noteThickness);
     pen.setCapStyle(Qt::RoundCap);
     m_stem->setPen(pen);
-    m_stem->moveBy(-noteProperties::noteThickness/2, 0);
+    m_stem->moveBy(-noteProperties::noteThickness*0.9, -noteProperties::noteThickness*0.5);
 
 }
 

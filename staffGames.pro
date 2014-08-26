@@ -40,5 +40,6 @@ RESOURCES += \
     res/res.qrc
 
 OTHER_FILES += \
-    Urls.txt
+    Urls.txt \
+    res/Minim.jpeg
 
