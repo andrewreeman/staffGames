@@ -9,10 +9,8 @@ namespace staffLayout{
     const int whiteLineHeight = blackLineHeight*7;
 }
 
-//TODO note oval instead of circle
 namespace noteProperties{
-    const int noteDiameter = staffLayout::whiteLineHeight;
-    //const int stemHeight = 100;
+    const int noteDiameter = staffLayout::whiteLineHeight*1.1;
     const int stemHeight = staffLayout::whiteLineHeight * 3;
     const int noteThickness = staffLayout::blackLineHeight*0.8;
 }
@@ -31,6 +29,7 @@ namespace colours{
     const QColor highlighted("lightseagreen");
     const QColor incorrect(Qt::red);
     const QColor correct(Qt::green);
+    const QColor crotchet(Qt::black);
     const QColor note(Qt::white);
     const QColor stem(Qt::black);
 }
