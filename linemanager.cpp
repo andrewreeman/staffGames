@@ -143,22 +143,30 @@ bool lineManager::sceneEventFilter(QGraphicsItem *watched, QEvent *event)
     bool isEventConsumed = false;
     QString type = watched->data(objectPropertyKeys::type).toString();
 
+    auto f_checkNoteCollision = [&](){
+        QPointF circleCentre = watched->boundingRect().center();
+
+        circleCollision(watched);
+        circleCentre = mapFromItem(watched, circleCentre);
+        updateUpperLedgers(circleCentre);
+        updateLowerLedgers(circleCentre);
+    };
+
+    auto f_selectLine = [&](){
+        StaffScene* thisScene = qobject_cast<StaffScene*>(scene());
+        if(thisScene){
+            circleCollision(watched);
+            thisScene->selectLine(m_selectedLine);
+        }
+    };
+
     if(type == objectPropertyTypes::noteType){
         if(event->type() == QEvent::GraphicsSceneMouseMove){
-            QPointF circleCentre = watched->boundingRect().center();
-
-            circleCollision(watched);
-            circleCentre = mapFromItem(watched, circleCentre);
-            updateUpperLedgers(circleCentre);
-            updateLowerLedgers(circleCentre);
+            f_checkNoteCollision();
             return isEventConsumed;
         }
         else if(event->type() == QEvent::GraphicsSceneMouseRelease){
-            StaffScene* thisScene = qobject_cast<StaffScene*>(scene());
-            if(thisScene){
-                circleCollision(watched);
-                thisScene->selectLine(m_selectedLine);
-            }
+            f_selectLine();
             return isEventConsumed;
         }
     }
@@ -219,34 +227,47 @@ void lineManager::updateUpperLedgers(QPointF circleCentre)
 {
     int upperLineSize = m_upperLines.size();
     int selectLineBoundry = m_selectedLine > 0 ? 0 : m_selectedLine;
+    auto f_turnLinesOn = [&](){
+        for(int i=-1; i>=selectLineBoundry; --i){
+            LedgerLine* line = (LedgerLine*)getLine(i);
+            QPointF circleCentre_relTo_line = mapToItem(line, circleCentre);
+            line->setCentreX(circleCentre_relTo_line.x());
+            line->setOpacity(1);
+        }
+    };
+    auto f_turnLinesOff = [&](){
+        for(int i=selectLineBoundry-1; i>=-upperLineSize; --i){
+            LedgerLine* line = (LedgerLine*)getLine(i);
+            line->setOpacity(0);
+        }
+    };
 
-    for(int i=-1; i>=selectLineBoundry; --i){
-        LedgerLine* line = (LedgerLine*)getLine(i);
-        QPointF circleCentre_relTo_line = mapToItem(line, circleCentre);
-        line->setCentreX(circleCentre_relTo_line.x());
-        line->setOpacity(1);
-    }
-    for(int i=selectLineBoundry-1; i>=-upperLineSize; --i){
-        LedgerLine* line = (LedgerLine*)getLine(i);
-        line->setOpacity(0);
-    }
+    f_turnLinesOn();
+    f_turnLinesOff();
+
 }
 
 void lineManager::updateLowerLedgers(QPointF circleCentre)
 {   
     int lastLedgerLineNumber = m_lowerLines.last()->data(objectPropertyKeys::name).toInt();
     int selectLineBoundry = m_selectedLine >=m_staffLines.size() ? m_selectedLine : m_staffLines.size()-1;
+    auto f_turnLinesOn = [&](){
+        for(int i=m_staffLines.size(); i<=selectLineBoundry; ++i){
+            LedgerLine* line = (LedgerLine*)getLine(i);
+            QPointF circleCentre_relTo_line = mapToItem(line, circleCentre);
+            line->setCentreX(circleCentre_relTo_line.x());
+            line->setOpacity(1);
+        }
+    };
+    auto f_turnLinesOff = [&](){
+        for(int i=selectLineBoundry+1; i<=lastLedgerLineNumber; ++i){
+            LedgerLine* line = (LedgerLine*)getLine(i);
+            line->setOpacity(0);
+        }
+    };
 
-    for(int i=m_staffLines.size(); i<=selectLineBoundry; ++i){
-        LedgerLine* line = (LedgerLine*)getLine(i);
-        QPointF circleCentre_relTo_line = mapToItem(line, circleCentre);
-        line->setCentreX(circleCentre_relTo_line.x());
-        line->setOpacity(1);
-    }
-    for(int i=selectLineBoundry+1; i<=lastLedgerLineNumber; ++i){
-        LedgerLine* line = (LedgerLine*)getLine(i);
-        line->setOpacity(0);       
-    }
+    f_turnLinesOn();
+    f_turnLinesOff();
 }
 
 StaffLine *lineManager::getLine(int lineNumber)
@@ -258,7 +279,7 @@ StaffLine *lineManager::getLine(int lineNumber)
        else
             return m_upperLines.at(index-2);
     }
-    if(lineNumber >= m_staffLines.size()){
+    else if(lineNumber >= m_staffLines.size()){
         return m_lowerLines.at( lineNumber-m_staffLines.size() );
     }
     else{

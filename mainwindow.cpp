@@ -36,7 +36,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-//TODO make use of lambda functions more.
 void MainWindow::makeMap()
 {
     QList<QChar> noteLetters{'F', 'E', 'D', 'C', 'B', 'A', 'G'}; // top staff note first descending
