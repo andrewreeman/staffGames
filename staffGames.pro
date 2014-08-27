@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     linemanager.cpp \
     note.cpp \
     staffline.cpp \
-    staffscene.cpp
+    staffscene.cpp \
+    title.cpp
 
 HEADERS  += mainwindow.h \
     staffGamesConstants.h \
@@ -27,9 +28,11 @@ HEADERS  += mainwindow.h \
     linemanager.h \
     note.h \
     staffline.h \
-    staffscene.h
+    staffscene.h \
+    title.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    title.ui
 
 CONFIG += mobility
 CONFIG += c++11

@@ -17,22 +17,23 @@
 
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
+    //QMainWindow(parent),
+    QWidget(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    m_scene = new StaffScene(this);    
-    ui->graphicsView->setScene(m_scene);        
-    ui->score->setValue(0);    
+    m_scene = new StaffScene(this);
+    ui->graphicsView->setScene(m_scene);
+    ui->score->setValue(0);
     makeMap();
     nextRound();
     ui->graphicsView->setDragMode(QGraphicsView::ScrollHandDrag);
-    QWidget::showMaximized();
     connect(m_scene, SIGNAL( lineSelected(int) ), this, SLOT( lineSelected(int) ));
 }
 
 MainWindow::~MainWindow()
 {
+    qDebug() << "closed";
     delete ui;
 }
 
@@ -115,7 +116,9 @@ void MainWindow::incorrect()
     randFile = failFiles.at(qrand() % failFiles.size());
 
     QSound::play(randFile);
-    ui->score->setValue(ui->score->value() - 1);
+    ui->score->setValue(ui->score->value() - 1);    
+    this->hide();
+    this->close();
 }
 
 void MainWindow::nextRound()

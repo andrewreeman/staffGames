@@ -1,7 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
+//#include <QMainWindow>
+#include <QWidget>
 #include <QGraphicsScene>
 #include <QMap>
 #include "staffscene.h"
@@ -15,7 +16,8 @@ namespace Ui {
 class MainWindow;
 }
 
-class MainWindow : public QMainWindow
+//class MainWindow : public QMainWindow
+class MainWindow : public QWidget
 {
     Q_OBJECT
 
