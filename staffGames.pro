@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     note.cpp \
     staffline.cpp \
     staffscene.cpp \
-    title.cpp
+    title.cpp \
+    renamemetotitle.cpp
 
 HEADERS  += mainwindow.h \
     staffGamesConstants.h \
@@ -29,10 +30,12 @@ HEADERS  += mainwindow.h \
     note.h \
     staffline.h \
     staffscene.h \
-    title.h
+    title.h \
+    renamemetotitle.h
 
 FORMS    += mainwindow.ui \
-    title.ui
+    title.ui \
+    renamemetotitle.ui
 
 CONFIG += mobility
 CONFIG += c++11

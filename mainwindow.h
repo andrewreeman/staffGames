@@ -10,7 +10,7 @@
 //TODO midi audio: not easily possibly. Instead think about audio synthesis.
 //TODO multi-touch resize!
 //TODO bass clef
-//TODO launch from title
+//TODO check scrolling in title
 
 namespace Ui {
 class MainWindow;
@@ -26,11 +26,14 @@ public:
     ~MainWindow();
 
 signals:        
+    void killMe();
+    void stopGame();
 
 private slots:
 
     void lineSelected(int line);    
     void on_pushButton_clicked();
+    void kill();
 
 private:
 

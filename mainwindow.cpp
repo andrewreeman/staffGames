@@ -116,9 +116,8 @@ void MainWindow::incorrect()
     randFile = failFiles.at(qrand() % failFiles.size());
 
     QSound::play(randFile);
-    ui->score->setValue(ui->score->value() - 1);    
-    this->hide();
-    this->close();
+    ui->score->setValue(ui->score->value() - 1);        
+    emit kill();
 }
 
 void MainWindow::nextRound()
@@ -146,6 +145,15 @@ QList<QGraphicsItem *> MainWindow::getLines()
 
 void MainWindow::on_pushButton_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(0);
-    ui->score->setValue(0);
+
+    emit killMe();
+    //ui->stackedWidget->setCurrentIndex(0);
+    //ui->score->setValue(0);
+}
+
+void MainWindow::kill()
+{
+    this->hide();
+    emit stopGame();
+    this->close();
 }
