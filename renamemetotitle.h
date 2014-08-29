@@ -19,7 +19,13 @@ signals:
     void startGame();
 
 private slots:
-    void on_pushButton_clicked();
+
+
+    void on_titleToLogin_clicked();
+
+    void on_loginToGames_clicked();
+
+    void on_startGame_clicked();
 
 private:
     Ui::RenameMeToTitle *ui;

@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-    qDebug() << "closed";
+    qDebug() << "Game destroyed";
     delete ui;
 }
 
