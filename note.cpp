@@ -36,7 +36,7 @@ QVariant Note::itemChange(GraphicsItemChange change, const QVariant &value)
 
     }
     else if(change == ItemPositionChange && scene())
-        scene()->views().at(0)->ensureVisible(this, 10, 0);
+        scene()->views().at(0)->ensureVisible(this, 10, 100);
 
     return QGraphicsItem::itemChange(change, value);
 }
