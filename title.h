@@ -21,6 +21,8 @@ public slots:
     void killGame();
 private:
     void removeWidget(QWidget* widget);
+    void initGame();
+    void initTitle();
 
     Ui::Title *ui;
     MainWindow* m_main;

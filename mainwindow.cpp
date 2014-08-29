@@ -117,7 +117,7 @@ void MainWindow::incorrect()
 
     QSound::play(randFile);
     ui->score->setValue(ui->score->value() - 1);        
-    emit kill();
+    emit killMe();
 }
 
 void MainWindow::nextRound()
