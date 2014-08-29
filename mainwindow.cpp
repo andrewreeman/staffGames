@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     centralWidget()->layout()->setContentsMargins(0, 0, 0, 0);
     initTitle();
+    this->showMaximized();
 }
 
 MainWindow::~MainWindow()
@@ -24,7 +25,7 @@ void MainWindow::startGame()
     initGame();
 }
 
-void MainWindow::killGame()
+void MainWindow::stopGame()
 {
     removeWidget(m_main);
     initTitle();
@@ -42,7 +43,7 @@ void MainWindow::initGame()
     m_main = new Game_NoteFinding(this);
     m_main->setAttribute(Qt::WA_DeleteOnClose);
     ui->verticalLayout_2->addWidget(m_main);
-    connect(m_main, SIGNAL(killMe()), this, SLOT(killGame()));
+    connect(m_main, SIGNAL(stopGame()), this, SLOT(stopGame()));
 }
 
 void MainWindow::initTitle()

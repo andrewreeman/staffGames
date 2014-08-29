@@ -21,8 +21,7 @@ Game_NoteFinding::Game_NoteFinding(QWidget *parent) :
     ui(new Ui::Game_NoteFinding)
 {
     ui->setupUi(this);
-    m_scene = new StaffScene(this);
-    ui->graphicsView->setScene(m_scene);
+    m_scene = new StaffScene(ui->graphicsView, this);
     ui->score->setValue(0);
     makeMap();
     nextRound();
@@ -31,8 +30,7 @@ Game_NoteFinding::Game_NoteFinding(QWidget *parent) :
 }
 
 Game_NoteFinding::~Game_NoteFinding()
-{
-    qDebug() << "Game destroyed";
+{    
     delete ui;
 }
 
@@ -94,8 +92,7 @@ void Game_NoteFinding::lineSelected(int line)
 void Game_NoteFinding::correct()
 {
 
-    QString sound = ":/audio/"+ QString("treble-") + QString::number(m_answer) +".wav";
-    qDebug() << sound;
+    QString sound = ":/audio/"+ QString("treble-") + QString::number(m_answer) +".wav";    
     QSound::play(sound);
     ui->score->setValue(ui->score->value() + 1);
     nextRound();
@@ -113,10 +110,8 @@ void Game_NoteFinding::incorrect()
     failFiles << ":/audio/fail4";
     failFiles << ":/audio/fail5";
     randFile = failFiles.at(qrand() % failFiles.size());
-
     QSound::play(randFile);
     ui->score->setValue(ui->score->value() - 1);        
-    emit killMe();
 }
 
 void Game_NoteFinding::nextRound()
@@ -144,15 +139,5 @@ QList<QGraphicsItem *> Game_NoteFinding::getLines()
 
 void Game_NoteFinding::on_pushButton_clicked()
 {
-
-    emit killMe();
-    //ui->stackedWidget->setCurrentIndex(0);
-    //ui->score->setValue(0);
-}
-
-void Game_NoteFinding::kill()
-{
-    this->hide();
     emit stopGame();
-    this->close();
 }

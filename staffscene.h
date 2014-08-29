@@ -15,10 +15,10 @@ class StaffScene : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    explicit StaffScene(QObject *parent = 0);    
+    explicit StaffScene(QGraphicsView* view, QObject *parent = 0);
     void selectLine(int lineNumber);
     void setCorrectState(int lineNumber, bool correctState);
-    StaffLine* getLine(int lineNumber);
+    StaffLine* getLine(int lineNumber);    
 
 signals:
     void lineSelected(int lineNumber);
@@ -38,6 +38,7 @@ private:
     lineManager* m_lineManager;
     int m_selectedLine;
     QGraphicsPixmapItem* m_treble;
+    QGraphicsView* m_view;
 };
 
 #endif // STAFFSCENE_H

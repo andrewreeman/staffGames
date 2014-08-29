@@ -5,9 +5,10 @@
 #include <QTimer>
 #include <QGraphicsView>
 
-StaffScene::StaffScene(QObject *parent) :
-    QGraphicsScene(parent)
+StaffScene::StaffScene(QGraphicsView* view, QObject *parent) :
+    QGraphicsScene(parent), m_view(view)
 {
+    m_view->setScene(this);
     makeLine();
     makeTrebleClef();
     makeNote();
@@ -22,9 +23,13 @@ void StaffScene::makeLine(){
 
 void StaffScene::makeNote()
 {
+    QPointF viewCentre =m_view->rect().center();
+
     m_note = new Note();
-    m_note->setFlag(QGraphicsItem::ItemIsMovable, true);
-    m_note->moveBy(0, -25);        
+    m_note->setFlag(QGraphicsItem::ItemIsMovable, true);    
+    m_note->moveBy(viewCentre.x(), viewCentre.y());
+    m_view->centerOn(m_note);
+
     this->addItem(m_note);
 }
 

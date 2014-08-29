@@ -11,12 +11,9 @@ Title::Title(QWidget *parent) :
 }
 
 Title::~Title()
-{
-    qDebug() << "Title destroyed";
+{    
     delete ui;
 }
-
-
 
 void Title::on_titleToLogin_clicked()
 {

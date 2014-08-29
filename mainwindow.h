@@ -19,7 +19,7 @@ public:
     ~MainWindow();
 public slots:
     void startGame();
-    void killGame();
+    void stopGame();
 private:
     void removeWidget(QWidget* widget);
     void initGame();

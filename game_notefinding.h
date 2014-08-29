@@ -7,10 +7,11 @@
 #include <QMap>
 #include "staffscene.h"
 
-//TODO midi audio: not easily possibly. Instead think about audio synthesis.
+//TODO login user persistance
 //TODO multi-touch resize!
-//TODO bass clef
-//TODO check scrolling in title
+//TODO bass clef game
+//TODO half sample size on wavs?
+//TODO title graphics
 
 namespace Ui {
 class Game_NoteFinding;
@@ -25,15 +26,13 @@ public:
     explicit Game_NoteFinding(QWidget *parent = 0);
     ~Game_NoteFinding();
 
-signals:        
-    void killMe();
+signals:           
     void stopGame();
 
 private slots:
 
     void lineSelected(int line);    
     void on_pushButton_clicked();
-    void kill();
 
 private:
 
