@@ -1,55 +1,33 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-//#include <QMainWindow>
-#include <QWidget>
-#include <QGraphicsScene>
-#include <QMap>
-#include "staffscene.h"
+#include <QMainWindow>
+#include "game_notefinding.h"
+#include "title.h"
 
-//TODO midi audio: not easily possibly. Instead think about audio synthesis.
-//TODO multi-touch resize!
-//TODO bass clef
-//TODO check scrolling in title
 
 namespace Ui {
 class MainWindow;
 }
 
-//class MainWindow : public QMainWindow
-class MainWindow : public QWidget
+class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-
-signals:        
-    void killMe();
-    void stopGame();
-
-private slots:
-
-    void lineSelected(int line);    
-    void on_pushButton_clicked();
-    void kill();
-
+public slots:
+    void startGame();
+    void killGame();
 private:
+    void removeWidget(QWidget* widget);
+    void initGame();
+    void initTitle();
 
-    void makeMap();
-    void correct();
-    void incorrect();
-    void nextRound();
-    QList<QGraphicsItem*> getLines();
-
-    Ui::MainWindow *ui;    
-    StaffScene* m_scene; 
-    QMap<int, QString> m_lineToNoteMap;    
-    int m_answer;
-
-
-
+    Ui::MainWindow *ui;
+    Game_NoteFinding* m_main;
+    Title* m_renameMeToTitle;
 };
 
 #endif // MAINWINDOW_H

@@ -1,54 +1,34 @@
 #include "title.h"
-#include "ui_title.h"
-//#include <QSizePolicy>
+#include "ui_renamemetotitle.h"
 #include <QDebug>
 
-
 Title::Title(QWidget *parent) :
-    QMainWindow(parent), m_main(0), m_renameMeToTitle(0),
-    ui(new Ui::Title)
+    QWidget(parent),
+    ui(new Ui::RenameMeToTitle)
 {
     ui->setupUi(this);
-    centralWidget()->layout()->setContentsMargins(0, 0, 0, 0);
-    initTitle();
+    ui->stackedWidget->setCurrentIndex(0);
 }
 
 Title::~Title()
 {
+    qDebug() << "Title destroyed";
     delete ui;
 }
 
-void Title::startGame()
-{    
-    removeWidget(m_renameMeToTitle);    
-    initGame();
+
+
+void Title::on_titleToLogin_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(1);
 }
 
-void Title::killGame()
+void Title::on_loginToGames_clicked()
 {
-    removeWidget(m_main);
-    initTitle();
+    ui->stackedWidget->setCurrentIndex(2);
 }
 
-void Title::removeWidget(QWidget *widget)
+void Title::on_startGame_clicked()
 {
-    ui->verticalLayout_2->removeWidget(widget);
-    widget->hide();
-    widget->close();
-}
-
-void Title::initGame()
-{
-    m_main = new MainWindow(this);
-    m_main->setAttribute(Qt::WA_DeleteOnClose);
-    ui->verticalLayout_2->addWidget(m_main);
-    connect(m_main, SIGNAL(killMe()), this, SLOT(killGame()));
-}
-
-void Title::initTitle()
-{
-    m_renameMeToTitle = new RenameMeToTitle(this);
-    m_renameMeToTitle->setAttribute(Qt::WA_DeleteOnClose);
-    ui->verticalLayout_2->addWidget(m_renameMeToTitle);
-    connect(m_renameMeToTitle, SIGNAL(startGame()), this, SLOT(startGame()));
+    emit startGame();
 }

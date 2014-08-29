@@ -1,5 +1,4 @@
-//#include "mainwindow.h"
-#include "title.h"
+#include "mainwindow.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])
@@ -7,7 +6,7 @@ int main(int argc, char *argv[])
 
     qSetMessagePattern("(%{file}:%{line}): %{message}");
     QApplication a(argc, argv);
-    Title w;
+    MainWindow w;
     w.show();
 
     return a.exec();
