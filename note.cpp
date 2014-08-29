@@ -24,7 +24,6 @@ Note::Note()
 QVariant Note::itemChange(GraphicsItemChange change, const QVariant &value)
 {
     if (change == ItemPositionHasChanged && scene()) {
-        scene()->views().at(0)->ensureVisible(this, 10, 50);
         QPointF newPos = value.toPointF();
         QRectF rect = scene()->sceneRect();
         rect.setHeight( rect.height() - noteProperties::noteDiameter);
@@ -33,8 +32,12 @@ QVariant Note::itemChange(GraphicsItemChange change, const QVariant &value)
             newPos.setX(qMin(rect.right(), qMax(newPos.x(), rect.left())));
             newPos.setY(qMin(rect.bottom(), qMax(newPos.y(), rect.top())));
             setPos(newPos);
-        }
+        }        
+
     }
+    else if(change == ItemPositionChange && scene())
+        scene()->views().at(0)->ensureVisible(this, 10, 0);
+
     return QGraphicsItem::itemChange(change, value);
 }
 
