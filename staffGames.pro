@@ -14,22 +14,30 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
     ledgerline.cpp \
     linemanager.cpp \
     note.cpp \
     staffline.cpp \
-    staffscene.cpp
+    staffscene.cpp \
+    game_notefinding.cpp \
+    mainwindow.cpp \
+    title.cpp
 
-HEADERS  += mainwindow.h \
+HEADERS  += \
     staffGamesConstants.h \
     ledgerline.h \
     linemanager.h \
     note.h \
     staffline.h \
-    staffscene.h
+    staffscene.h \
+    game_notefinding.h \
+    mainwindow.h \
+    title.h
 
-FORMS    += mainwindow.ui
+FORMS    += \
+    game_notefinding.ui \
+    mainwindow.ui \
+    title.ui
 
 CONFIG += mobility
 CONFIG += c++11
