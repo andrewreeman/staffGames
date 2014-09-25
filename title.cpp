@@ -107,16 +107,28 @@ void Title::removeMenu()
 
 void Title::removeUser_clicked()
 {
-    bool userClickedOk;
-    QString label = "Enter a user name to remove: ";
-
-    QString user = QInputDialog::getText(this, "Remove User", label,
-                                            QLineEdit::Normal, "", &userClickedOk);
-    if(!user.isEmpty() && userClickedOk){
-        if(removeUser(user) == false){
-
+    QString selectAName = "Please select a name to remove.";
+    auto getAllUserNames = [&](){
+        QStringList userNames;
+        userNames << selectAName;
+        for(UserSettings storedUser : m_allUsers){
+            userNames << storedUser.getName();
         }
+        return userNames;
+    };
+    bool userClickedOk;
+    QString label = "Enter a user name to remove: ";    
+    QString user = QInputDialog::getItem(this, "Remove A User", label, getAllUserNames(),
+                                         0, false, &userClickedOk);
 
+    if(userClickedOk && user != selectAName){
+        QMessageBox msg;
+        msg.setText("Are you sure you wish to remove this user?");
+        msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msg.setDefaultButton(QMessageBox::No);
+        int userYes = msg.exec();
+        if(userYes == QMessageBox::Yes)
+            removeUser(user);
     }
 }
 
@@ -149,7 +161,7 @@ bool Title::removeUser(QString user)
             settings.endGroup();
         settings.endGroup();
     };
-    //TODO drop down list of users. And are you sure.
+
     if(isUserExist(user)){
         int userIndex = getUserIndex(user);
         m_allUsers.removeAt(userIndex);
