@@ -2,9 +2,11 @@
 #define TITLE_H
 
 #include <QWidget>
+#include "usersettings.h"
+#include "buttonrelay.h"
 
 namespace Ui {
-class RenameMeToTitle;
+class Title;
 }
 
 class Title : public QWidget
@@ -20,15 +22,27 @@ signals:
 
 private slots:
 
+    void userButtonClicked(int userIndex);
 
     void on_titleToLogin_clicked();
 
-    void on_loginToGames_clicked();
-
     void on_startGame_clicked();
 
+    void on_AddUser_clicked();
+
 private:
-    Ui::RenameMeToTitle *ui;
+
+    QList<UserSettings> getAllUserSettings();
+    bool addUser(QString newUser);
+    void makeAllUserButtons();
+    void makeUserButton(int userIndex);
+    void writeSettings();
+
+    Ui::Title *ui;
+
+    QList<ButtonRelay*> m_userButtonRelays;
+    UserSettings m_user;
+    QList<UserSettings> m_allUsers;
 };
 
 #endif // TITLE_H

@@ -2,9 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+
 #include "game_notefinding.h"
 #include "title.h"
-
 
 namespace Ui {
 class MainWindow;
@@ -27,7 +27,9 @@ private:
 
     Ui::MainWindow *ui;
     Game_NoteFinding* m_main;
-    Title* m_renameMeToTitle;
+    Title* m_title;
+
+
 };
 
 #endif // MAINWINDOW_H

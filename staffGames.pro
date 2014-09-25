@@ -21,7 +21,9 @@ SOURCES += main.cpp\
     staffscene.cpp \
     game_notefinding.cpp \
     mainwindow.cpp \
-    title.cpp
+    title.cpp \
+    usersettings.cpp \
+    buttonrelay.cpp
 
 HEADERS  += \
     staffGamesConstants.h \
@@ -32,7 +34,9 @@ HEADERS  += \
     staffscene.h \
     game_notefinding.h \
     mainwindow.h \
-    title.h
+    title.h \
+    usersettings.h \
+    buttonrelay.h
 
 FORMS    += \
     game_notefinding.ui \

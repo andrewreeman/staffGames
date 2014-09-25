@@ -1,10 +1,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+
 #include <QDebug>
 
-
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent), m_main(0), m_renameMeToTitle(0),
+    QMainWindow(parent), m_main(0), m_title(0),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
@@ -20,7 +20,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::startGame()
 {    
-    removeWidget(m_renameMeToTitle);    
+    removeWidget(m_title);
     initGame();
 }
 
@@ -47,8 +47,8 @@ void MainWindow::initGame()
 
 void MainWindow::initTitle()
 {
-    m_renameMeToTitle = new Title(this);
-    m_renameMeToTitle->setAttribute(Qt::WA_DeleteOnClose);
-    ui->verticalLayout_2->addWidget(m_renameMeToTitle);
-    connect(m_renameMeToTitle, SIGNAL(startGame()), this, SLOT(startGame()));
+    m_title = new Title(this);
+    m_title->setAttribute(Qt::WA_DeleteOnClose);
+    ui->verticalLayout_2->addWidget(m_title);
+    connect(m_title, SIGNAL(startGame()), this, SLOT(startGame()));
 }
