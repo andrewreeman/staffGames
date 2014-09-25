@@ -19,7 +19,7 @@ public:
 
 signals:
     void startGame();    
-
+    void setUser(UserSettings user);
 private slots:
 
     void userButtonClicked(QString userIndex);
@@ -36,6 +36,7 @@ private slots:
 private:
 
     QList<UserSettings> getAllUserSettings();
+//TODO really think about how to organise user settings in game...
     bool addUser(QString newUser);
     bool removeUser(QString user);
     bool isUserExist(QString user);

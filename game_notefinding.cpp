@@ -9,18 +9,20 @@
 #include <QMouseEvent>
 #include <QTime>
 #include <QPointF>
-
 #include <QDebug>
 #include <QSound>
 #include <QMediaPlayer>
 #include <QFileInfo>
+#include <QSettings>
 
+#include "mainwindow.h"
 
 Game_NoteFinding::Game_NoteFinding(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Game_NoteFinding)
-{
+{    
     ui->setupUi(this);
+    m_user = ((MainWindow*)parent)->getUser();
     m_scene = new StaffScene(ui->graphicsView, this);
     ui->score->setValue(0);
     makeMap();
@@ -53,8 +55,6 @@ void Game_NoteFinding::makeMap()
             totalLetters.push_back(letter);
         }
     };
-
-
     auto f_octavizeNotes = [&](){
         for(int i=totalLetters.size()-1; i>=0; --i){
             QString letter = totalLetters.at(i);           
@@ -65,7 +65,6 @@ void Game_NoteFinding::makeMap()
         }
 
     };
-
     auto f_copyTo_IntLineNumber_Map = [&](){
         for(int i=0; i<totalLetters.size(); ++i){
             m_lineToNoteMap.insert(i-numLedgerNotes, totalLetters.at(i));            
@@ -137,7 +136,21 @@ QList<QGraphicsItem *> Game_NoteFinding::getLines()
     return lines;
 }
 
+void Game_NoteFinding::writeUserSettings()
+{
+    QSettings settings;
+    settings.beginGroup("users");
+        settings.beginGroup( m_user->getName() );
+            settings.setValue("totalBeats", m_user->getScore() );
+        settings.endGroup();
+    settings.endGroup();
+    settings.sync();
+}
+
 void Game_NoteFinding::on_pushButton_clicked()
 {
+
+    m_user->addScore(ui->score->value());
+    writeUserSettings();
     emit stopGame();
 }

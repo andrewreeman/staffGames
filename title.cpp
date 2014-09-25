@@ -71,15 +71,19 @@ void Title::makeUserButton(int userIndex)
 
 void Title::userButtonClicked(QString user)
 {    
+
     int userIndex = getUserIndex(user);
     m_user = m_allUsers.at(userIndex);
     ui->userName->setText( m_user.getName() );
     ui->userScore->setText( QString::number(m_user.getScore()) );
-    ui->stackedWidget->setCurrentIndex(2);    
+    ui->stackedWidget->setCurrentIndex(2);
+    emit setUser(m_user);
 }
 
 void Title::writeSettings()
 {
+    // TODO do not need this in title
+    //TODO do not need to store which user in title
     QSettings settings;
     settings.beginGroup("users");
         settings.beginGroup( m_user.getName() );

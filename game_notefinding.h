@@ -1,10 +1,11 @@
 #ifndef Game_NoteFinding_H
 #define Game_NoteFinding_H
 
-//#include <QMainWindow>
 #include <QWidget>
 #include <QGraphicsScene>
 #include <QMap>
+
+#include "usersettings.h"
 #include "staffscene.h"
 
 //TODO multi-touch resize!
@@ -16,7 +17,6 @@ namespace Ui {
 class Game_NoteFinding;
 }
 
-//class MainWindow : public QMainWindow
 class Game_NoteFinding : public QWidget
 {
     Q_OBJECT
@@ -40,11 +40,13 @@ private:
     void incorrect();
     void nextRound();
     QList<QGraphicsItem*> getLines();
+    void writeUserSettings();
 
     Ui::Game_NoteFinding *ui;
     StaffScene* m_scene; 
     QMap<int, QString> m_lineToNoteMap;    
     int m_answer;
+    UserSettings* m_user;
 
 };
 

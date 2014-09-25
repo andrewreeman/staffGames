@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent), m_main(0), m_title(0),
     ui(new Ui::MainWindow)
 {    
+
     ui->setupUi(this);
     centralWidget()->layout()->setContentsMargins(0, 0, 0, 0);
     initTitle();
@@ -21,6 +22,7 @@ MainWindow::~MainWindow()
 void MainWindow::startGame()
 {    
     removeWidget(m_title);
+    disconnect(m_title, SIGNAL(setUser(UserSettings)), this, SLOT(setUser(UserSettings)));
     initGame();
 }
 
@@ -29,7 +31,12 @@ void MainWindow::stopGame()
     removeWidget(m_main);
     initTitle();
 }
-//TODO keeping score
+
+void MainWindow::setUser(UserSettings user)
+{
+    m_user = user;
+}
+
 void MainWindow::removeWidget(QWidget *widget)
 {
     ui->verticalLayout_2->removeWidget(widget);
@@ -51,4 +58,5 @@ void MainWindow::initTitle()
     m_title->setAttribute(Qt::WA_DeleteOnClose);
     ui->verticalLayout_2->addWidget(m_title);
     connect(m_title, SIGNAL(startGame()), this, SLOT(startGame()));
+    connect(m_title, SIGNAL(setUser(UserSettings)), this, SLOT(setUser(UserSettings)));
 }
