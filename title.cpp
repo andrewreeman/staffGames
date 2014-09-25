@@ -1,9 +1,13 @@
 #include "title.h"
 #include "ui_title.h"
+#include "mainwindow.h"
 
 #include <QDebug>
 #include <QSettings>
 #include <QInputDialog>
+#include <QMenuBar>
+#include <QMenu>
+#include <QAction>
 
 Title::Title(QWidget *parent) :
     QWidget(parent),
@@ -14,15 +18,17 @@ Title::Title(QWidget *parent) :
 }
 
 Title::~Title()
-{    
+{        
     delete ui;
 }
 
 void Title::on_titleToLogin_clicked()
-{
+{    
     ui->stackedWidget->setCurrentIndex(1);
     m_allUsers = getAllUserSettings();
-    makeAllUserButtons();
+    makeAllUserButtons();    
+    addMenu();
+    connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(removeMenu()));
 }
 
 QList<UserSettings> Title::getAllUserSettings()
@@ -52,19 +58,23 @@ void Title::makeUserButton(int userIndex)
 {
     QLayout* scrollLayout = ui->scrollAreaWidgetContents->layout();
     UserSettings user = m_allUsers.at(userIndex);
-    QPushButton* button = new QPushButton(user.getName());
-    ButtonRelay* buttonRelay = new ButtonRelay(button,userIndex, this);
+    QString name = user.getName();
+    QPushButton* button = new QPushButton(name);
+    ButtonRelay* buttonRelay = new ButtonRelay(button,name, this);
 
+    m_userPushButtons.append(button);
+    m_userButtonRelays.append(buttonRelay);
     scrollLayout->addWidget(button);
-    connect(buttonRelay, SIGNAL(buttonClicked(int)), this, SLOT(userButtonClicked(int)));
+    connect(buttonRelay, SIGNAL(buttonClicked(QString)), this, SLOT(userButtonClicked(QString)));
 }
 
-void Title::userButtonClicked(int userIndex)
-{
+void Title::userButtonClicked(QString user)
+{    
+    int userIndex = getUserIndex(user);
     m_user = m_allUsers.at(userIndex);
     ui->userName->setText( m_user.getName() );
     ui->userScore->setText( QString::number(m_user.getScore()) );
-    ui->stackedWidget->setCurrentIndex(2);
+    ui->stackedWidget->setCurrentIndex(2);    
 }
 
 void Title::writeSettings()
@@ -78,15 +88,37 @@ void Title::writeSettings()
     settings.sync();
 }
 
+void Title::addMenu()
+{
+    QMenuBar* menuBar = ((MainWindow*)parent())->menuBar();
+    QMenu* menu = new QMenu("Tools");
+    QAction* action = menu->addAction("Remove user");
+    menuBar->addMenu(menu);
+    connect(action, SIGNAL(triggered()), this, SLOT(removeUser_clicked()));
+}
+
+void Title::removeMenu()
+{
+    QMenuBar* menuBar = ((MainWindow*)parent())->menuBar();
+    menuBar->clear();
+    disconnect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(removeMenu()));
+}
+
+void Title::removeUser_clicked()
+{
+    bool userClickedOk;
+    QString label = "Enter a user name to remove: ";
+    QString user = QInputDialog::getText(this, "Remove User", label,
+                                            QLineEdit::Normal, "", &userClickedOk);
+    //TODO error popup
+    if(!user.isEmpty() && userClickedOk){
+        if(removeUser(user) == false)
+            qDebug() << "ERROR! NO USER";
+    }
+}
+
 bool Title::addUser(QString newUser)
 {
-    auto checkUserExists = [&](){
-        for(UserSettings user : m_allUsers){
-            if(user.getName() == newUser)
-                return false;
-        }
-        return true;
-    };
     auto addUserToLocalSettings = [&](){
         QSettings settings;
         settings.beginGroup("users");
@@ -95,13 +127,55 @@ bool Title::addUser(QString newUser)
             settings.endGroup();
         settings.endGroup();
     };
-
-    if(checkUserExists() == false)
+    //TODO need error
+    if(isUserExist(newUser))
         return false;
     m_allUsers.push_back(UserSettings(newUser, 0));
     addUserToLocalSettings();
     makeUserButton(m_allUsers.size()-1);
     return true;
+}
+
+bool Title::removeUser(QString user)
+{    
+    auto removeFromStoredUsers = [&](){
+        QSettings settings;
+        settings.beginGroup("users");
+            settings.beginGroup(user);
+                settings.remove("");
+            settings.endGroup();
+        settings.endGroup();
+    };
+    //TODO drop down list of users. And are you sure.
+    if(isUserExist(user)){
+        int userIndex = getUserIndex(user);
+        m_allUsers.removeAt(userIndex);
+        delete m_userButtonRelays.takeAt(userIndex);
+        delete m_userPushButtons.takeAt(userIndex);
+        removeFromStoredUsers();    
+        return true;
+    }
+    else
+        return false;    
+}
+
+bool Title::isUserExist(QString user)
+{
+        for(UserSettings storedUser : m_allUsers){
+            if(storedUser.getName() == user)
+                return true;
+        }
+        return false;
+}
+
+int Title::getUserIndex(QString user)
+{
+    for(int i=0; i<m_allUsers.size(); ++i){
+       UserSettings storedUser = m_allUsers.at(i);
+       if(storedUser.getName() == user)
+           return i;
+    }
+    return -1;
 }
 
 void Title::on_startGame_clicked()
@@ -118,7 +192,4 @@ void Title::on_AddUser_clicked()
                                             QLineEdit::Normal, "", &userClickedOk);
     if(userClickedOk && !newUser.isEmpty())
         addUser(newUser);
-
-     // TODO remove user admin
-
 }

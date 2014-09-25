@@ -6,7 +6,7 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent), m_main(0), m_title(0),
     ui(new Ui::MainWindow)
-{
+{    
     ui->setupUi(this);
     centralWidget()->layout()->setContentsMargins(0, 0, 0, 0);
     initTitle();
@@ -29,7 +29,7 @@ void MainWindow::stopGame()
     removeWidget(m_main);
     initTitle();
 }
-
+//TODO keeping score
 void MainWindow::removeWidget(QWidget *widget)
 {
     ui->verticalLayout_2->removeWidget(widget);

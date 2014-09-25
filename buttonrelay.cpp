@@ -1,7 +1,7 @@
 #include "buttonrelay.h"
 
-ButtonRelay::ButtonRelay(QPushButton* button, int userIndex, QObject *parent) :
-    m_button(button), m_userIndex(userIndex), QObject(parent)
+ButtonRelay::ButtonRelay(QPushButton* button, QString userName, QObject *parent) :
+    m_button(button), m_userName(userName), QObject(parent)
 {
     connect(button, SIGNAL(clicked()), this, SLOT(clicked()));
 }
@@ -9,5 +9,5 @@ ButtonRelay::ButtonRelay(QPushButton* button, int userIndex, QObject *parent) :
 
 void ButtonRelay::clicked()
 {
-    emit buttonClicked(m_userIndex);
+    emit buttonClicked(m_userName);
 }

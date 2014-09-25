@@ -9,14 +9,14 @@ class ButtonRelay : public QObject
 {
     Q_OBJECT
 public:
-    explicit ButtonRelay(QPushButton*, int, QObject *parent = 0);
+    explicit ButtonRelay(QPushButton*, QString, QObject *parent = 0);
 
 signals:
-    void buttonClicked(int);
+    void buttonClicked(QString);
 public slots:
     void clicked();
 private:
-    int m_userIndex;
+    QString m_userName;
     QPushButton* m_button;
 };
 

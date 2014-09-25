@@ -18,11 +18,11 @@ public:
     ~Title();
 
 signals:
-    void startGame();
+    void startGame();    
 
 private slots:
 
-    void userButtonClicked(int userIndex);
+    void userButtonClicked(QString userIndex);
 
     void on_titleToLogin_clicked();
 
@@ -30,17 +30,25 @@ private slots:
 
     void on_AddUser_clicked();
 
+    void removeUser_clicked();
+    void removeMenu();
+
 private:
 
     QList<UserSettings> getAllUserSettings();
     bool addUser(QString newUser);
+    bool removeUser(QString user);
+    bool isUserExist(QString user);
+    int getUserIndex(QString user);
     void makeAllUserButtons();
     void makeUserButton(int userIndex);
     void writeSettings();
+    void addMenu();
 
     Ui::Title *ui;
 
     QList<ButtonRelay*> m_userButtonRelays;
+    QList<QPushButton*> m_userPushButtons;
     UserSettings m_user;
     QList<UserSettings> m_allUsers;
 };
