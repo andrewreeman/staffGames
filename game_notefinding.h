@@ -7,7 +7,6 @@
 #include <QMap>
 #include "staffscene.h"
 
-//TODO login user persistance
 //TODO multi-touch resize!
 //TODO bass clef game
 //TODO half sample size on wavs?

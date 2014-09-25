@@ -8,6 +8,7 @@
 #include <QMenuBar>
 #include <QMenu>
 #include <QAction>
+#include <QMessageBox>
 
 Title::Title(QWidget *parent) :
     QWidget(parent),
@@ -108,12 +109,14 @@ void Title::removeUser_clicked()
 {
     bool userClickedOk;
     QString label = "Enter a user name to remove: ";
+
     QString user = QInputDialog::getText(this, "Remove User", label,
                                             QLineEdit::Normal, "", &userClickedOk);
-    //TODO error popup
     if(!user.isEmpty() && userClickedOk){
-        if(removeUser(user) == false)
-            qDebug() << "ERROR! NO USER";
+        if(removeUser(user) == false){
+
+        }
+
     }
 }
 
@@ -126,10 +129,10 @@ bool Title::addUser(QString newUser)
                 settings.setValue( "totalBeats", m_allUsers.last().getScore() );
             settings.endGroup();
         settings.endGroup();
-    };
-    //TODO need error
-    if(isUserExist(newUser))
+    };    
+    if(isUserExist(newUser)){
         return false;
+    }
     m_allUsers.push_back(UserSettings(newUser, 0));
     addUserToLocalSettings();
     makeUserButton(m_allUsers.size()-1);
@@ -190,6 +193,11 @@ void Title::on_AddUser_clicked()
     QString label = "Please enter a name for the new user: ";
     QString newUser = QInputDialog::getText(this, "New User", label,
                                             QLineEdit::Normal, "", &userClickedOk);
-    if(userClickedOk && !newUser.isEmpty())
-        addUser(newUser);
+    if(userClickedOk && !newUser.isEmpty()){
+        if(!addUser(newUser)){
+            QMessageBox msg;
+            msg.setText("This name is taken! Please add a unique user name.");
+            msg.exec();
+        }
+    }
 }
