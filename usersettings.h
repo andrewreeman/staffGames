@@ -14,6 +14,7 @@ public:
     void addScore(int addToScore);
     void setScore(int score){m_score = score;}
     void setName(QString name){m_userName = name;}
+    void write();
 
 private:
     int m_score;

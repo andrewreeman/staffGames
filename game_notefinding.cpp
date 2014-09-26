@@ -136,21 +136,11 @@ QList<QGraphicsItem *> Game_NoteFinding::getLines()
     return lines;
 }
 
-void Game_NoteFinding::writeUserSettings()
-{
-    QSettings settings;
-    settings.beginGroup("users");
-        settings.beginGroup( m_user->getName() );
-            settings.setValue("totalBeats", m_user->getScore() );
-        settings.endGroup();
-    settings.endGroup();
-    settings.sync();
-}
 
 void Game_NoteFinding::on_pushButton_clicked()
 {
 
     m_user->addScore(ui->score->value());
-    writeUserSettings();
+    m_user->write();
     emit stopGame();
 }
