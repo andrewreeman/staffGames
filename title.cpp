@@ -69,28 +69,15 @@ void Title::makeUserButton(int userIndex)
     connect(buttonRelay, SIGNAL(buttonClicked(QString)), this, SLOT(userButtonClicked(QString)));
 }
 
-void Title::userButtonClicked(QString user)
+void Title::userButtonClicked(QString userName)
 {    
 
-    int userIndex = getUserIndex(user);
-    m_user = m_allUsers.at(userIndex);
-    ui->userName->setText( m_user.getName() );
-    ui->userScore->setText( QString::number(m_user.getScore()) );
+    int userIndex = getUserIndex(userName);
+    UserSettings user = m_allUsers.at(userIndex);
+    ui->userName->setText( user.getName() );
+    ui->userScore->setText( QString::number(user.getScore()) );
     ui->stackedWidget->setCurrentIndex(2);
-    emit setUser(m_user);
-}
-
-void Title::writeSettings()
-{
-    // TODO do not need this in title
-    //TODO do not need to store which user in title
-    QSettings settings;
-    settings.beginGroup("users");
-        settings.beginGroup( m_user.getName() );
-            settings.setValue("totalBeats", m_user.getScore() );
-        settings.endGroup();
-    settings.endGroup();
-    settings.sync();
+    emit setUser(user);
 }
 
 void Title::addMenu()

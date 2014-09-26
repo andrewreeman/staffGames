@@ -16,8 +16,9 @@ signals:
 public slots:
     void clicked();
 private:
-    QString m_userName;
     QPushButton* m_button;
+    QString m_userName;
+
 };
 
 #endif // BUTTONRELAY_H

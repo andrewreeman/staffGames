@@ -10,6 +10,7 @@
 
 //TODO multi-touch resize!
 //TODO bass clef game
+//TODO android test
 //TODO half sample size on wavs?
 //TODO title graphics
 

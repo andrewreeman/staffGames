@@ -22,7 +22,7 @@ signals:
     void setUser(UserSettings user);
 private slots:
 
-    void userButtonClicked(QString userIndex);
+    void userButtonClicked(QString userName);
 
     void on_titleToLogin_clicked();
 
@@ -36,21 +36,19 @@ private slots:
 private:
 
     QList<UserSettings> getAllUserSettings();
-//TODO really think about how to organise user settings in game...
+
     bool addUser(QString newUser);
     bool removeUser(QString user);
     bool isUserExist(QString user);
     int getUserIndex(QString user);
     void makeAllUserButtons();
     void makeUserButton(int userIndex);
-    void writeSettings();
     void addMenu();
 
     Ui::Title *ui;
 
     QList<ButtonRelay*> m_userButtonRelays;
     QList<QPushButton*> m_userPushButtons;
-    UserSettings m_user;
     QList<UserSettings> m_allUsers;
 };
 
