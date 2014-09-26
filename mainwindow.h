@@ -29,10 +29,10 @@ private:
     void initGame();
     void initTitle();
 
-    Ui::MainWindow *ui;
     Game_NoteFinding* m_main;
     Title* m_title;
     UserSettings m_user;
+    Ui::MainWindow *ui;
 };
 
 #endif // MAINWINDOW_H

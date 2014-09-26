@@ -17,8 +17,8 @@ public:
     void write();
 
 private:
-    int m_score;
     QString m_userName;
+    int m_score;
 };
 
 #endif // USERSETTINGS_H
