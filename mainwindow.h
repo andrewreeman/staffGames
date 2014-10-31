@@ -31,7 +31,7 @@ private:
     void initTitle();
 
     GameFactory m_gameFactory;
-    Game* m_main;
+    Game* m_game;
     Title* m_title;
     UserSettings m_user;
     Ui::MainWindow *ui;

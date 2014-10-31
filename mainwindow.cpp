@@ -9,7 +9,7 @@
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent), m_main(0), m_title(0),
+    QMainWindow(parent), m_game(0), m_title(0),
     ui(new Ui::MainWindow)
 {    
 
@@ -33,7 +33,7 @@ void MainWindow::startGame(int gameId)
 
 void MainWindow::stopGame()
 {
-    removeWidget(m_main);
+    removeWidget(m_game);
     initTitle();
 }
 
@@ -51,11 +51,11 @@ void MainWindow::removeWidget(QWidget *widget)
 
 void MainWindow::initGame(int gameId)
 {
-    m_main = m_gameFactory.createGame(gameId, this);
-    m_main->setAttribute(Qt::WA_DeleteOnClose);
-    ui->gameContainer->addWidget(m_main);
-    connect(m_main, SIGNAL(stopGame()), this, SLOT(stopGame()));
-    m_main->startGame();
+    m_game = m_gameFactory.createGame(gameId, this);
+    m_game->setAttribute(Qt::WA_DeleteOnClose);
+    ui->gameContainer->addWidget(m_game);
+    connect(m_game, SIGNAL(stopGame()), this, SLOT(stopGame()));
+    m_game->startGame();
 }
 
 void MainWindow::initTitle()
