@@ -184,11 +184,6 @@ int Title::getUserIndex(QString user)
     return -1;
 }
 
-void Title::on_startGame_clicked()
-{
-    emit startGame();
-}
-
 void Title::on_AddUser_clicked()
 {
 
@@ -203,4 +198,14 @@ void Title::on_AddUser_clicked()
             msg.exec();
         }
     }
+}
+
+void Title::on_playFullStave_clicked()
+{
+    emit startGame();
+}
+
+void Title::on_playLines_clicked()
+{
+    qDebug() << " play lines clicked";
 }

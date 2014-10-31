@@ -26,12 +26,14 @@ private slots:
 
     void on_titleToLogin_clicked();
 
-    void on_startGame_clicked();
-
     void on_AddUser_clicked();
 
     void removeUser_clicked();
     void removeMenu();
+
+    void on_playFullStave_clicked();
+
+    void on_playLines_clicked();
 
 private:
 

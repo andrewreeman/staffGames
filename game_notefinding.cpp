@@ -26,6 +26,7 @@ Game_NoteFinding::Game_NoteFinding(QWidget *parent) :
     m_scene = new StaffScene(ui->graphicsView, this);
     ui->score->setValue(0);
     makeMap();
+    setSelectableLines();
     nextRound();
     ui->graphicsView->setDragMode(QGraphicsView::ScrollHandDrag);
     connect(m_scene, SIGNAL( lineSelected(int) ), this, SLOT( lineSelected(int) ));
@@ -115,8 +116,19 @@ void Game_NoteFinding::incorrect()
 
 void Game_NoteFinding::nextRound()
 {
-    qsrand(QTime::currentTime().msec());
-    m_answer = ( qrand() % m_lineToNoteMap.size() ) - staffLayout::numLedgerLines*2 ;
+    auto getRandLine = [&](){
+        int newAns;
+
+        do{
+            int randIndex = qrand() % m_selectableLines.size();
+            newAns = m_selectableLines.at(randIndex);
+        }
+        while(newAns == m_answer);
+        return newAns;
+    };
+
+    qsrand(QTime::currentTime().msec());   
+    m_answer = getRandLine();
     ui->guiChallenge->setText("Find the note: " + m_lineToNoteMap.value(m_answer));
 }
 
@@ -134,6 +146,14 @@ QList<QGraphicsItem *> Game_NoteFinding::getLines()
         }
     }
     return lines;
+}
+
+void Game_NoteFinding::setSelectableLines()
+{
+    // all lines
+    for(int i=0; i<m_lineToNoteMap.size(); ++i){
+        m_selectableLines.push_back(i- (staffLayout::numLedgerLines*2));
+    };
 }
 
 
