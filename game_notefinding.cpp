@@ -50,8 +50,6 @@ void Game_NoteFinding::addSelectableLine(int lineIndex)
     if(lineIndex >= lowerRange && lineIndex <= higherRange){
         m_selectableLines.push_back(lineIndex);
     };
-
-    qDebug() << lineIndex;
 }
 
 void Game_NoteFinding::makeMap()

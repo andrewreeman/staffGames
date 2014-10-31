@@ -2,7 +2,7 @@
 #define LINEMANAGER_H
 
 #include <QGraphicsItem>
-#include <QGraphicsLineItem>
+#include <QGraphicsItem>
 #include <QList>
 #include <QPen>
 
@@ -10,8 +10,7 @@
 #include "ledgerline.h"
 
 
-//WARNING line manager should not be a QGraphicsLineItem!
-class lineManager : public QGraphicsLineItem
+class lineManager : public QGraphicsItem
 {    
 public:    
     lineManager();
