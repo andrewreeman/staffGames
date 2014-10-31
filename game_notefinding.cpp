@@ -43,8 +43,7 @@ void Game_NoteFinding::startGame()
 
 void Game_NoteFinding::addSelectableLine(int lineIndex)
 {
-    //TODO must redo the ledger line variable. Lines = black lines + spaces. Atm it means black lines which is confusing
-    int totalNumLedgers = staffLayout::numLedgerLines * 2;
+    int totalNumLedgers = staffLayout::numLedgerNotes;
     int lowerRange = -totalNumLedgers;
     int higherRange = m_lineToNoteMap.size() - totalNumLedgers;
 
@@ -59,8 +58,8 @@ void Game_NoteFinding::makeMap()
 {
     QList<QChar> noteLetters{'F', 'E', 'D', 'C', 'B', 'A', 'G'}; // top staff note first descending
     QList<QString> totalLetters;
-    int numLedgerNotes = staffLayout::numLedgerLines*2;
-    int numStaffNotes = staffLayout::numStaffLines*2;
+    int numLedgerNotes = staffLayout::numLedgerNotes;
+    int numStaffNotes = staffLayout::numStaffLines;
     int totalNotes = (numLedgerNotes*2)+numStaffNotes;
     int noteIndex = noteLetters.size() - numLedgerNotes;    
     int currentOctave = 3;
@@ -170,7 +169,7 @@ void Game_NoteFinding::setSelectableLines()
 {
     // all lines
     for(int i=0; i<m_lineToNoteMap.size(); ++i){
-        addSelectableLine( i - (staffLayout::numLedgerLines*2));
+        addSelectableLine( i - (staffLayout::numLedgerNotes*2));
     };
 }
 

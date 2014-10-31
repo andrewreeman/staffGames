@@ -20,8 +20,9 @@ namespace  staffLayout{
     const int ledgerLinelength = noteProperties::noteDiameter*4;
     const int numStaffLines = 5;
     const int onePixel = 1;
-    const int numLedgerLines = 3;
-    const int upperBounds = -( (whiteLineHeight*numLedgerLines) + (blackLineHeight*numLedgerLines) );
+    const int numBlackLedger = 3;
+    const int numLedgerNotes = numBlackLedger * 2; // number of black + white lines
+    const int upperBounds = -( (whiteLineHeight*numBlackLedger) + (blackLineHeight*numBlackLedger) );
     const int lowerBounds = -upperBounds + ((whiteLineHeight*numStaffLines) + (blackLineHeight*numStaffLines));
 }
 

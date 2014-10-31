@@ -88,7 +88,7 @@ void lineManager::createUpperLedgers()
 
     offsetRects(lineTemplates, Yoffset);
     pen.setStyle(Qt::NoPen);
-    for(int i=0; i<staffLayout::numLedgerLines*2; i+=2){
+    for(int i=0; i<staffLayout::numLedgerNotes; i+=2){
         for(int parity=0; parity<2; ++parity){
             int line = i+parity;
             int lineNumber = -( i+(2-parity) );
@@ -117,7 +117,7 @@ void lineManager::createLowerLedgers()
         offsetRects(lineTemplates, Yoffset);
     }
     pen.setStyle(Qt::NoPen);
-    for(int i=0; i<staffLayout::numLedgerLines*2; i+=2){
+    for(int i=0; i<staffLayout::numLedgerNotes; i+=2){
         for(int parity=0; parity<2; ++parity){
             int line = i+parity;
             int lineNumber = line+m_staffLines.size();
