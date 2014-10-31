@@ -44,7 +44,7 @@ void MainWindow::setUser(UserSettings user)
 
 void MainWindow::removeWidget(QWidget *widget)
 {
-    ui->verticalLayout_2->removeWidget(widget);
+    ui->gameContainer->removeWidget(widget);
     widget->hide();
     widget->close();
 }
@@ -53,8 +53,7 @@ void MainWindow::initGame(int gameId)
 {
     m_main = m_gameFactory.createGame(gameId, this);
     m_main->setAttribute(Qt::WA_DeleteOnClose);
-    //TODO verticalLayout_2 is not descriptive
-    ui->verticalLayout_2->addWidget(m_main);
+    ui->gameContainer->addWidget(m_main);
     connect(m_main, SIGNAL(stopGame()), this, SLOT(stopGame()));
     m_main->startGame();
 }
@@ -63,7 +62,7 @@ void MainWindow::initTitle()
 {
     m_title = new Title(this);
     m_title->setAttribute(Qt::WA_DeleteOnClose);
-    ui->verticalLayout_2->addWidget(m_title);
+    ui->gameContainer->addWidget(m_title);
     connect(m_title, SIGNAL(startGame(int)), this, SLOT(startGame(int)));
 
     connect(m_title, SIGNAL(setUser(UserSettings)), this, SLOT(setUser(UserSettings)));
