@@ -18,7 +18,8 @@ public:
     ~Title();
 
 signals:
-    void startGame();    
+    void startGame(int);
+    void startLineFind();
     void setUser(UserSettings user);
 private slots:
 
@@ -34,6 +35,8 @@ private slots:
     void on_playFullStave_clicked();
 
     void on_playLines_clicked();
+
+    void on_playSpaces_clicked();
 
 private:
 

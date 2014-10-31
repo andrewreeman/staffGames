@@ -7,27 +7,21 @@
 
 #include "usersettings.h"
 #include "staffscene.h"
-
-//TODO multi-touch resize!
-//TODO bass clef game
-//TODO android test
-//TODO half sample size on wavs?
-//TODO title graphics
+#include "game.h"
 
 namespace Ui {
 class Game_NoteFinding;
 }
 
-class Game_NoteFinding : public QWidget
+class Game_NoteFinding : public Game
 {
-    Q_OBJECT
 
+    Q_OBJECT
 public:
     explicit Game_NoteFinding(QWidget *parent = 0);
     ~Game_NoteFinding();
-
-signals:           
-    void stopGame();
+    void addSelectableLine(int lineIndex);
+    virtual void startGame();
 
 private slots:
 

@@ -1,6 +1,7 @@
 #include "title.h"
 #include "ui_title.h"
 #include "mainwindow.h"
+#include "staffGamesConstants.h"
 
 #include <QDebug>
 #include <QSettings>
@@ -202,10 +203,15 @@ void Title::on_AddUser_clicked()
 
 void Title::on_playFullStave_clicked()
 {
-    emit startGame();
+    emit startGame(gameIDs::noteFinderAll);
 }
 
 void Title::on_playLines_clicked()
 {
-    qDebug() << " play lines clicked";
+    emit startGame(gameIDs::noteFinderLines);
+}
+
+void Title::on_playSpaces_clicked()
+{
+    emit startGame(gameIDs::noteFinderSpaces);
 }

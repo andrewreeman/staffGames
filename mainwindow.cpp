@@ -1,5 +1,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "staffGamesConstants.h"
+
+#include "game_notefinding.h"
+#include "game_linefinding.h"
+#include "game_spacefinding.h"
 
 #include <QDebug>
 
@@ -19,11 +24,11 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::startGame()
+void MainWindow::startGame(int gameId)
 {    
     removeWidget(m_title);
     disconnect(m_title, SIGNAL(setUser(UserSettings)), this, SLOT(setUser(UserSettings)));
-    initGame();
+    initGame(gameId);
 }
 
 void MainWindow::stopGame()
@@ -44,12 +49,14 @@ void MainWindow::removeWidget(QWidget *widget)
     widget->close();
 }
 
-void MainWindow::initGame()
+void MainWindow::initGame(int gameId)
 {
-    m_main = new Game_NoteFinding(this);
+    m_main = m_gameFactory.createGame(gameId, this);
     m_main->setAttribute(Qt::WA_DeleteOnClose);
+    //TODO verticalLayout_2 is not descriptive
     ui->verticalLayout_2->addWidget(m_main);
     connect(m_main, SIGNAL(stopGame()), this, SLOT(stopGame()));
+    m_main->startGame();
 }
 
 void MainWindow::initTitle()
@@ -57,6 +64,7 @@ void MainWindow::initTitle()
     m_title = new Title(this);
     m_title->setAttribute(Qt::WA_DeleteOnClose);
     ui->verticalLayout_2->addWidget(m_title);
-    connect(m_title, SIGNAL(startGame()), this, SLOT(startGame()));
+    connect(m_title, SIGNAL(startGame(int)), this, SLOT(startGame(int)));
+
     connect(m_title, SIGNAL(setUser(UserSettings)), this, SLOT(setUser(UserSettings)));
 }

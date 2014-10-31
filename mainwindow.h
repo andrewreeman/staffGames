@@ -4,9 +4,10 @@
 #include <QMainWindow>
 #include <QDebug>
 
-#include "game_notefinding.h"
+#include "game.h"
 #include "title.h"
 #include "usersettings.h"
+#include "gamefactory.h"
 
 namespace Ui {
 class MainWindow;
@@ -21,15 +22,16 @@ public:
     ~MainWindow();
     UserSettings* getUser(){return &m_user;}
 public slots:
-    void startGame();
+    void startGame(int);
     void stopGame();
     void setUser(UserSettings user);
 private:
     void removeWidget(QWidget* widget);
-    void initGame();
+    void initGame(int gameId);
     void initTitle();
 
-    Game_NoteFinding* m_main;
+    GameFactory m_gameFactory;
+    Game* m_main;
     Title* m_title;
     UserSettings m_user;
     Ui::MainWindow *ui;

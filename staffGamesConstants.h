@@ -56,4 +56,10 @@ namespace objectPropertyTypes{
     const QString trebleType = "treble"; 
 }
 
+namespace gameIDs{
+    const int noteFinderAll = 0;
+    const int noteFinderLines = 1;
+    const int noteFinderSpaces = 2;
+}
+
 #endif // STAFFGAMESCONSTANTS_H

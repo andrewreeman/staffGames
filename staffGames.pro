@@ -23,7 +23,11 @@ SOURCES += main.cpp\
     mainwindow.cpp \
     title.cpp \
     usersettings.cpp \
-    buttonrelay.cpp
+    buttonrelay.cpp \
+    game_linefinding.cpp \
+    game.cpp \
+    game_spacefinding.cpp \
+    gamefactory.cpp
 
 HEADERS  += \
     staffGamesConstants.h \
@@ -36,7 +40,11 @@ HEADERS  += \
     mainwindow.h \
     title.h \
     usersettings.h \
-    buttonrelay.h
+    buttonrelay.h \
+    game_linefinding.h \
+    game.h \
+    game_spacefinding.h \
+    gamefactory.h
 
 FORMS    += \
     game_notefinding.ui \

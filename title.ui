@@ -48,8 +48,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>651</width>
-            <height>570</height>
+            <width>129</width>
+            <height>45</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -68,6 +68,13 @@
      </widget>
      <widget class="QWidget" name="UserGames">
       <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <widget class="QPushButton" name="playSpaces">
+         <property name="text">
+          <string>Play spaces</string>
+         </property>
+        </widget>
+       </item>
        <item>
         <widget class="QLabel" name="userName">
          <property name="text">

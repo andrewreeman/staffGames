@@ -18,11 +18,20 @@
 #include "mainwindow.h"
 
 Game_NoteFinding::Game_NoteFinding(QWidget *parent) :
-    QWidget(parent),
+    Game(parent),
     ui(new Ui::Game_NoteFinding)
 {    
+}
+
+Game_NoteFinding::~Game_NoteFinding()
+{    
+    delete ui;
+}
+
+void Game_NoteFinding::startGame()
+{
     ui->setupUi(this);
-    m_user = ((MainWindow*)parent)->getUser();
+    m_user = ( (MainWindow*)parent() )->getUser();
     m_scene = new StaffScene(ui->graphicsView, this);
     ui->score->setValue(0);
     makeMap();
@@ -32,9 +41,18 @@ Game_NoteFinding::Game_NoteFinding(QWidget *parent) :
     connect(m_scene, SIGNAL( lineSelected(int) ), this, SLOT( lineSelected(int) ));
 }
 
-Game_NoteFinding::~Game_NoteFinding()
-{    
-    delete ui;
+void Game_NoteFinding::addSelectableLine(int lineIndex)
+{
+    //TODO must redo the ledger line variable. Lines = black lines + spaces. Atm it means black lines which is confusing
+    int totalNumLedgers = staffLayout::numLedgerLines * 2;
+    int lowerRange = -totalNumLedgers;
+    int higherRange = m_lineToNoteMap.size() - totalNumLedgers;
+
+    if(lineIndex >= lowerRange && lineIndex <= higherRange){
+        m_selectableLines.push_back(lineIndex);
+    };
+
+    qDebug() << lineIndex;
 }
 
 void Game_NoteFinding::makeMap()
@@ -152,7 +170,7 @@ void Game_NoteFinding::setSelectableLines()
 {
     // all lines
     for(int i=0; i<m_lineToNoteMap.size(); ++i){
-        m_selectableLines.push_back(i- (staffLayout::numLedgerLines*2));
+        addSelectableLine( i - (staffLayout::numLedgerLines*2));
     };
 }
 
