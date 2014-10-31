@@ -44,7 +44,8 @@ HEADERS  += \
     game_linefinding.h \
     game.h \
     game_spacefinding.h \
-    gamefactory.h
+    gamefactory.h \
+    exceptions.h
 
 FORMS    += \
     game_notefinding.ui \

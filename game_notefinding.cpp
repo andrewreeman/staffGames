@@ -1,6 +1,7 @@
 #include "game_notefinding.h"
 #include "ui_game_notefinding.h"
 #include "staffGamesConstants.h"
+#include "exceptions.h"
 
 #include <QLine>
 #include <QRect>
@@ -19,7 +20,7 @@
 
 Game_NoteFinding::Game_NoteFinding(QWidget *parent) :
     Game(parent),
-    ui(new Ui::Game_NoteFinding)
+    ui(new Ui::Game_NoteFinding), m_scene(nullptr), m_user(nullptr)
 {    
 }
 
@@ -33,6 +34,9 @@ void Game_NoteFinding::startGame()
     ui->setupUi(this);
     m_user = ( (MainWindow*)parent() )->getUser();
     m_scene = new StaffScene(ui->graphicsView, this);
+
+    if(!m_scene) throw Except_MemoryAlloc(Q_FUNC_INFO);
+
     ui->score->setValue(0);
     makeMap();
     setSelectableLines();
@@ -40,7 +44,7 @@ void Game_NoteFinding::startGame()
     ui->graphicsView->setDragMode(QGraphicsView::ScrollHandDrag);
     connect(m_scene, SIGNAL( lineSelected(int) ), this, SLOT( lineSelected(int) ));
 }
-
+//TODO check all project for possible errors. Try and catch works so far
 void Game_NoteFinding::addSelectableLine(int lineIndex)
 {
     int totalNumLedgers = staffLayout::numLedgerNotes;

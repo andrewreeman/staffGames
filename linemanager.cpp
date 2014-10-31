@@ -134,7 +134,6 @@ void lineManager::createLowerLedgers()
 
 QRectF lineManager::boundingRect() const
 {    
-    //WARNING bounding rect not accurate
     return QRectF(0, 0, 0, 0);
 }
 

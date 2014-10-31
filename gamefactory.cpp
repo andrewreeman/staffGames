@@ -1,8 +1,11 @@
 #include "gamefactory.h"
 
+#include "exceptions.h"
+
 #include "game_notefinding.h"
 #include "game_linefinding.h"
 #include "game_spacefinding.h"
+#include <exception>
 
 GameFactory::GameFactory()
 {
@@ -24,5 +27,13 @@ GameFactory::GameFactory()
 
 Game *GameFactory::createGame(int gameID, QWidget* parent)
 {
-    return m_creators.at(gameID)(parent);
+    if(gameID < m_creators.size() && gameID >= 0){
+        Game* game = nullptr;
+        game = m_creators.at(gameID)(parent);
+        throw Except_MemoryAlloc(Q_FUNC_INFO);
+        if(game)
+            return game;
+
+    }
+    throw Except_OutOfBounds(Q_FUNC_INFO);
 }
