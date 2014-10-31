@@ -111,7 +111,8 @@ void Game_NoteFinding::lineSelected(int line)
 void Game_NoteFinding::correct()
 {
 
-    QString sound = ":/audio/"+ QString("treble-") + QString::number(m_answer) +".wav";    
+
+    QString sound = ":/audio/"+ QString("treble-") + QString::number(m_answer) +".wav";        
     QSound::play(sound);
     ui->score->setValue(ui->score->value() + 1);
     nextRound();
@@ -136,8 +137,9 @@ void Game_NoteFinding::incorrect()
 void Game_NoteFinding::nextRound()
 {
     auto getRandLine = [&](){
-        int newAns;
+        if(m_selectableLines.size() <= 1) return m_selectableLines.at(0);
 
+        int newAns;
         do{
             int randIndex = qrand() % m_selectableLines.size();
             newAns = m_selectableLines.at(randIndex);
@@ -157,6 +159,7 @@ QList<QGraphicsItem *> Game_NoteFinding::getLines()
     QVariant type;
     QVariant typeStr;
     QList<QGraphicsItem*> lines;
+
     for(int i=0; i<items.size(); ++i){
         type = items.at(i)->data(objectPropertyKeys::type);
         typeStr = type.toString();

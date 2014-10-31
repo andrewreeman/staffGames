@@ -15,9 +15,7 @@ LedgerLine::LedgerLine(QRectF line, QGraphicsItem *parent) :
 }
 
 void LedgerLine::setCentreX(int centreX)
-{
-    //int thisCentreX = boundingRect().center().x();
-    //this->moveBy(centreX-thisCentreX, 0);
+{    
     m_circleCentreX = centreX;
 }
 
