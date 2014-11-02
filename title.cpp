@@ -2,6 +2,7 @@
 #include "ui_title.h"
 #include "mainwindow.h"
 #include "staffGamesConstants.h"
+#include "gameproperties.h"
 
 #include <QDebug>
 #include <QSettings>
@@ -15,12 +16,20 @@ Title::Title(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Title)
 {
+    auto constructGamePropertiesList = [&](){
+        m_gameProperties.insert(gameIDs::noteFinderSpaces, new GameProperties_SpaceFinding());
+        m_gameProperties.insert(gameIDs::noteFinderAll, new GameProperties_NoteFindingAll());
+        m_gameProperties.insert(gameIDs::noteFinderLines, new GameProperties_LineFinding());
+    };
+
     ui->setupUi(this);
     ui->stackedWidget->setCurrentIndex(0);
+    constructGamePropertiesList();
 }
 
 Title::~Title()
-{        
+{
+    qDeleteAll(m_gameProperties);
     delete ui;
 }
 
@@ -68,9 +77,8 @@ void Title::makeAllUserButtons()
 
 void Title::makeUserButton(int userIndex)
 {
-    //TODO when selected user need a makeGameButton that creates buttons from owned games.
 
-    QLayout* scrollLayout = ui->scrollAreaWidgetContents->layout();
+    QLayout* scrollLayout = ui->userNameContainerContents->layout();
     UserSettings user = m_allUsers.at(userIndex);
     QString name = user.getName();
     QPushButton* button = new QPushButton(name);
@@ -79,18 +87,46 @@ void Title::makeUserButton(int userIndex)
     m_userPushButtons.append(button);
     m_userButtonRelays.append(buttonRelay);
     scrollLayout->addWidget(button);
-    connect(buttonRelay, SIGNAL(buttonClicked(QString)), this, SLOT(userButtonClicked(QString)));
+    connect(buttonRelay, SIGNAL(buttonClicked(QVariant)), this, SLOT(userButtonClicked(QVariant)));
 }
 
-void Title::userButtonClicked(QString userName)
+void Title::makeAllGameButtons()
+{
+    QList<int> userGames = m_user.getOwnedGames();
+    for(int game : userGames)
+        makeGameButton(m_gameProperties.value(game));
+}
+
+void Title::makeGameButton(GameProperties* gameProps)
+{
+    QLayout* scrollLayout = ui->gameContainerContents->layout();
+    QPushButton* button = new QPushButton(gameProps->getGameTitle());
+    ButtonRelay* buttonRelay = new ButtonRelay(button, gameProps->getGameId(), this);
+
+    m_gamePushButtons.append(button);
+    m_gameButtonRelays.append(buttonRelay);
+    scrollLayout->addWidget(button);
+    connect(buttonRelay, SIGNAL(buttonClicked(QVariant)), this, SLOT(gameButtonClicked(QVariant)));
+
+}
+
+void Title::userButtonClicked(QVariant userName)
 {    
 
-    int userIndex = getUserIndex(userName);
-    UserSettings user = m_allUsers.at(userIndex);
-    ui->userName->setText( user.getName() );
-    ui->userScore->setText( QString::number(user.getScore()) );
+    int userIndex = getUserIndex(userName.toString());
+    m_user = m_allUsers.at(userIndex);
+
+    ui->userName->setText( m_user.getName() );
+    ui->userScore->setText( QString::number(m_user.getScore()) );
     ui->stackedWidget->setCurrentIndex(2);
-    emit setUser(user);
+    makeAllGameButtons();
+    emit setUser(m_user);
+}
+
+void Title::gameButtonClicked(QVariant gameID)
+{
+    emit startGame(gameID.toInt());
+
 }
 
 void Title::addMenu()
@@ -214,19 +250,4 @@ void Title::on_AddUser_clicked()
             msg.exec();
         }
     }
-}
-
-void Title::on_playFullStave_clicked()
-{
-    emit startGame(gameIDs::noteFinderAll);
-}
-
-void Title::on_playLines_clicked()
-{
-    emit startGame(gameIDs::noteFinderLines);
-}
-
-void Title::on_playSpaces_clicked()
-{
-    emit startGame(gameIDs::noteFinderSpaces);
 }

@@ -27,8 +27,7 @@ SOURCES += main.cpp\
     game_linefinding.cpp \
     game.cpp \
     game_spacefinding.cpp \
-    gamefactory.cpp \
-    gameproperties.cpp
+    gamefactory.cpp
 
 HEADERS  += \
     staffGamesConstants.h \

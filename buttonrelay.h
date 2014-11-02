@@ -2,22 +2,23 @@
 #define BUTTONRELAY_H
 
 #include <QObject>
-#include <QString>
+#include <QVariant>
 #include <QPushButton>
+
 
 class ButtonRelay : public QObject
 {
     Q_OBJECT
 public:
-    explicit ButtonRelay(QPushButton*, QString, QObject *parent = 0);
+    explicit ButtonRelay(QPushButton*, QVariant, QObject *parent = 0);
 
 signals:
-    void buttonClicked(QString);
+    void buttonClicked(QVariant);
 public slots:
     void clicked();
 private:
     QPushButton* m_button;
-    QString m_userName;
+    QVariant m_message;
 
 };
 
