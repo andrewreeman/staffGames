@@ -2,23 +2,30 @@
 #define USERSETTINGS_H
 
 #include <QString>
+#include <QList>
 
 class UserSettings
 {
 public:
     UserSettings();
     UserSettings(QString name, int score);
-    //UserSettings& operator=(const UserSettings&);
-    int getScore(){return m_score;}
+
     QString getName(){return m_userName;}
-    void addScore(int addToScore);
-    void setScore(int score){m_score = score;}
     void setName(QString name){m_userName = name;}
+
+    int getScore(){return m_score;}
+    void addScore(int addToScore);
+    void setScore(int score);
+
+    void addOwnedGame(int gameId);
+    QList<int> getOwnedGames(){return m_ownedGames;}
+
     void write();
 
 private:
     QString m_userName;
     int m_score;
+    QList<int> m_ownedGames;
 };
 
 #endif // USERSETTINGS_H

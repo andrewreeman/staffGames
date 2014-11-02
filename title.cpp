@@ -42,6 +42,7 @@ QList<UserSettings> Title::getAllUserSettings()
         userNames = settings.childGroups();
         for(QString user : userNames){
             settings.beginGroup(user);
+            //TODO how to store gameIDs here....do in group?
             allUserSettings.push_back( UserSettings(user, settings.value("totalBeats").toInt()) );
             settings.endGroup();
         }

@@ -44,7 +44,7 @@ void Game_NoteFinding::startGame()
     ui->graphicsView->setDragMode(QGraphicsView::ScrollHandDrag);
     connect(m_scene, SIGNAL( lineSelected(int) ), this, SLOT( lineSelected(int) ));
 }
-//TODO check all project for possible errors. Try and catch works so far
+
 void Game_NoteFinding::addSelectableLine(int lineIndex)
 {
     int totalNumLedgers = staffLayout::numLedgerNotes;
