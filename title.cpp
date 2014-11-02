@@ -34,16 +34,25 @@ void Title::on_titleToLogin_clicked()
 }
 
 QList<UserSettings> Title::getAllUserSettings()
+//TODO do not need to load ALL user settings until user selected. This function should just return all user names
 {
     QList<UserSettings> allUserSettings;
     QSettings settings;
     QStringList userNames;
-    settings.beginGroup("users");
+    bool gameIsOwned;
+
+    settings.beginGroup(userSettingsKeys::users);
         userNames = settings.childGroups();
         for(QString user : userNames){
             settings.beginGroup(user);
-            //TODO how to store gameIDs here....do in group?
-            allUserSettings.push_back( UserSettings(user, settings.value("totalBeats").toInt()) );
+            allUserSettings.push_back( UserSettings(user, settings.value(userSettingsKeys::totalBeats).toInt()) );
+                settings.beginGroup(userSettingsKeys::ownedGames);
+                    for(int i=0; i<gameIDs::numGames; ++i){
+                        gameIsOwned = settings.value(QString::number(i), QVariant(false)).toBool();
+                        if(gameIsOwned)
+                            allUserSettings.last().addOwnedGame(i);
+                    }
+                settings.endGroup();
             settings.endGroup();
         }
     settings.endGroup();
@@ -59,6 +68,8 @@ void Title::makeAllUserButtons()
 
 void Title::makeUserButton(int userIndex)
 {
+    //TODO when selected user need a makeGameButton that creates buttons from owned games.
+
     QLayout* scrollLayout = ui->scrollAreaWidgetContents->layout();
     UserSettings user = m_allUsers.at(userIndex);
     QString name = user.getName();
@@ -132,6 +143,9 @@ bool Title::addUser(QString newUser)
         settings.beginGroup("users");
             settings.beginGroup( m_allUsers.last().getName() );
                 settings.setValue( "totalBeats", m_allUsers.last().getScore() );
+                settings.beginGroup(userSettingsKeys::ownedGames);
+                    settings.setValue(QString::number(gameIDs::noteFinderSpaces), true);
+                settings.endGroup();
             settings.endGroup();
         settings.endGroup();
     };    

@@ -59,8 +59,14 @@ namespace objectPropertyTypes{
 
 namespace gameIDs{
     const int noteFinderAll = 0;
-    const int noteFinderLines = 1;
-    const int noteFinderSpaces = 2;
+    const int noteFinderLines = noteFinderAll + 1;
+    const int noteFinderSpaces = noteFinderLines + 1;
+    const int numGames = noteFinderSpaces + 1;
 }
 
+namespace userSettingsKeys{
+    const QString users = "users";
+    const QString totalBeats = "totalBeats";
+    const QString ownedGames = "ownedGames";
+}
 #endif // STAFFGAMESCONSTANTS_H

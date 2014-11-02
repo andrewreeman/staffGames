@@ -7,11 +7,13 @@
 UserSettings::UserSettings() :
     m_userName("default"), m_score(-1)
 {
+    m_ownedGames.push_back(gameIDs::noteFinderSpaces);
 }
 
 UserSettings::UserSettings(QString name, int score) :
     m_userName(name), m_score(score)
 {
+    m_ownedGames.push_back(gameIDs::noteFinderSpaces);
 }
 
 void UserSettings::addScore(int addToScore)
@@ -28,25 +30,27 @@ void UserSettings::setScore(int score)
         m_score = 0;
 }
 
-void UserSettings::addOwnedGame(int gameId)
-{
-    switch(gameId){
-        case gameIDs::noteFinderAll:
-        case gameIDs::noteFinderLines:
-        case gameIDs::noteFinderSpaces:
-            m_ownedGames.push_back(gameId);
-            break;
-        default:
-            throw Except_OutOfBounds(Q_FUNC_INFO);
+void UserSettings::addOwnedGame(int gameId){
+
+    if(gameId>=0 && gameId<gameIDs::numGames){
+        if(m_ownedGames.contains(gameId)) return;
+        m_ownedGames.push_back(gameId);
     }
+    else
+        throw Except_OutOfBounds(Q_FUNC_INFO);
 }
 
 void UserSettings::write()
 {
     QSettings settings;
-    settings.beginGroup("users");
+    settings.beginGroup(userSettingsKeys::users);
         settings.beginGroup( m_userName );
-            settings.setValue("totalBeats", m_score);
+            settings.setValue(userSettingsKeys::totalBeats, m_score);
+            settings.beginGroup(userSettingsKeys::ownedGames);
+                for(int game : m_ownedGames){
+                    settings.setValue(QString::number(game), true);
+                }
+            settings.endGroup();
         settings.endGroup();
     settings.endGroup();
     settings.sync();
