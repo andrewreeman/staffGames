@@ -10,7 +10,7 @@ public:
     StaffLine(QRectF rect, QGraphicsItem* parent=0);
     void setDefaultBrush(QBrush);
     virtual void setSelected(bool selected);
-    QBrush getSelectedBrush(){ return m_selectedBrush; }
+    //QBrush selectedBrush(){ return m_selectedBrush; }
     void setCorrectState(bool isCorrect);
     void unsetCorrectState();
 

@@ -21,7 +21,7 @@ public:
     }
     virtual bool sceneEventFilter(QGraphicsItem *watched, QEvent *event);
 
-    StaffLine* getLine(int lineNumber);
+    StaffLine* line(int lineNumber);
     void setCorrectState(int lineNumber, bool isCorrect);
     void unsetCorrectState(int lineNumber);    
 

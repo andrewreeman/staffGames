@@ -34,7 +34,7 @@ private:
     void correct();
     void incorrect();
     void nextRound();
-    QList<QGraphicsItem*> getLines();
+    //QList<QGraphicsItem*> lines();
     void writeUserSettings();
     virtual void setSelectableLines();
 

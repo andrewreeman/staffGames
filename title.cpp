@@ -43,7 +43,6 @@ void Title::on_titleToLogin_clicked()
 }
 
 QList<UserSettings> Title::getAllUserSettings()
-//TODO do not need to load ALL user settings until user selected. This function should just return all user names
 {
     QList<UserSettings> allUserSettings;
     QSettings settings;
@@ -80,7 +79,7 @@ void Title::makeUserButton(int userIndex)
 
     QLayout* scrollLayout = ui->userNameContainerContents->layout();
     UserSettings user = m_allUsers.at(userIndex);
-    QString name = user.getName();
+    QString name = user.name();
     QPushButton* button = new QPushButton(name);
     ButtonRelay* buttonRelay = new ButtonRelay(button,name, this);
 
@@ -92,7 +91,7 @@ void Title::makeUserButton(int userIndex)
 
 void Title::makeAllGameButtons()
 {
-    QList<int> userGames = m_user.getOwnedGames();
+    QList<int> userGames = m_user.ownedGames();
     for(int game : userGames)
         makeGameButton(m_gameProperties.value(game));
 }
@@ -100,8 +99,8 @@ void Title::makeAllGameButtons()
 void Title::makeGameButton(GameProperties* gameProps)
 {
     QLayout* scrollLayout = ui->gameContainerContents->layout();
-    QPushButton* button = new QPushButton(gameProps->getGameTitle());
-    ButtonRelay* buttonRelay = new ButtonRelay(button, gameProps->getGameId(), this);
+    QPushButton* button = new QPushButton(gameProps->gameTitle());
+    ButtonRelay* buttonRelay = new ButtonRelay(button, gameProps->gameId(), this);
 
     m_gamePushButtons.append(button);
     m_gameButtonRelays.append(buttonRelay);
@@ -134,13 +133,13 @@ void Title::makeAllShopButtons()
 void Title::makeShopButton(GameProperties *gameProps)
 {
 
-    QList<int> userOwnedGames = m_user.getOwnedGames();
-    int gameID = gameProps->getGameId();
+    QList<int> userOwnedGames = m_user.ownedGames();
+    int gameID = gameProps->gameId();
 
     if(userOwnedGames.contains(gameID) ) return;
 
     QLayout* scrollLayout = ui->shopContainerContents->layout();
-    QString buttonTitle = gameProps->getGameTitle() + ": " + QString::number( gameProps->getPrice() );
+    QString buttonTitle = gameProps->gameTitle() + ": " + QString::number( gameProps->price() );
     QPushButton* button = new QPushButton(buttonTitle);
     ButtonRelay* buttonRelay = new ButtonRelay(button, gameID, this);
 
@@ -157,7 +156,7 @@ void Title::makeShopButton(GameProperties *gameProps)
 
 void Title::removeShopButton(GameProperties *gameProps)
 {
-    int gameID = gameProps->getGameId();
+    int gameID = gameProps->gameId();
     QLayout* shopLayout = ui->shopContainerContents->layout();
     int otherGameID;
 
@@ -193,10 +192,10 @@ void Title::removeAllShopButtons()
 void Title::userButtonClicked(QVariant userName)
 {    
 
-    int newUserIndex = getUserIndex(userName.toString());
+    int newUserIndex = userIndex(userName.toString());
 
     if(!m_isFirstTimeUserSelected){
-        int currentUserIndex = getUserIndex(m_user.getName());
+        int currentUserIndex = userIndex(m_user.name());
         if(newUserIndex == currentUserIndex){
             ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::userHome);
             return;
@@ -209,8 +208,8 @@ void Title::userButtonClicked(QVariant userName)
 
     m_user = m_allUsers.at(newUserIndex);
 
-    ui->userName->setText( m_user.getName() );
-    ui->userScore->setText( QString::number(m_user.getScore()) );
+    ui->userName->setText( m_user.name() );
+    ui->userScore->setText( QString::number(m_user.score()) );
     ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::userHome);
     makeAllGameButtons();
     makeAllShopButtons();
@@ -227,13 +226,13 @@ void Title::gameButtonClicked(QVariant gameID)
 void Title::shopButtonClicked(QVariant gameID)
 {
     GameProperties* game = m_gameProperties.value(gameID.toInt());
-    int gamePrice = game->getPrice();
+    int gamePrice = game->price();
 
-    if(m_user.getScore() >= gamePrice){
+    if(m_user.score() >= gamePrice){
         m_user.addOwnedGame(gameID.toInt());
         m_user.addScore(-gamePrice);
         m_user.write();
-        ui->userScore->setText( QString::number(m_user.getScore()) );
+        ui->userScore->setText( QString::number(m_user.score()) );
         makeGameButton(game);
         removeShopButton(game);
         ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::userHome);
@@ -268,7 +267,7 @@ void Title::removeUser_clicked()
         QStringList userNames;
         userNames << selectAName;
         for(UserSettings storedUser : m_allUsers){
-            userNames << storedUser.getName();
+            userNames << storedUser.name();
         }
         return userNames;
     };
@@ -293,8 +292,8 @@ bool Title::addUser(QString newUser)
     auto addUserToLocalSettings = [&](){
         QSettings settings;
         settings.beginGroup("users");
-            settings.beginGroup( m_allUsers.last().getName() );
-                settings.setValue( "totalBeats", m_allUsers.last().getScore() );
+            settings.beginGroup( m_allUsers.last().name() );
+                settings.setValue( "totalBeats", m_allUsers.last().score() );
                 settings.beginGroup(userSettingsKeys::ownedGames);
                     settings.setValue(QString::number(gameIDs::noteFinderSpaces), true);
                 settings.endGroup();
@@ -314,7 +313,7 @@ bool Title::removeUser(QString user)
 {    
     auto removeFromStoredUsers = [&](){
         QSettings settings;
-        settings.beginGroup("users");
+        settings.beginGroup(userSettingsKeys::users);
             settings.beginGroup(user);
                 settings.remove("");
             settings.endGroup();
@@ -322,10 +321,10 @@ bool Title::removeUser(QString user)
     };
 
     if(isUserExist(user)){
-        int userIndex = getUserIndex(user);
-        m_allUsers.removeAt(userIndex);
-        delete m_userButtonRelays.takeAt(userIndex);
-        delete m_userPushButtons.takeAt(userIndex);
+        int thisUserIndex = userIndex(user);
+        m_allUsers.removeAt(thisUserIndex);
+        delete m_userButtonRelays.takeAt(thisUserIndex);
+        delete m_userPushButtons.takeAt(thisUserIndex);
         removeFromStoredUsers();    
         return true;
     }
@@ -336,17 +335,17 @@ bool Title::removeUser(QString user)
 bool Title::isUserExist(QString user)
 {
         for(UserSettings storedUser : m_allUsers){
-            if(storedUser.getName() == user)
+            if(storedUser.name() == user)
                 return true;
         }
         return false;
 }
 
-int Title::getUserIndex(QString user)
+int Title::userIndex(QString user)
 {
     for(int i=0; i<m_allUsers.size(); ++i){
        UserSettings storedUser = m_allUsers.at(i);
-       if(storedUser.getName() == user)
+       if(storedUser.name() == user)
            return i;
     }
     return -1;

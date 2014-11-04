@@ -10,15 +10,15 @@ public:
     UserSettings();
     UserSettings(QString name, int score);
 
-    QString getName(){return m_userName;}
+    QString name(){return m_userName;}
     void setName(QString name){m_userName = name;}
 
-    int getScore(){return m_score;}
+    int score(){return m_score;}
     void addScore(int addToScore);
     void setScore(int score);
 
     void addOwnedGame(int gameId);
-    QList<int> getOwnedGames(){return m_ownedGames;}
+    QList<int> ownedGames(){return m_ownedGames;}
 
     void write();
 

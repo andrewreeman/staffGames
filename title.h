@@ -49,7 +49,7 @@ private:
     bool addUser(QString newUser);
     bool removeUser(QString user);
     bool isUserExist(QString user);
-    int getUserIndex(QString user);
+    int userIndex(QString user);
 
     void makeAllUserButtons();
     void makeUserButton(int userIndex);

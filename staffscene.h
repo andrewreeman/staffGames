@@ -18,7 +18,7 @@ public:
     explicit StaffScene(QGraphicsView* view, QObject *parent = 0);
     void selectLine(int lineNumber);
     void setCorrectState(int lineNumber, bool correctState);
-    StaffLine* getLine(int lineNumber);    
+    StaffLine* line(int lineNumber);
 
 signals:
     void lineSelected(int lineNumber);

@@ -37,7 +37,7 @@ void StaffScene::makeTrebleClef()
 {
     QPixmap image(":/notation/treble");
     m_treble = addPixmap(image);
-    m_treble->setPos(trebleClef::offset, getLine(6)->pos().y() - 130);
+    m_treble->setPos(trebleClef::offset, line(6)->pos().y() - 130);
     m_treble->setScale(1);
     m_treble->setData(objectPropertyKeys::type, objectPropertyTypes::trebleType);
 }
@@ -53,7 +53,7 @@ void StaffScene::setBoundries()
 void StaffScene::setNoteY(int selectedLineNumber)
 {
     QPointF noteCentre = m_note->mapToScene(m_note->boundingRect().center());
-    StaffLine* line = m_lineManager->getLine(selectedLineNumber);
+    StaffLine* line = m_lineManager->line(selectedLineNumber);
     QPointF lineCentre = line->mapToScene(line->boundingRect().center());
     int diffY = lineCentre.y() - noteCentre.y();
     m_note->moveBy(0, diffY);
@@ -75,9 +75,9 @@ void StaffScene::setCorrectState(int lineNumber, bool correctState)
     QTimer::singleShot(500, this, SLOT(unselectLine()));
 }
 
-StaffLine *StaffScene::getLine(int lineNumber)
+StaffLine *StaffScene::line(int lineNumber)
 {
-    return m_lineManager->getLine(lineNumber);
+    return m_lineManager->line(lineNumber);
 }
 
 void StaffScene::unselectLine()

@@ -152,8 +152,8 @@ void Game_NoteFinding::nextRound()
     m_answer = getRandLine();
     ui->guiChallenge->setText("Find the note: " + m_lineToNoteMap.value(m_answer));
 }
-
-QList<QGraphicsItem *> Game_NoteFinding::getLines()
+/*
+QList<QGraphicsItem *> Game_NoteFinding::lines()
 {
     QList<QGraphicsItem*> items = m_scene->items();
     QVariant type;
@@ -168,7 +168,7 @@ QList<QGraphicsItem *> Game_NoteFinding::getLines()
         }
     }
     return lines;
-}
+}*/
 
 void Game_NoteFinding::setSelectableLines()
 {

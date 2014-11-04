@@ -219,7 +219,7 @@ void lineManager::selectLine(int newSelectedLine)
 
 void lineManager::setSelectLine(int selectedLine, bool select)
 {
-    getLine(selectedLine)->setSelected(select);
+    line(selectedLine)->setSelected(select);
 }
 
 void lineManager::updateUpperLedgers(QPointF circleCentre)
@@ -228,16 +228,16 @@ void lineManager::updateUpperLedgers(QPointF circleCentre)
     int selectLineBoundry = m_selectedLine > 0 ? 0 : m_selectedLine;
     auto f_turnLinesOn = [&](){
         for(int i=-1; i>=selectLineBoundry; --i){
-            LedgerLine* line = (LedgerLine*)getLine(i);
-            QPointF circleCentre_relTo_line = mapToItem(line, circleCentre);
-            line->setCentreX(circleCentre_relTo_line.x());
-            line->setOpacity(1);
+            LedgerLine* currentLine = (LedgerLine*)line(i);
+            QPointF circleCentre_relTo_line = mapToItem(currentLine, circleCentre);
+            currentLine->setCentreX(circleCentre_relTo_line.x());
+            currentLine->setOpacity(1);
         }
     };
     auto f_turnLinesOff = [&](){
         for(int i=selectLineBoundry-1; i>=-upperLineSize; --i){
-            LedgerLine* line = (LedgerLine*)getLine(i);
-            line->setOpacity(0);
+            LedgerLine* currentLine = (LedgerLine*)line(i);
+            currentLine->setOpacity(0);
         }
     };
 
@@ -252,16 +252,16 @@ void lineManager::updateLowerLedgers(QPointF circleCentre)
     int selectLineBoundry = m_selectedLine >=m_staffLines.size() ? m_selectedLine : m_staffLines.size()-1;
     auto f_turnLinesOn = [&](){
         for(int i=m_staffLines.size(); i<=selectLineBoundry; ++i){
-            LedgerLine* line = (LedgerLine*)getLine(i);
-            QPointF circleCentre_relTo_line = mapToItem(line, circleCentre);
-            line->setCentreX(circleCentre_relTo_line.x());
-            line->setOpacity(1);
+            LedgerLine* currentLine = (LedgerLine*)line(i);
+            QPointF circleCentre_relTo_line = mapToItem(currentLine, circleCentre);
+            currentLine->setCentreX(circleCentre_relTo_line.x());
+            currentLine->setOpacity(1);
         }
     };
     auto f_turnLinesOff = [&](){
         for(int i=selectLineBoundry+1; i<=lastLedgerLineNumber; ++i){
-            LedgerLine* line = (LedgerLine*)getLine(i);
-            line->setOpacity(0);
+            LedgerLine* currentLine = (LedgerLine*)line(i);
+            currentLine->setOpacity(0);
         }
     };
 
@@ -269,7 +269,7 @@ void lineManager::updateLowerLedgers(QPointF circleCentre)
     f_turnLinesOff();
 }
 
-StaffLine *lineManager::getLine(int lineNumber)
+StaffLine *lineManager::line(int lineNumber)
 {
     if(lineNumber<0){
         int index = -lineNumber;
@@ -293,10 +293,10 @@ bool lineManager::isOdd(int number)
 
 void lineManager::setCorrectState(int lineNumber, bool isCorrect)
 {
-    getLine(lineNumber)->setCorrectState(isCorrect);
+    line(lineNumber)->setCorrectState(isCorrect);
 }
 
 void lineManager::unsetCorrectState(int lineNumber)
 {
-    getLine(lineNumber)->unsetCorrectState();
+    line(lineNumber)->unsetCorrectState();
 }

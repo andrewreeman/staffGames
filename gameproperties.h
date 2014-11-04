@@ -11,9 +11,9 @@ public:
     GameProperties(){}
     virtual ~GameProperties(){}
 
-    virtual int getGameId() = 0;
-    virtual QString getGameTitle() = 0;
-    virtual int getPrice() = 0;
+    virtual int gameId() = 0;
+    virtual QString gameTitle() = 0;
+    virtual int price() = 0;
 
 };
 
@@ -22,9 +22,9 @@ public:
     GameProperties_NoteFindingAll(){}
     ~GameProperties_NoteFindingAll(){}
 
-    int getGameId(){ return gameIDs::noteFinderAll;}
-    QString getGameTitle(){ return QString("Finding all notes");}
-    int getPrice(){ return gamePrices::noteFinderAll;}
+    int gameId(){ return gameIDs::noteFinderAll;}
+    QString gameTitle(){ return QString("Finding all notes");}
+    int price(){ return gamePrices::noteFinderAll;}
 };
 
 class GameProperties_LineFinding : public GameProperties{
@@ -32,9 +32,9 @@ public:
   GameProperties_LineFinding(){}
   ~GameProperties_LineFinding(){}
 
-  int getGameId(){ return gameIDs::noteFinderLines;}
-  QString getGameTitle(){ return QString("Finding all staff lines");}
-  int getPrice(){ return gamePrices::noteFinderLines;}
+  int gameId(){ return gameIDs::noteFinderLines;}
+  QString gameTitle(){ return QString("Finding all staff lines");}
+  int price(){ return gamePrices::noteFinderLines;}
 };
 
 class GameProperties_SpaceFinding : public GameProperties{
@@ -42,8 +42,8 @@ public:
     GameProperties_SpaceFinding(){}
     ~GameProperties_SpaceFinding() {}
 
-    int getGameId(){ return gameIDs::noteFinderSpaces;}
-    QString getGameTitle(){ return QString("Finding all staff spaces");}
-    int getPrice(){ return gamePrices::noteFinderSpaces;}
+    int gameId(){ return gameIDs::noteFinderSpaces;}
+    QString gameTitle(){ return QString("Finding all staff spaces");}
+    int price(){ return gamePrices::noteFinderSpaces;}
 };
 #endif // GAMEPROPERTIES_H
