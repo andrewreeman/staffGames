@@ -23,7 +23,7 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>3</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="page">
       <layout class="QHBoxLayout" name="horizontalLayout">
@@ -90,6 +90,13 @@
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_5">
+           <item>
+            <widget class="QPushButton" name="backToUserList">
+             <property name="text">
+              <string>Back</string>
+             </property>
+            </widget>
+           </item>
            <item>
             <widget class="QPushButton" name="shopButton">
              <property name="text">

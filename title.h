@@ -40,6 +40,8 @@ private slots:
 
     void on_backToUserGames_clicked();
 
+    void on_backToUserList_clicked();
+
 private:
 
     QList<UserSettings> getAllUserSettings();
@@ -54,10 +56,13 @@ private:
 
     void makeAllGameButtons();
     void makeGameButton(GameProperties* gameProps);
+    void removeAllGameButtons();
+
 
     void makeAllShopButtons();
     void makeShopButton(GameProperties* gameProps);
     void removeShopButton(GameProperties* gameProps);
+    void removeAllShopButtons();
 
 
     void addMenu();
@@ -77,6 +82,8 @@ private:
     QList<UserSettings> m_allUsers;
     UserSettings m_user;
     QMap<int, GameProperties*> m_gameProperties;
+
+    bool m_isFirstTimeUserSelected;
 };
 
 #endif // TITLE_H

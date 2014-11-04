@@ -14,7 +14,7 @@
 
 Title::Title(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::Title)
+    ui(new Ui::Title), m_isFirstTimeUserSelected(true)
 {
     auto constructGamePropertiesList = [&](){
         m_gameProperties.insert(gameIDs::noteFinderSpaces, new GameProperties_SpaceFinding());
@@ -110,6 +110,20 @@ void Title::makeGameButton(GameProperties* gameProps)
 
 }
 
+void Title::removeAllGameButtons()
+{
+    QLayout* gameLayout = ui->gameContainerContents->layout();
+
+    for(QPushButton* button : m_gamePushButtons)
+        gameLayout->removeWidget(button);
+
+    qDeleteAll(m_gamePushButtons);
+    m_gamePushButtons.clear();
+    qDeleteAll(m_gameButtonRelays);
+    m_gameButtonRelays.clear();
+
+}
+
 void Title::makeAllShopButtons()
 {
     for(GameProperties* game : m_gameProperties){
@@ -163,18 +177,44 @@ void Title::removeShopButton(GameProperties *gameProps)
 
 }
 
+void Title::removeAllShopButtons()
+{
+    QLayout* gameLayout = ui->gameContainerContents->layout();
+
+    for(QPushButton* button : m_shopPushButtons)
+        gameLayout->removeWidget(button);
+
+    qDeleteAll(m_shopPushButtons);
+    m_shopPushButtons.clear();
+    qDeleteAll(m_shopButtonRelays);
+    m_shopButtonRelays.clear();
+}
+
 void Title::userButtonClicked(QVariant userName)
 {    
 
-    int userIndex = getUserIndex(userName.toString());
-    m_user = m_allUsers.at(userIndex);
+    int newUserIndex = getUserIndex(userName.toString());
+
+    if(!m_isFirstTimeUserSelected){
+        int currentUserIndex = getUserIndex(m_user.getName());
+        if(newUserIndex == currentUserIndex){
+            ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::userHome);
+            return;
+        }
+        else{
+            removeAllGameButtons();
+            removeAllShopButtons();
+        }
+    }
+
+    m_user = m_allUsers.at(newUserIndex);
 
     ui->userName->setText( m_user.getName() );
     ui->userScore->setText( QString::number(m_user.getScore()) );
     ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::userHome);
-    //TODO button to go back to user select. If new user selected then remove all game and shop buttons ... just user "takeAt to remove from layout from index"
     makeAllGameButtons();
     makeAllShopButtons();
+    m_isFirstTimeUserSelected = false;
     emit setUser(m_user);
 }
 
@@ -337,4 +377,9 @@ void Title::on_shopButton_clicked()
 void Title::on_backToUserGames_clicked()
 {
     ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::userHome);
+}
+
+void Title::on_backToUserList_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::users);
 }
