@@ -4,6 +4,20 @@
 #include <QString>
 #include <QColor>
 
+namespace titleStackedWidgetIndices{
+    const int title = 0;
+    const int users = 1;
+    const int userHome = 2;
+    const int shop = 3;
+
+}
+
+namespace gamePrices{
+    const int noteFinderAll = 100;
+    const int noteFinderLines = 20;
+    const int noteFinderSpaces = 0;
+}
+
 namespace staffLayout{
     const int blackLineHeight = 10;
     const int whiteLineHeight = blackLineHeight*7;
@@ -43,6 +57,7 @@ namespace objectPropertyKeys{
     const int type = 0;
     const int name = 1;
     const int ledgerType = 2;
+    const QString gameID = "gameID";
 }
 
 namespace ledgerType{
@@ -54,7 +69,7 @@ namespace objectPropertyTypes{
     const QString whiteLineType = "whiteline";
     const QString lineType = "line";
     const QString noteType = "note";
-    const QString trebleType = "treble"; 
+    const QString trebleType = "treble";     
 }
 
 namespace gameIDs{

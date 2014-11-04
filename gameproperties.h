@@ -13,6 +13,7 @@ public:
 
     virtual int getGameId() = 0;
     virtual QString getGameTitle() = 0;
+    virtual int getPrice() = 0;
 
 };
 
@@ -23,6 +24,7 @@ public:
 
     int getGameId(){ return gameIDs::noteFinderAll;}
     QString getGameTitle(){ return QString("Finding all notes");}
+    int getPrice(){ return gamePrices::noteFinderAll;}
 };
 
 class GameProperties_LineFinding : public GameProperties{
@@ -32,6 +34,7 @@ public:
 
   int getGameId(){ return gameIDs::noteFinderLines;}
   QString getGameTitle(){ return QString("Finding all staff lines");}
+  int getPrice(){ return gamePrices::noteFinderLines;}
 };
 
 class GameProperties_SpaceFinding : public GameProperties{
@@ -41,5 +44,6 @@ public:
 
     int getGameId(){ return gameIDs::noteFinderSpaces;}
     QString getGameTitle(){ return QString("Finding all staff spaces");}
+    int getPrice(){ return gamePrices::noteFinderSpaces;}
 };
 #endif // GAMEPROPERTIES_H

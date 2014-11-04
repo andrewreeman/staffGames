@@ -28,12 +28,17 @@ private slots:
 
     void userButtonClicked(QVariant userName);
     void gameButtonClicked(QVariant gameID);
+    void shopButtonClicked(QVariant gameID);
     void on_titleToLogin_clicked();
 
     void on_AddUser_clicked();
 
     void removeUser_clicked();
     void removeMenu();
+
+    void on_shopButton_clicked();
+
+    void on_backToUserGames_clicked();
 
 private:
 
@@ -48,7 +53,12 @@ private:
     void makeUserButton(int userIndex);
 
     void makeAllGameButtons();
-    void makeGameButton(GameProperties *gameProps);
+    void makeGameButton(GameProperties* gameProps);
+
+    void makeAllShopButtons();
+    void makeShopButton(GameProperties* gameProps);
+    void removeShopButton(GameProperties* gameProps);
+
 
     void addMenu();
 
@@ -60,6 +70,9 @@ private:
 
     QList<ButtonRelay*> m_gameButtonRelays;
     QList<QPushButton*> m_gamePushButtons;
+
+    QList<ButtonRelay*> m_shopButtonRelays;
+    QList<QPushButton*> m_shopPushButtons;
 
     QList<UserSettings> m_allUsers;
     UserSettings m_user;

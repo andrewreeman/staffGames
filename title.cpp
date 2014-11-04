@@ -23,7 +23,7 @@ Title::Title(QWidget *parent) :
     };
 
     ui->setupUi(this);
-    ui->stackedWidget->setCurrentIndex(0);
+    ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::title);
     constructGamePropertiesList();
 }
 
@@ -35,7 +35,7 @@ Title::~Title()
 
 void Title::on_titleToLogin_clicked()
 {    
-    ui->stackedWidget->setCurrentIndex(1);
+    ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::users);
     m_allUsers = getAllUserSettings();
     makeAllUserButtons();    
     addMenu();
@@ -110,6 +110,59 @@ void Title::makeGameButton(GameProperties* gameProps)
 
 }
 
+void Title::makeAllShopButtons()
+{
+    for(GameProperties* game : m_gameProperties){
+        makeShopButton(game);
+    }
+}
+
+void Title::makeShopButton(GameProperties *gameProps)
+{
+
+    QList<int> userOwnedGames = m_user.getOwnedGames();
+    int gameID = gameProps->getGameId();
+
+    if(userOwnedGames.contains(gameID) ) return;
+
+    QLayout* scrollLayout = ui->shopContainerContents->layout();
+    QString buttonTitle = gameProps->getGameTitle() + ": " + QString::number( gameProps->getPrice() );
+    QPushButton* button = new QPushButton(buttonTitle);
+    ButtonRelay* buttonRelay = new ButtonRelay(button, gameID, this);
+
+    button->setProperty(objectPropertyKeys::gameID.toLatin1(), QVariant(gameID));
+    buttonRelay->setProperty(objectPropertyKeys::gameID.toLatin1(), QVariant(gameID));
+
+    m_shopPushButtons.append(button);
+    m_shopButtonRelays.append(buttonRelay);
+    scrollLayout->addWidget(button);
+    connect(buttonRelay, SIGNAL(buttonClicked(QVariant)), this, SLOT(shopButtonClicked(QVariant)));
+
+
+}
+
+void Title::removeShopButton(GameProperties *gameProps)
+{
+    int gameID = gameProps->getGameId();
+    QLayout* shopLayout = ui->shopContainerContents->layout();
+    int otherGameID;
+
+    for(QPushButton* button : m_shopPushButtons){
+        otherGameID = button->property(objectPropertyKeys::gameID.toLatin1()).toInt();
+        if(otherGameID == gameID){
+            shopLayout->removeWidget(button);
+            delete button;
+        }
+    }
+
+    for(ButtonRelay* button : m_shopButtonRelays){
+        otherGameID = button->property(objectPropertyKeys::gameID.toLatin1()).toInt();
+        if(otherGameID == gameID)
+            delete button;
+    }
+
+}
+
 void Title::userButtonClicked(QVariant userName)
 {    
 
@@ -118,8 +171,10 @@ void Title::userButtonClicked(QVariant userName)
 
     ui->userName->setText( m_user.getName() );
     ui->userScore->setText( QString::number(m_user.getScore()) );
-    ui->stackedWidget->setCurrentIndex(2);
+    ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::userHome);
+    //TODO button to go back to user select. If new user selected then remove all game and shop buttons ... just user "takeAt to remove from layout from index"
     makeAllGameButtons();
+    makeAllShopButtons();
     emit setUser(m_user);
 }
 
@@ -127,6 +182,27 @@ void Title::gameButtonClicked(QVariant gameID)
 {
     emit startGame(gameID.toInt());
 
+}
+
+void Title::shopButtonClicked(QVariant gameID)
+{
+    GameProperties* game = m_gameProperties.value(gameID.toInt());
+    int gamePrice = game->getPrice();
+
+    if(m_user.getScore() >= gamePrice){
+        m_user.addOwnedGame(gameID.toInt());
+        m_user.addScore(-gamePrice);
+        m_user.write();
+        ui->userScore->setText( QString::number(m_user.getScore()) );
+        makeGameButton(game);
+        removeShopButton(game);
+        ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::userHome);
+    }
+    else{
+        QMessageBox::information(this, "Transaction information", "You have unsufficient beats!");
+    }
+
+//TODO change all gets to property name
 }
 
 void Title::addMenu()
@@ -250,4 +326,15 @@ void Title::on_AddUser_clicked()
             msg.exec();
         }
     }
+}
+
+
+void Title::on_shopButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::shop);    
+}
+
+void Title::on_backToUserGames_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::userHome);
 }
