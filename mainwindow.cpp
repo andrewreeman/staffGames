@@ -56,9 +56,7 @@ void MainWindow::setUser(UserSettings user)
         delete m_user;
         m_user = nullptr;
     }
-//TODO user settings....disapearing after this function!
     m_user = new UserSettings("bob", 0);
-    qDebug() << m_user->name();
 }
 
 void MainWindow::removeWidget(QWidget *widget)
@@ -105,7 +103,7 @@ void MainWindow::initTitle()
 
 
 /*
- *
+ * TODO
  *  All userDetails are ONLY stored in MainWindow
  * MainWindow{
  *  MainWindow::(){

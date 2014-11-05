@@ -19,6 +19,7 @@ UserSettings::UserSettings(QString name, int score) :
 UserSettings::UserSettings(const UserSettings &otherUser)
 {
     //TODO const functions
+    //TODO do not need copy constructor now
     this->m_userName = otherUser.name();
     this->m_score = otherUser.score();
     this->m_ownedGames = otherUser.ownedGames();

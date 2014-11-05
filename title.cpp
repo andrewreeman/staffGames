@@ -242,7 +242,6 @@ void Title::shopButtonClicked(QVariant gameID)
         QMessageBox::information(this, "Transaction information", "You have unsufficient beats!");
     }
 }
-//TODO play again bug
 void Title::addMenu()
 {
     QMenuBar* menuBar = ((MainWindow*)parent())->menuBar();
