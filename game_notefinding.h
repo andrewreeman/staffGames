@@ -43,7 +43,7 @@ private:
     StaffScene* m_scene; 
     QMap<int, QString> m_lineToNoteMap;    
     int m_answer;
-    UserSettings* m_user;
+    //UserSettings* m_user;
     QList<int> m_selectableLines;
 
 };

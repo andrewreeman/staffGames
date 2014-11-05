@@ -4,6 +4,7 @@
 
 #include "exceptions.h"
 #include <QMessageBox>
+#include <QSettings>
 
 #include "game_notefinding.h"
 #include "game_linefinding.h"
@@ -12,7 +13,7 @@
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent), m_game(nullptr), m_title(nullptr), m_user(nullptr),
+    QMainWindow(parent), m_game(nullptr), m_title(nullptr),
     ui(new Ui::MainWindow)
 {    
 
@@ -30,7 +31,6 @@ MainWindow::~MainWindow()
 void MainWindow::startGame(int gameId)
 {    
     try{
-        qDebug() << m_user->name();
         removeWidget(m_title);
         disconnect(m_title, SIGNAL(setUser(UserSettings)), this, SLOT(setUser(UserSettings)));
         initGame(gameId);
@@ -49,14 +49,26 @@ void MainWindow::stopGame()
     initTitle();
 }
 
-void MainWindow::setUser(UserSettings user)
+void MainWindow::setUser(QString userName)
 {
+    QSettings settings;
+    bool gameIsOwned;
+    int totalBeats;
 
-    if(m_user){
-        delete m_user;
-        m_user = nullptr;
-    }
-    m_user = new UserSettings("bob", 0);
+    settings.beginGroup(userSettingsKeys::users);
+        settings.beginGroup(userName);
+            totalBeats = settings.value(userSettingsKeys::totalBeats).toInt();
+            m_user = UserSettings(userName, totalBeats);
+            settings.beginGroup(userSettingsKeys::ownedGames);
+                for(int i=0; i<gameIDs::numGames; ++i){
+                    gameIsOwned = settings.value(QString::number(i), QVariant(false)).toBool();
+                    if(gameIsOwned)
+                        m_user.addOwnedGame(i);
+                }
+                settings.endGroup();
+        settings.endGroup();
+    settings.endGroup();
+
 }
 
 void MainWindow::removeWidget(QWidget *widget)
@@ -98,6 +110,17 @@ void MainWindow::initTitle()
     ui->gameContainer->addWidget(m_title);
     connect(m_title, SIGNAL(startGame(int)), this, SLOT(startGame(int)));
     connect(m_title, SIGNAL(setUser(UserSettings)), this, SLOT(setUser(UserSettings)));
+}
+
+void MainWindow::initUserNames()
+{
+    QList<UserSettings> allUserSettings;
+    QSettings settings;
+    // QStringList userNames; //TODO change QList<string> tostring lists
+
+    settings.beginGroup(userSettingsKeys::users);
+        m_userNames = settings.childGroups();
+    settings.endGroup();
 }
 
 

@@ -20,7 +20,7 @@
 
 Game_NoteFinding::Game_NoteFinding(QWidget *parent) :
     Game(parent),
-    ui(new Ui::Game_NoteFinding), m_scene(nullptr), m_user(nullptr)
+    ui(new Ui::Game_NoteFinding), m_scene(nullptr)
 {    
 }
 
@@ -32,7 +32,6 @@ Game_NoteFinding::~Game_NoteFinding()
 void Game_NoteFinding::startGame()
 {
     ui->setupUi(this);
-    m_user = ( (MainWindow*)parent() )->getUser();
 
     m_scene = new StaffScene(ui->graphicsView, this);
     if(!m_scene) throw Except_MemoryAlloc(Q_FUNC_INFO);
@@ -182,7 +181,8 @@ void Game_NoteFinding::setSelectableLines()
 void Game_NoteFinding::on_pushButton_clicked()
 {
 
-    m_user->addScore(ui->score->value());
-    m_user->write();
+    MainWindow* mainParent = (MainWindow*)parent();
+    mainParent->addUserScore(ui->score->value());
+    mainParent->writeUserSettings();
     emit stopGame();
 }

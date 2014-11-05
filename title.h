@@ -23,7 +23,6 @@ public:
 signals:
     void startGame(int);
     void startLineFind();
-    void setUser(UserSettings user);
 private slots:
 
     void userButtonClicked(QVariant userName);
@@ -32,7 +31,7 @@ private slots:
     void on_titleToLogin_clicked();
 
     void on_AddUser_clicked();
-
+    //TODO add user dealt with mainwindow and remove user
     void removeUser_clicked();
     void removeMenu();
 
@@ -52,12 +51,11 @@ private:
     int userIndex(QString user);
 
     void makeAllUserButtons();
-    void makeUserButton(int userIndex);
+    void makeUserButton(QString name);
 
     void makeAllGameButtons();
     void makeGameButton(GameProperties* gameProps);
     void removeAllGameButtons();
-
 
     void makeAllShopButtons();
     void makeShopButton(GameProperties* gameProps);
@@ -66,7 +64,6 @@ private:
 
 
     void addMenu();
-
 
     Ui::Title *ui;
 
@@ -79,8 +76,7 @@ private:
     QList<ButtonRelay*> m_shopButtonRelays;
     QList<QPushButton*> m_shopPushButtons;
 
-    QList<UserSettings> m_allUsers;
-    UserSettings m_user;
+    //TODO delme ? QList<UserSettings> m_allUsers;
     QMap<int, GameProperties*> m_gameProperties;
 
     bool m_isFirstTimeUserSelected;

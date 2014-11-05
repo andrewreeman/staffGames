@@ -55,9 +55,10 @@ namespace trebleClef{
 
 namespace objectPropertyKeys{
     const int type = 0;
-    const int name = 1;
-    const int ledgerType = 2;
+    const int name = type+1;
+    const int ledgerType = name+1;
     const QString gameID = "gameID";
+    const QString userName = "userName";
 }
 
 namespace ledgerType{
