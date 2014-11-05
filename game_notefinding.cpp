@@ -33,8 +33,10 @@ void Game_NoteFinding::startGame()
 {
     ui->setupUi(this);
     m_user = ( (MainWindow*)parent() )->getUser();
-    m_scene = new StaffScene(ui->graphicsView, this);
 
+    m_user->name(); //TODO del me
+    m_scene = new StaffScene(ui->graphicsView, this);
+//TODO user not being set
     if(!m_scene) throw Except_MemoryAlloc(Q_FUNC_INFO);
 
     ui->score->setValue(0);

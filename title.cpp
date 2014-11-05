@@ -214,6 +214,7 @@ void Title::userButtonClicked(QVariant userName)
     makeAllGameButtons();
     makeAllShopButtons();
     m_isFirstTimeUserSelected = false;
+
     emit setUser(m_user);
 }
 
@@ -240,10 +241,8 @@ void Title::shopButtonClicked(QVariant gameID)
     else{
         QMessageBox::information(this, "Transaction information", "You have unsufficient beats!");
     }
-
-//TODO change all gets to property name
 }
-
+//TODO play again bug
 void Title::addMenu()
 {
     QMenuBar* menuBar = ((MainWindow*)parent())->menuBar();

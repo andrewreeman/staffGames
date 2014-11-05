@@ -12,7 +12,7 @@
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent), m_game(nullptr), m_title(nullptr),
+    QMainWindow(parent), m_game(nullptr), m_title(nullptr), m_user(nullptr),
     ui(new Ui::MainWindow)
 {    
 
@@ -30,6 +30,7 @@ MainWindow::~MainWindow()
 void MainWindow::startGame(int gameId)
 {    
     try{
+        qDebug() << m_user->name();
         removeWidget(m_title);
         disconnect(m_title, SIGNAL(setUser(UserSettings)), this, SLOT(setUser(UserSettings)));
         initGame(gameId);
@@ -50,7 +51,14 @@ void MainWindow::stopGame()
 
 void MainWindow::setUser(UserSettings user)
 {
-    m_user = user;
+
+    if(m_user){
+        delete m_user;
+        m_user = nullptr;
+    }
+//TODO user settings....disapearing after this function!
+    m_user = new UserSettings("bob", 0);
+    qDebug() << m_user->name();
 }
 
 void MainWindow::removeWidget(QWidget *widget)
@@ -91,6 +99,66 @@ void MainWindow::initTitle()
     m_title->setAttribute(Qt::WA_DeleteOnClose);
     ui->gameContainer->addWidget(m_title);
     connect(m_title, SIGNAL(startGame(int)), this, SLOT(startGame(int)));
-
     connect(m_title, SIGNAL(setUser(UserSettings)), this, SLOT(setUser(UserSettings)));
 }
+
+
+
+/*
+ *
+ *  All userDetails are ONLY stored in MainWindow
+ * MainWindow{
+ *  MainWindow::(){
+ *      new Title()
+ * }
+ *
+ *  userInfo
+ *
+ * setUser(userName){
+ *
+ *  userInfo = getUserSettingsFromUserName(userName)
+ *   if(userInfo.isValid)
+ *      delete userDetails
+ *      new userDetails(userInfo)
+ * }
+ *
+ * startGame{
+ *  game->start(this);
+ * delete title;
+ * }
+ *
+ * stopGame{
+ *  delete game;
+ * new Title(userDetails);
+ *
+ * }
+ *
+ *
+ * }
+ *
+ * Title{
+ *      MainWindow* main;
+ *
+ *      main->userScore;
+ *       main->userAddScore
+ *
+ *
+ *      setUser(
+ *          main->setUser(userName)
+ *      }
+ *
+ *      Title::(){....as normal}
+ *      Title::(UserSettings){ start with selected user home page}
+ *
+ * }
+ *
+ *Game{
+ *  start(MainWindow* parent){
+ *      userName = parent->userName
+ * }
+ *
+ * }
+ *
+ *
+ *
+ * */

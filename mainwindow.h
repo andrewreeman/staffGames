@@ -20,7 +20,12 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    UserSettings* getUser(){return &m_user;}
+    UserSettings* getUser(){
+        //TODO del me m_user = new UserSettings("bob", 0);
+       qDebug() <<  m_user->name();
+
+        return m_user;
+    }
 public slots:
     void startGame(int);
     void stopGame();
@@ -33,7 +38,7 @@ private:
     GameFactory m_gameFactory;
     Game* m_game;
     Title* m_title;
-    UserSettings m_user;
+    UserSettings* m_user;
     Ui::MainWindow *ui;
 };
 

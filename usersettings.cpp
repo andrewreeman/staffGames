@@ -16,6 +16,14 @@ UserSettings::UserSettings(QString name, int score) :
     m_ownedGames.push_back(gameIDs::noteFinderSpaces);
 }
 
+UserSettings::UserSettings(const UserSettings &otherUser)
+{
+    //TODO const functions
+    this->m_userName = otherUser.name();
+    this->m_score = otherUser.score();
+    this->m_ownedGames = otherUser.ownedGames();
+}
+
 void UserSettings::addScore(int addToScore)
 {
     int newScore = m_score + addToScore;

@@ -9,16 +9,17 @@ class UserSettings
 public:
     UserSettings();
     UserSettings(QString name, int score);
+    UserSettings(const UserSettings &otherUser);
 
-    QString name(){return m_userName;}
+    QString name()const{return m_userName;}
     void setName(QString name){m_userName = name;}
 
-    int score(){return m_score;}
+    int score()const{return m_score;}
     void addScore(int addToScore);
     void setScore(int score);
 
     void addOwnedGame(int gameId);
-    QList<int> ownedGames(){return m_ownedGames;}
+    QList<int> ownedGames()const{return m_ownedGames;}
 
     void write();
 
