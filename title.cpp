@@ -35,6 +35,12 @@ Title::~Title()
 
 void Title::on_titleToLogin_clicked()
 {    
+
+    MainWindow* mainWindow = (MainWindow*)parent();
+    qDebug() << mainWindow->test.at(0);
+    QStringList test = mainWindow->getAllUserNames();
+    qDebug() << test;
+
     ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::users);
     makeAllUserButtons();    
     addMenu();
@@ -69,6 +75,7 @@ QList<UserSettings> Title::getAllUserSettings()
 void Title::makeAllUserButtons()
 {
     MainWindow* mainWindow = (MainWindow*)parent();
+
     QStringList allUsers = mainWindow->getAllUserNames();
 
     for(QString user : allUsers){

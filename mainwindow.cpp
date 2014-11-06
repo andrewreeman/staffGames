@@ -16,9 +16,11 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent), m_game(nullptr), m_title(nullptr),
     ui(new Ui::MainWindow)
 {    
-
+    //TODO del me
+    test.push_back('a');
     ui->setupUi(this);
     centralWidget()->layout()->setContentsMargins(0, 0, 0, 0);
+    initUserNames();
     initTitle();
     this->showMaximized();
 }
@@ -114,7 +116,6 @@ void MainWindow::initTitle()
 
 void MainWindow::initUserNames()
 {
-    QList<UserSettings> allUserSettings;
     QSettings settings;
     // QStringList userNames; //TODO change QList<string> tostring lists
 
@@ -123,18 +124,7 @@ void MainWindow::initUserNames()
     settings.endGroup();
 }
 
-
-
 /*
- * TODO
- *  All userDetails are ONLY stored in MainWindow
- * MainWindow{
- *  MainWindow::(){
- *      new Title()
- * }
- *
- *  userInfo
- *
  * setUser(userName){
  *
  *  userInfo = getUserSettingsFromUserName(userName)

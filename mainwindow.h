@@ -5,6 +5,10 @@
 #include <QDebug>
 #include <QList>
 
+//TODO del me
+#include <vector>
+#include <QStringList>
+
 #include "game.h"
 #include "title.h"
 #include "usersettings.h"
@@ -33,8 +37,10 @@ public:
     void addUserScore(int accumulator){ m_user.addScore(accumulator);}
     void writeUserSettings(){m_user.write();}
     void addUserOwnedGame(int gameID){ m_user.addOwnedGame(gameID); }
-    QStringList getAllUserNames(){ return m_userNames;}
-
+    QStringList getAllUserNames(){ return m_userNames; }
+    //TODO delme
+    //QStringList test;
+    std::vector<char> test;
 
 public slots:
     void startGame(int);
@@ -51,6 +57,9 @@ private:
     UserSettings m_user;
     Ui::MainWindow *ui;
     QStringList m_userNames;
+
+
+
     //TODO perhaps mainwindow should just have a pointer to user settings :P :P const pointer to non const
 };
 
