@@ -19,6 +19,7 @@ class MainWindow;
 }
 
 class Game;
+class Title;
 
 class MainWindow : public QMainWindow
 {
@@ -38,9 +39,6 @@ public:
     void writeUserSettings(){m_user.write();}
     void addUserOwnedGame(int gameID){ m_user.addOwnedGame(gameID); }
     QStringList getAllUserNames(){ return m_userNames; }
-    //TODO delme
-    //QStringList test;
-    std::vector<char> test;
 
 public slots:
     void startGame(int);

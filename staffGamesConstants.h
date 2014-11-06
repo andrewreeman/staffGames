@@ -50,7 +50,8 @@ namespace colours{
 }
 
 namespace trebleClef{
-    const int offset = -100;
+    const int offsetX = -100;
+    const int offsetY = 50;
 }
 
 namespace objectPropertyKeys{

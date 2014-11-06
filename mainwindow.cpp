@@ -16,8 +16,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent), m_game(nullptr), m_title(nullptr),
     ui(new Ui::MainWindow)
 {    
-    //TODO del me
-    test.push_back('a');
     ui->setupUi(this);
     centralWidget()->layout()->setContentsMargins(0, 0, 0, 0);
     initUserNames();

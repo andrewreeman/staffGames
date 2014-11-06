@@ -37,7 +37,7 @@ void StaffScene::makeTrebleClef()
 {
     QPixmap image(":/notation/treble");
     m_treble = addPixmap(image);
-    m_treble->setPos(trebleClef::offset, line(6)->pos().y() - 130);
+    m_treble->setPos(trebleClef::offsetX, line(6)->pos().y() - trebleClef::offsetY);
     m_treble->setScale(1);
     m_treble->setData(objectPropertyKeys::type, objectPropertyTypes::trebleType);
 }

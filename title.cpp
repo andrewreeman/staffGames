@@ -13,7 +13,7 @@
 #include <QMessageBox>
 
 Title::Title(QWidget *parent) :
-    QWidget(parent),
+    QWidget(parent), m_mainWindow( (MainWindow*)parent),
     ui(new Ui::Title), m_isFirstTimeUserSelected(true)
 {
     auto constructGamePropertiesList = [&](){
@@ -36,9 +36,8 @@ Title::~Title()
 void Title::on_titleToLogin_clicked()
 {    
 
-    MainWindow* mainWindow = (MainWindow*)parent();
-    qDebug() << mainWindow->test.at(0);
-    QStringList test = mainWindow->getAllUserNames();
+
+    QStringList test = m_mainWindow->getAllUserNames();
     qDebug() << test;
 
     ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::users);
@@ -74,9 +73,7 @@ QList<UserSettings> Title::getAllUserSettings()
 
 void Title::makeAllUserButtons()
 {
-    MainWindow* mainWindow = (MainWindow*)parent();
-
-    QStringList allUsers = mainWindow->getAllUserNames();
+    QStringList allUsers = m_mainWindow->getAllUserNames();
 
     for(QString user : allUsers){
         makeUserButton(user);
@@ -103,8 +100,7 @@ void Title::makeUserButton(QString name)
 
 void Title::makeAllGameButtons()
 {
-    MainWindow* mainWindow = (MainWindow*)parent();
-    QList<int> userGames = mainWindow->getUserOwnedGames();
+    QList<int> userGames = m_mainWindow->getUserOwnedGames();
     for(int game : userGames)
         makeGameButton(m_gameProperties.value(game));
 }
@@ -146,8 +142,7 @@ void Title::makeAllShopButtons()
 void Title::makeShopButton(GameProperties *gameProps)
 {
 
-    MainWindow* mainWindow = (MainWindow*)parent();
-    QList<int> userOwnedGames = mainWindow->getUserOwnedGames();
+    QList<int> userOwnedGames = m_mainWindow->getUserOwnedGames();
     int gameID = gameProps->gameId();
 
     if(userOwnedGames.contains(gameID) ) return;
@@ -207,11 +202,10 @@ void Title::userButtonClicked(QVariant userName)
 {    
 
     int newUserIndex = userIndex(userName.toString());
-    MainWindow* mainWindow = (MainWindow*)parent();
 
     //TODO remove all this now?
     if(!m_isFirstTimeUserSelected){
-        int currentUserIndex = userIndex(mainWindow->getUserName());
+        int currentUserIndex = userIndex(m_mainWindow->getUserName());
         if(newUserIndex == currentUserIndex){
             ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::userHome);
             return;
@@ -223,9 +217,9 @@ void Title::userButtonClicked(QVariant userName)
     }
 
     //m_user = m_allUsers.at(newUserIndex);
-    mainWindow->setUser(userName.toString()); //TODO throw catch . perhaps signal when done
-    ui->userName->setText( mainWindow->getUserName() );
-    ui->userScore->setText( QString::number( mainWindow->getUserScore() ) );
+    m_mainWindow->setUser(userName.toString()); //TODO throw catch . perhaps signal when done
+    ui->userName->setText( m_mainWindow->getUserName() );
+    ui->userScore->setText( QString::number( m_mainWindow->getUserScore() ) );
     ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::userHome);
     makeAllGameButtons();
     makeAllShopButtons();
@@ -245,13 +239,12 @@ void Title::shopButtonClicked(QVariant gameID)
 
     GameProperties* game = m_gameProperties.value(gameID.toInt());
     int gamePrice = game->price();
-    MainWindow* mainWindow = (MainWindow*)parent();
 
-    if(mainWindow->getUserScore() >= gamePrice){
-        mainWindow->addUserOwnedGame(gameID.toInt());
-        mainWindow->addUserScore(-gamePrice);
-        mainWindow->writeUserSettings();
-        ui->userScore->setText( QString::number(mainWindow->getUserScore()) );
+    if(m_mainWindow->getUserScore() >= gamePrice){
+        m_mainWindow->addUserOwnedGame(gameID.toInt());
+        m_mainWindow->addUserScore(-gamePrice);
+        m_mainWindow->writeUserSettings();
+        ui->userScore->setText( QString::number(m_mainWindow->getUserScore()) );
         makeGameButton(game);
         removeShopButton(game);
         ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::userHome);
@@ -262,7 +255,7 @@ void Title::shopButtonClicked(QVariant gameID)
 }
 void Title::addMenu()
 {
-    QMenuBar* menuBar = ((MainWindow*)parent())->menuBar();
+    QMenuBar* menuBar = m_mainWindow->menuBar();
     QMenu* menu = new QMenu("Tools");
     QAction* action = menu->addAction("Remove user");
     menuBar->addMenu(menu);
@@ -271,7 +264,7 @@ void Title::addMenu()
 
 void Title::removeMenu()
 {
-    QMenuBar* menuBar = ((MainWindow*)parent())->menuBar();
+    QMenuBar* menuBar = m_mainWindow->menuBar();
     menuBar->clear();
     disconnect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(removeMenu()));
 }

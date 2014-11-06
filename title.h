@@ -7,10 +7,13 @@
 #include "usersettings.h"
 #include "buttonrelay.h"
 #include "gameproperties.h"
+#include "mainwindow.h"
 
 namespace Ui {
 class Title;
 }
+
+class MainWindow;
 
 class Title : public QWidget
 {
@@ -80,6 +83,8 @@ private:
     QMap<int, GameProperties*> m_gameProperties;
 
     bool m_isFirstTimeUserSelected;
+
+    MainWindow* m_mainWindow;
 };
 
 #endif // TITLE_H
