@@ -49,7 +49,7 @@ private:
     QList<UserSettings> getAllUserSettings();
 
     bool addUser(QString newUser);
-    bool removeUser(QString user);    
+    bool removeUser(QString userName);
 
     void makeAllUserButtons();
     void makeUserButton(QString name);

@@ -250,20 +250,17 @@ void Title::removeMenu()
 }
 
 void Title::removeUser_clicked()
-{
-    /* TODO put this in mainwindow?   not this function but remove user... fill this one later
+{    
     QString selectAName = "Please select a name to remove.";
-    auto getAllUserNames = [&](){
+    auto selectionList = [&](){
         QStringList userNames;
         userNames << selectAName;
-        for(UserSettings storedUser : m_allUsers){
-            userNames << storedUser.name();
-        }
+        userNames << m_mainWindow->getAllUserNames();
         return userNames;
-    };
+    };    
     bool userClickedOk;
     QString label = "Enter a user name to remove: ";    
-    QString user = QInputDialog::getItem(this, "Remove A User", label, getAllUserNames(),
+    QString user = QInputDialog::getItem(this, "Remove A User", label, selectionList(),
                                          0, false, &userClickedOk);
 
     if(userClickedOk && user != selectAName){
@@ -274,59 +271,42 @@ void Title::removeUser_clicked()
         int userYes = msg.exec();
         if(userYes == QMessageBox::Yes)
             removeUser(user);
-    } */
+    }
 }
 
 //TODO userHandler instead of all in main
 
 bool Title::addUser(QString newUser)
 {
-    m_mainWindow->addUser(newUser);
-    //TODO put this in mainWindow or userhandler?
-
-    auto addUserToLocalSettings = [&](){
-        QSettings settings;
-        settings.beginGroup(userSettingsKeys::users);
-            settings.beginGroup( m_allUsers.last().name() );
-                settings.setValue(userSettingsKeys::totalBeats, m_allUsers.last().score() );
-                settings.beginGroup(userSettingsKeys::ownedGames);
-                    settings.setValue(QString::number(gameIDs::noteFinderSpaces), true);
-                settings.endGroup();
-            settings.endGroup();
-        settings.endGroup();
-    };    
-    if(isUserExist(newUser)){
-        return false;
-    }
-    m_allUsers.push_back(UserSettings(newUser, 0));
-    addUserToLocalSettings();
-    makeUserButton(m_allUsers.size()-1);
-    return true;
-}
-
-bool Title::removeUser(QString user)
-{    
-    //TODO put this in main!
-    /*
-    auto removeFromStoredUsers = [&](){
-        QSettings settings;
-        settings.beginGroup(userSettingsKeys::users);
-            settings.beginGroup(user);
-                settings.remove("");
-            settings.endGroup();
-        settings.endGroup();
-    };
-
-    if(isUserExist(user)){
-        int thisUserIndex = userIndex(user);
-        m_allUsers.removeAt(thisUserIndex);
-        delete m_userButtonRelays.takeAt(thisUserIndex);
-        delete m_userPushButtons.takeAt(thisUserIndex);
-        removeFromStoredUsers();    
+    if(m_mainWindow->addUser(newUser)){
+        makeUserButton(newUser);
         return true;
     }
-    else
-        return false;    */ return true;
+    return false;
+
+}
+
+bool Title::removeUser(QString userName)
+{
+    //TODO change objectPropertyKeys to propertyKeys
+    if(m_mainWindow->removeUser(userName)){
+
+        for(int i=0; i<m_userButtonRelays.size(); ++i){
+            ButtonRelay* buttonRelay = m_userButtonRelays.at(i);
+            QString buttonUser = buttonRelay->property(objectPropertyKeys::userName.toLatin1()).toString();
+            if(buttonUser == userName)
+                delete m_userButtonRelays.takeAt(i);
+        }
+
+        for(int i=0; i<m_userPushButtons.size(); ++i){
+            QPushButton* button = m_userPushButtons.at(i);
+            QString buttonUser = button->property(objectPropertyKeys::userName.toLatin1()).toString();
+            if(buttonUser == userName)
+                delete m_userPushButtons.takeAt(i);
+        }
+        return true;
+    }
+    return false;
 }
 
 void Title::on_AddUser_clicked()
@@ -359,4 +339,6 @@ void Title::on_backToUserGames_clicked()
 void Title::on_backToUserList_clicked()
 {
     ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::users);
+    addMenu();
+    connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(removeMenu()));
 }

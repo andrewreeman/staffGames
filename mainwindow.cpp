@@ -78,23 +78,42 @@ bool MainWindow::addUser(QString userName)
     auto addUserToLocalSettings = [&](){
         QSettings settings;
         settings.beginGroup(userSettingsKeys::users);
-            settings.beginGroup( m_allUsers.last().name() );
-                settings.setValue(userSettingsKeys::totalBeats, m_allUsers.last().score() );
+            settings.beginGroup(userName);
+                settings.setValue(userSettingsKeys::totalBeats, 0);
                 settings.beginGroup(userSettingsKeys::ownedGames);
                     settings.setValue(QString::number(gameIDs::noteFinderSpaces), true);
                 settings.endGroup();
             settings.endGroup();
         settings.endGroup();
     };
-    if(isUserExist(newUser)){
+
+    if(m_userNames.contains(userName)){
         return false;
     }
-    m_allUsers.push_back(UserSettings(newUser, 0));
-    addUserToLocalSettings();
-    makeUserButton(m_allUsers.size()-1);
+    m_userNames.push_back(userName);
+    addUserToLocalSettings();    
     return true;
 }
 
+bool MainWindow::removeUser(QString userName)
+{
+    auto removeFromStoredUsers = [&](){
+        QSettings settings;
+        settings.beginGroup(userSettingsKeys::users);
+            settings.beginGroup(userName);
+                settings.remove("");
+            settings.endGroup();
+        settings.endGroup();
+    };
+
+    if( m_userNames.removeOne(userName) ){
+        removeFromStoredUsers();
+        return true;
+    }
+    else
+        return false;
+}
+//TODO model/view for usernames member
 void MainWindow::removeWidget(QWidget *widget)
 {
     ui->gameContainer->removeWidget(widget);
@@ -130,8 +149,7 @@ void MainWindow::initGame(int gameId)
 void MainWindow::initTitle()
 {
     m_title = new Title(this);
-    m_title->setAttribute(Q
-                          t::WA_DeleteOnClose);
+    m_title->setAttribute(Qt::WA_DeleteOnClose);
     ui->gameContainer->addWidget(m_title);
     connect(m_title, SIGNAL(startGame(int)), this, SLOT(startGame(int)));    
 }
