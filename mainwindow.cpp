@@ -70,6 +70,31 @@ void MainWindow::setUser(QString userName)
 
 }
 
+bool MainWindow::addUser(QString userName)
+{
+
+    //TODO put this in mainWindow or userhandler?
+
+    auto addUserToLocalSettings = [&](){
+        QSettings settings;
+        settings.beginGroup(userSettingsKeys::users);
+            settings.beginGroup( m_allUsers.last().name() );
+                settings.setValue(userSettingsKeys::totalBeats, m_allUsers.last().score() );
+                settings.beginGroup(userSettingsKeys::ownedGames);
+                    settings.setValue(QString::number(gameIDs::noteFinderSpaces), true);
+                settings.endGroup();
+            settings.endGroup();
+        settings.endGroup();
+    };
+    if(isUserExist(newUser)){
+        return false;
+    }
+    m_allUsers.push_back(UserSettings(newUser, 0));
+    addUserToLocalSettings();
+    makeUserButton(m_allUsers.size()-1);
+    return true;
+}
+
 void MainWindow::removeWidget(QWidget *widget)
 {
     ui->gameContainer->removeWidget(widget);
@@ -105,7 +130,8 @@ void MainWindow::initGame(int gameId)
 void MainWindow::initTitle()
 {
     m_title = new Title(this);
-    m_title->setAttribute(Qt::WA_DeleteOnClose);
+    m_title->setAttribute(Q
+                          t::WA_DeleteOnClose);
     ui->gameContainer->addWidget(m_title);
     connect(m_title, SIGNAL(startGame(int)), this, SLOT(startGame(int)));    
 }

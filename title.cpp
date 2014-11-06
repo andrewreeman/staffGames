@@ -277,15 +277,18 @@ void Title::removeUser_clicked()
     } */
 }
 
+//TODO userHandler instead of all in main
+
 bool Title::addUser(QString newUser)
 {
+    m_mainWindow->addUser(newUser);
     //TODO put this in mainWindow or userhandler?
-    /*
+
     auto addUserToLocalSettings = [&](){
         QSettings settings;
-        settings.beginGroup("users");
+        settings.beginGroup(userSettingsKeys::users);
             settings.beginGroup( m_allUsers.last().name() );
-                settings.setValue( "totalBeats", m_allUsers.last().score() );
+                settings.setValue(userSettingsKeys::totalBeats, m_allUsers.last().score() );
                 settings.beginGroup(userSettingsKeys::ownedGames);
                     settings.setValue(QString::number(gameIDs::noteFinderSpaces), true);
                 settings.endGroup();
@@ -298,7 +301,6 @@ bool Title::addUser(QString newUser)
     m_allUsers.push_back(UserSettings(newUser, 0));
     addUserToLocalSettings();
     makeUserButton(m_allUsers.size()-1);
-    return true; */
     return true;
 }
 

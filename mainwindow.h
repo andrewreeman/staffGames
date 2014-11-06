@@ -39,6 +39,7 @@ public:
     void writeUserSettings(){m_user.write();}
     void addUserOwnedGame(int gameID){ m_user.addOwnedGame(gameID); }
     QStringList getAllUserNames(){ return m_userNames; }
+    bool addUser(QString userName);
 
 public slots:
     void startGame(int);
