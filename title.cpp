@@ -35,11 +35,6 @@ Title::~Title()
 
 void Title::on_titleToLogin_clicked()
 {    
-
-
-    QStringList test = m_mainWindow->getAllUserNames();
-    qDebug() << test;
-
     ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::users);
     makeAllUserButtons();    
     addMenu();
@@ -97,6 +92,21 @@ void Title::makeUserButton(QString name)
     scrollLayout->addWidget(button);
     connect(buttonRelay, SIGNAL(buttonClicked(QVariant)), this, SLOT(userButtonClicked(QVariant)));
 }
+
+
+void Title::userButtonClicked(QVariant userName)
+{
+    removeAllGameButtons();
+    removeAllShopButtons();
+
+    m_mainWindow->setUser(userName.toString()); //TODO throw catch . perhaps signal when done
+    ui->userName->setText( m_mainWindow->getUserName() );
+    ui->userScore->setText( QString::number( m_mainWindow->getUserScore() ) );
+    ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::userHome);
+    makeAllGameButtons();
+    makeAllShopButtons();
+}
+
 
 void Title::makeAllGameButtons()
 {
@@ -196,36 +206,6 @@ void Title::removeAllShopButtons()
     m_shopPushButtons.clear();
     qDeleteAll(m_shopButtonRelays);
     m_shopButtonRelays.clear();
-}
-
-void Title::userButtonClicked(QVariant userName)
-{    
-
-    int newUserIndex = userIndex(userName.toString());
-
-    //TODO remove all this now?
-    if(!m_isFirstTimeUserSelected){
-        int currentUserIndex = userIndex(m_mainWindow->getUserName());
-        if(newUserIndex == currentUserIndex){
-            ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::userHome);
-            return;
-        }
-        else{
-            removeAllGameButtons();
-            removeAllShopButtons();
-        }
-    }
-
-    //m_user = m_allUsers.at(newUserIndex);
-    m_mainWindow->setUser(userName.toString()); //TODO throw catch . perhaps signal when done
-    ui->userName->setText( m_mainWindow->getUserName() );
-    ui->userScore->setText( QString::number( m_mainWindow->getUserScore() ) );
-    ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::userHome);
-    makeAllGameButtons();
-    makeAllShopButtons();
-    m_isFirstTimeUserSelected = false;
-
-    //emit setUser(m_user);
 }
 
 void Title::gameButtonClicked(QVariant gameID)
@@ -357,22 +337,6 @@ bool Title::isUserExist(QString user)
         }
         return false;
         */ return true;
-}
-
-int Title::userIndex(QString user)
-{
-    //TODO getAllUsers should be in MainWindow. Only gives names. Then can select user from name
-    //TODO remove user also in main and add user. with getAllUsers function...buttons update...errr brain mush!
-    //TODO unneeded?
-    /*
-    for(int i=0; i<m_allUsers.size(); ++i){
-       UserSettings storedUser = m_allUsers.at(i);
-       if(storedUser.name() == user)
-           return i;
-    }
-    return -1;
-    */
-    return -1;
 }
 
 void Title::on_AddUser_clicked()

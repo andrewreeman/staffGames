@@ -50,8 +50,7 @@ private:
 
     bool addUser(QString newUser);
     bool removeUser(QString user);
-    bool isUserExist(QString user);
-    int userIndex(QString user);
+    bool isUserExist(QString user);    
 
     void makeAllUserButtons();
     void makeUserButton(QString name);
@@ -81,8 +80,6 @@ private:
 
     //TODO delme ? QList<UserSettings> m_allUsers;
     QMap<int, GameProperties*> m_gameProperties;
-
-    bool m_isFirstTimeUserSelected;
 
     MainWindow* m_mainWindow;
 };
