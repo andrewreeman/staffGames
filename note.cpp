@@ -14,7 +14,7 @@ Note::Note()
 {
     makeNoteHead();
     makeStem();
-    this->setData(objectPropertyKeys::type, objectPropertyTypes::noteType);
+    this->setData(propertyKeys::type, propertyTypes::noteType);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges);
 #ifdef QT_DEBUG
     m_collide = QRectF(0, 0, 0, 0);
@@ -82,8 +82,8 @@ void Note::makeStem()
 
 bool Note::collidesWithItem(const QGraphicsItem *other, Qt::ItemSelectionMode mode) const
 {
-    QVariant type = other->data(objectPropertyKeys::type);
-    if(type.toString() == objectPropertyTypes::lineType){
+    QVariant type = other->data(propertyKeys::type);
+    if(type.toString() == propertyTypes::lineType){
         QRectF otherRec = other->boundingRect();
         QPointF otherCentre = mapFromScene(otherRec.center());
         QPointF thisCentre = this->boundingRect().center();

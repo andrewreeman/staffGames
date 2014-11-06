@@ -56,7 +56,7 @@ void MainWindow::setUser(QString userName)
 
     settings.beginGroup(userSettingsKeys::users);
         settings.beginGroup(userName);
-            totalBeats = settings.value(userSettingsKeys::totalBeats).toInt();
+            totalBeats = settings.value(userSettingsKeys::totalBeats, QVariant(0)).toInt();
             m_user = UserSettings(userName, totalBeats);
             settings.beginGroup(userSettingsKeys::ownedGames);
                 for(int i=0; i<gameIDs::numGames; ++i){
@@ -72,8 +72,6 @@ void MainWindow::setUser(QString userName)
 
 bool MainWindow::addUser(QString userName)
 {
-
-    //TODO put this in mainWindow or userhandler?
 
     auto addUserToLocalSettings = [&](){
         QSettings settings;
@@ -156,9 +154,7 @@ void MainWindow::initTitle()
 
 void MainWindow::initUserNames()
 {
-    QSettings settings;
-    // QStringList userNames; //TODO change QList<string> tostring lists
-
+    QSettings settings;    
     settings.beginGroup(userSettingsKeys::users);
         m_userNames = settings.childGroups();
     settings.endGroup();

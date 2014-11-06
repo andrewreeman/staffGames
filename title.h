@@ -33,8 +33,7 @@ private slots:
     void shopButtonClicked(QVariant gameID);
     void on_titleToLogin_clicked();
 
-    void on_AddUser_clicked();
-    //TODO add user dealt with mainwindow and remove user
+    void on_AddUser_clicked();    
     void removeUser_clicked();
     void removeMenu();
 
@@ -45,8 +44,6 @@ private slots:
     void on_backToUserList_clicked();
 
 private:
-
-    QList<UserSettings> getAllUserSettings();
 
     bool addUser(QString newUser);
     bool removeUser(QString userName);
@@ -63,7 +60,6 @@ private:
     void removeShopButton(GameProperties* gameProps);
     void removeAllShopButtons();
 
-
     void addMenu();
 
     Ui::Title *ui;
@@ -77,7 +73,6 @@ private:
     QList<ButtonRelay*> m_shopButtonRelays;
     QList<QPushButton*> m_shopPushButtons;
 
-    //TODO delme ? QList<UserSettings> m_allUsers;
     QMap<int, GameProperties*> m_gameProperties;
 
     MainWindow* m_mainWindow;

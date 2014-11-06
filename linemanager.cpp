@@ -44,8 +44,8 @@ void lineManager::createStaff()
             m_staffLines.push_back(new StaffLine(lineTemplates.at(parity), this) );
             m_staffLines.at(line)->setDefaultBrush( brushes.at(parity) );
             m_staffLines.at(line)->setPen(pen);
-            m_staffLines.at(line)->setData(objectPropertyKeys::type, objectPropertyTypes::lineType);
-            m_staffLines.at(line)->setData(objectPropertyKeys::name, line);
+            m_staffLines.at(line)->setData(propertyKeys::type, propertyTypes::lineType);
+            m_staffLines.at(line)->setData(propertyKeys::name, line);
         }
         offsetRects(lineTemplates, Yoffset);
     }
@@ -95,8 +95,8 @@ void lineManager::createUpperLedgers()
             m_upperLines.push_back(new LedgerLine(lineTemplates.at(parity), this) );
             m_upperLines.at(line)->setDefaultBrush( brushes.at(parity) );
             m_upperLines.at(line)->setPen(pen);
-            m_upperLines.at(line)->setData(objectPropertyKeys::type, objectPropertyTypes::lineType);
-            m_upperLines.at(line)->setData(objectPropertyKeys::name,lineNumber);
+            m_upperLines.at(line)->setData(propertyKeys::type, propertyTypes::lineType);
+            m_upperLines.at(line)->setData(propertyKeys::name,lineNumber);
             m_upperLines.at(line)->setOpacity(0);
 
         }
@@ -124,8 +124,8 @@ void lineManager::createLowerLedgers()
             m_lowerLines.push_back(new LedgerLine(lineTemplates.at(parity), this) );
             m_lowerLines.at(line)->setDefaultBrush( brushes.at(parity) );
             m_lowerLines.at(line)->setPen(pen);
-            m_lowerLines.at(line)->setData(objectPropertyKeys::type, objectPropertyTypes::lineType);
-            m_lowerLines.at(line)->setData(objectPropertyKeys::name,lineNumber);
+            m_lowerLines.at(line)->setData(propertyKeys::type, propertyTypes::lineType);
+            m_lowerLines.at(line)->setData(propertyKeys::name,lineNumber);
             m_lowerLines.at(line)->setOpacity(0);
         }
         offsetRects(lineTemplates, Yoffset);
@@ -140,7 +140,7 @@ QRectF lineManager::boundingRect() const
 bool lineManager::sceneEventFilter(QGraphicsItem *watched, QEvent *event)
 {
     bool isEventConsumed = false;
-    QString type = watched->data(objectPropertyKeys::type).toString();
+    QString type = watched->data(propertyKeys::type).toString();
 
     auto f_checkNoteCollision = [&](){
         QPointF circleCentre = watched->boundingRect().center();
@@ -159,7 +159,7 @@ bool lineManager::sceneEventFilter(QGraphicsItem *watched, QEvent *event)
         }
     };
 
-    if(type == objectPropertyTypes::noteType){
+    if(type == propertyTypes::noteType){
         if(event->type() == QEvent::GraphicsSceneMouseMove){
             f_checkNoteCollision();
             return isEventConsumed;
@@ -189,7 +189,7 @@ void lineManager::circleCollision(QGraphicsItem *circle)
     }
 }
 
-QList<int> lineManager::getCollidedLineNumbers(QList<QGraphicsItem *> *collidedItems)
+QList<int> lineManager::getCollidedLineNumbers(QList<QGraphicsItem *> *collidedItems) const
 {
     QVariant type;
     QGraphicsItem* item;
@@ -198,9 +198,9 @@ QList<int> lineManager::getCollidedLineNumbers(QList<QGraphicsItem *> *collidedI
     int numItems = (*collidedItems).size();
     for(int i=0; i<numItems; ++i){
         item = (*collidedItems).at(i);
-        type = item->data(objectPropertyKeys::type);
-        if(type == objectPropertyTypes::lineType){
-            lineNumber = item->data(objectPropertyKeys::name).toInt();
+        type = item->data(propertyKeys::type);
+        if(type == propertyTypes::lineType){
+            lineNumber = item->data(propertyKeys::name).toInt();
             lineNumbers.push_back(lineNumber);
         }
     }        
@@ -248,7 +248,7 @@ void lineManager::updateUpperLedgers(QPointF circleCentre)
 
 void lineManager::updateLowerLedgers(QPointF circleCentre)
 {   
-    int lastLedgerLineNumber = m_lowerLines.last()->data(objectPropertyKeys::name).toInt();
+    int lastLedgerLineNumber = m_lowerLines.last()->data(propertyKeys::name).toInt();
     int selectLineBoundry = m_selectedLine >=m_staffLines.size() ? m_selectedLine : m_staffLines.size()-1;
     auto f_turnLinesOn = [&](){
         for(int i=m_staffLines.size(); i<=selectLineBoundry; ++i){
@@ -286,7 +286,7 @@ StaffLine *lineManager::line(int lineNumber)
     }
 }
 
-bool lineManager::isOdd(int number)
+bool lineManager::isOdd(int number) const
 {
     return number%2;
 }

@@ -83,8 +83,8 @@ void Title::makeUserButton(QString name)
     QPushButton* button = new QPushButton(name);
     ButtonRelay* buttonRelay = new ButtonRelay(button,name, this);
 
-    button->setProperty(objectPropertyKeys::userName.toLatin1(), QVariant(name));
-    buttonRelay->setProperty(objectPropertyKeys::userName.toLatin1(), QVariant(name));
+    button->setProperty(propertyKeys::userName.toLatin1(), QVariant(name));
+    buttonRelay->setProperty(propertyKeys::userName.toLatin1(), QVariant(name));
 
 
     m_userPushButtons.append(button);
@@ -99,7 +99,7 @@ void Title::userButtonClicked(QVariant userName)
     removeAllGameButtons();
     removeAllShopButtons();
 
-    m_mainWindow->setUser(userName.toString()); //TODO throw catch . perhaps signal when done
+    m_mainWindow->setUser(userName.toString());
     ui->userName->setText( m_mainWindow->getUserName() );
     ui->userScore->setText( QString::number( m_mainWindow->getUserScore() ) );
     ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::userHome);
@@ -162,8 +162,8 @@ void Title::makeShopButton(GameProperties *gameProps)
     QPushButton* button = new QPushButton(buttonTitle);
     ButtonRelay* buttonRelay = new ButtonRelay(button, gameID, this);
 
-    button->setProperty(objectPropertyKeys::gameID.toLatin1(), QVariant(gameID));
-    buttonRelay->setProperty(objectPropertyKeys::gameID.toLatin1(), QVariant(gameID));
+    button->setProperty(propertyKeys::gameID.toLatin1(), QVariant(gameID));
+    buttonRelay->setProperty(propertyKeys::gameID.toLatin1(), QVariant(gameID));
 
     m_shopPushButtons.append(button);
     m_shopButtonRelays.append(buttonRelay);
@@ -180,7 +180,7 @@ void Title::removeShopButton(GameProperties *gameProps)
     int otherGameID;
 
     for(QPushButton* button : m_shopPushButtons){
-        otherGameID = button->property(objectPropertyKeys::gameID.toLatin1()).toInt();
+        otherGameID = button->property(propertyKeys::gameID.toLatin1()).toInt();
         if(otherGameID == gameID){
             shopLayout->removeWidget(button);
             delete button;
@@ -188,7 +188,7 @@ void Title::removeShopButton(GameProperties *gameProps)
     }
 
     for(ButtonRelay* button : m_shopButtonRelays){
-        otherGameID = button->property(objectPropertyKeys::gameID.toLatin1()).toInt();
+        otherGameID = button->property(propertyKeys::gameID.toLatin1()).toInt();
         if(otherGameID == gameID)
             delete button;
     }
@@ -288,19 +288,18 @@ bool Title::addUser(QString newUser)
 
 bool Title::removeUser(QString userName)
 {
-    //TODO change objectPropertyKeys to propertyKeys
     if(m_mainWindow->removeUser(userName)){
 
         for(int i=0; i<m_userButtonRelays.size(); ++i){
             ButtonRelay* buttonRelay = m_userButtonRelays.at(i);
-            QString buttonUser = buttonRelay->property(objectPropertyKeys::userName.toLatin1()).toString();
+            QString buttonUser = buttonRelay->property(propertyKeys::userName.toLatin1()).toString();
             if(buttonUser == userName)
                 delete m_userButtonRelays.takeAt(i);
         }
 
         for(int i=0; i<m_userPushButtons.size(); ++i){
             QPushButton* button = m_userPushButtons.at(i);
-            QString buttonUser = button->property(objectPropertyKeys::userName.toLatin1()).toString();
+            QString buttonUser = button->property(propertyKeys::userName.toLatin1()).toString();
             if(buttonUser == userName)
                 delete m_userPushButtons.takeAt(i);
         }

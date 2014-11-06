@@ -15,6 +15,7 @@
 #include <QMediaPlayer>
 #include <QFileInfo>
 #include <QSettings>
+#include <QStringList>
 
 #include "mainwindow.h"
 
@@ -58,7 +59,7 @@ void Game_NoteFinding::addSelectableLine(int lineIndex)
 void Game_NoteFinding::makeMap()
 {
     QList<QChar> noteLetters{'F', 'E', 'D', 'C', 'B', 'A', 'G'}; // top staff note first descending
-    QList<QString> totalLetters;
+    QStringList totalLetters;
     int numLedgerNotes = staffLayout::numLedgerNotes;
     int numStaffNotes = staffLayout::numStaffLines;
     int totalNotes = (numLedgerNotes*2)+numStaffNotes;
@@ -71,7 +72,7 @@ void Game_NoteFinding::makeMap()
     auto f_initTotalLetters = [&](){
         for(int i=0; i<totalNotes; ++i, ++noteIndex){
             QChar letter = noteLetters.at( noteIndex % noteLetters.size() );
-            totalLetters.push_back(letter);
+            totalLetters << letter;
         }
     };
     auto f_octavizeNotes = [&](){
@@ -160,9 +161,9 @@ QList<QGraphicsItem *> Game_NoteFinding::lines()
     QList<QGraphicsItem*> lines;
 
     for(int i=0; i<items.size(); ++i){
-        type = items.at(i)->data(objectPropertyKeys::type);
+        type = items.at(i)->data(propertyKeys::type);
         typeStr = type.toString();
-        if(typeStr == objectPropertyTypes::lineType || typeStr == objectPropertyTypes::whiteLineType){
+        if(typeStr == propertyTypes::lineType || typeStr == propertyTypes::whiteLineType){
             lines.push_back(items.at(i));
         }
     }

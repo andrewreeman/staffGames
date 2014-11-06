@@ -24,28 +24,22 @@ public:
     virtual void startGame();
 
 private slots:
-
     void lineSelected(int line);    
     void on_pushButton_clicked();
 
 private:
-
     void makeMap();
     void correct();
     void incorrect();
     void nextRound();
-    //QList<QGraphicsItem*> lines();
     void writeUserSettings();
     virtual void setSelectableLines();
-
 
     Ui::Game_NoteFinding *ui;
     StaffScene* m_scene; 
     QMap<int, QString> m_lineToNoteMap;    
-    int m_answer;
-    //UserSettings* m_user;
+    int m_answer;    
     QList<int> m_selectableLines;
-
 };
 
 #endif // Game_NoteFinding_H

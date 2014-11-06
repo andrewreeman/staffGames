@@ -8,8 +8,7 @@ class UserSettings
 {
 public:
     UserSettings();
-    UserSettings(QString name, int score);
-    UserSettings(const UserSettings &otherUser);
+    UserSettings(QString name, int score);    
 
     QString name()const{return m_userName;}
     void setName(QString name){m_userName = name;}

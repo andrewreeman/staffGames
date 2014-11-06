@@ -5,8 +5,6 @@
 #include <QDebug>
 #include <QList>
 
-//TODO del me
-#include <vector>
 #include <QStringList>
 
 #include "game.h"
@@ -29,7 +27,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    void setUser(QString userName); //TODO throws
+    void setUser(QString userName);
 
     //user operations
     QString getUserName()const{return m_user.name();}
@@ -58,9 +56,6 @@ private:
     Ui::MainWindow *ui;
     QStringList m_userNames;
 
-
-
-    //TODO perhaps mainwindow should just have a pointer to user settings :P :P const pointer to non const
 };
 
 #endif // MAINWINDOW_H

@@ -35,7 +35,7 @@ private:
     void createLowerLedgers();
 
     void circleCollision(QGraphicsItem* circle);
-    QList<int> getCollidedLineNumbers(QList<QGraphicsItem*>* collidedItems);
+    QList<int> getCollidedLineNumbers(QList<QGraphicsItem*>* collidedItems)const;
     void selectLine(int newSelectedLine);
 
     void setSelectLine(int selectedLine, bool selectOn);
@@ -43,7 +43,7 @@ private:
 
     void updateUpperLedgers(QPointF circleCentre);
     void updateLowerLedgers(QPointF circleCentre);
-    bool isOdd(int);
+    bool isOdd(int)const;
 
     int m_selectedLine;      
     QList<StaffLine*> m_staffLines;

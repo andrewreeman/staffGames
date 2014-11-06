@@ -54,7 +54,7 @@ namespace trebleClef{
     const int offsetY = 50;
 }
 
-namespace objectPropertyKeys{
+namespace propertyKeys{
     const int type = 0;
     const int name = type+1;
     const int ledgerType = name+1;
@@ -67,7 +67,7 @@ namespace ledgerType{
     const QString stave = "stave";
 }
 
-namespace objectPropertyTypes{
+namespace propertyTypes{
     const QString whiteLineType = "whiteline";
     const QString lineType = "line";
     const QString noteType = "note";

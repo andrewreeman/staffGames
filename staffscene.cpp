@@ -39,7 +39,7 @@ void StaffScene::makeTrebleClef()
     m_treble = addPixmap(image);
     m_treble->setPos(trebleClef::offsetX, line(6)->pos().y() - trebleClef::offsetY);
     m_treble->setScale(1);
-    m_treble->setData(objectPropertyKeys::type, objectPropertyTypes::trebleType);
+    m_treble->setData(propertyKeys::type, propertyTypes::trebleType);
 }
 
 void StaffScene::setBoundries()
@@ -75,7 +75,7 @@ void StaffScene::setCorrectState(int lineNumber, bool correctState)
     QTimer::singleShot(500, this, SLOT(unselectLine()));
 }
 
-StaffLine *StaffScene::line(int lineNumber)
+StaffLine *StaffScene::line(int lineNumber) const
 {
     return m_lineManager->line(lineNumber);
 }

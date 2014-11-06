@@ -14,7 +14,6 @@ public:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 private:
     qreal m_circleCentreX;
-
 };
 
 #endif // LEDGERLINE_H
