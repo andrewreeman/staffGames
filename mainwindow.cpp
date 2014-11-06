@@ -111,7 +111,7 @@ bool MainWindow::removeUser(QString userName)
     else
         return false;
 }
-//TODO model/view for usernames member
+//TODO test all games
 void MainWindow::removeWidget(QWidget *widget)
 {
     ui->gameContainer->removeWidget(widget);

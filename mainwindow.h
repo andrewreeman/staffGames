@@ -29,13 +29,8 @@ public:
 
     void setUser(QString userName);
 
-    //user operations
-    QString getUserName()const{return m_user.name();}
-    int getUserScore()const{return m_user.score();}
-    QList<int> getUserOwnedGames()const{return m_user.ownedGames();}
-    void addUserScore(int accumulator){ m_user.addScore(accumulator);}
-    void writeUserSettings(){m_user.write();}
-    void addUserOwnedGame(int gameID){ m_user.addOwnedGame(gameID); }
+    //user operations    
+    UserSettings* user(){ return &m_user; }
     QStringList getAllUserNames(){ return m_userNames; }
     bool addUser(QString userName);
     bool removeUser(QString userName);

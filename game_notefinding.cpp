@@ -183,7 +183,7 @@ void Game_NoteFinding::on_pushButton_clicked()
 {
 
     MainWindow* mainParent = (MainWindow*)parent();
-    mainParent->addUserScore(ui->score->value());
-    mainParent->writeUserSettings();
+    mainParent->user()->addScore(ui->score->value());
+    mainParent->user()->write();
     emit stopGame();
 }

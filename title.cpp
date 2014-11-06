@@ -100,8 +100,8 @@ void Title::userButtonClicked(QVariant userName)
     removeAllShopButtons();
 
     m_mainWindow->setUser(userName.toString());
-    ui->userName->setText( m_mainWindow->getUserName() );
-    ui->userScore->setText( QString::number( m_mainWindow->getUserScore() ) );
+    ui->userName->setText(userName.toString());
+    ui->userScore->setText( QString::number( m_mainWindow->user()->score() ) );
     ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::userHome);
     makeAllGameButtons();
     makeAllShopButtons();
@@ -109,9 +109,8 @@ void Title::userButtonClicked(QVariant userName)
 
 
 void Title::makeAllGameButtons()
-{
-    QList<int> userGames = m_mainWindow->getUserOwnedGames();
-    for(int game : userGames)
+{       
+    for(int game : m_mainWindow->user()->ownedGames())
         makeGameButton(m_gameProperties.value(game));
 }
 
@@ -152,7 +151,7 @@ void Title::makeAllShopButtons()
 void Title::makeShopButton(GameProperties *gameProps)
 {
 
-    QList<int> userOwnedGames = m_mainWindow->getUserOwnedGames();
+    QList<int> userOwnedGames = m_mainWindow->user()->ownedGames();
     int gameID = gameProps->gameId();
 
     if(userOwnedGames.contains(gameID) ) return;
@@ -218,13 +217,14 @@ void Title::shopButtonClicked(QVariant gameID)
 {
 
     GameProperties* game = m_gameProperties.value(gameID.toInt());
+    UserSettings* user = m_mainWindow->user();
     int gamePrice = game->price();
 
-    if(m_mainWindow->getUserScore() >= gamePrice){
-        m_mainWindow->addUserOwnedGame(gameID.toInt());
-        m_mainWindow->addUserScore(-gamePrice);
-        m_mainWindow->writeUserSettings();
-        ui->userScore->setText( QString::number(m_mainWindow->getUserScore()) );
+    if(user->score() >= gamePrice){
+        user->addOwnedGame(gameID.toInt());
+        user->addScore(-gamePrice);
+        user->write();
+        ui->userScore->setText( QString::number(user->score()) );
         makeGameButton(game);
         removeShopButton(game);
         ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::userHome);
@@ -273,8 +273,6 @@ void Title::removeUser_clicked()
             removeUser(user);
     }
 }
-
-//TODO userHandler instead of all in main
 
 bool Title::addUser(QString newUser)
 {
