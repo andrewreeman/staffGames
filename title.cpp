@@ -14,7 +14,7 @@
 
 Title::Title(QWidget *parent) :
     QWidget(parent), m_mainWindow( (MainWindow*)parent),
-    ui(new Ui::Title), m_isFirstTimeUserSelected(true)
+    ui(new Ui::Title)
 {
     auto constructGamePropertiesList = [&](){
         m_gameProperties.insert(gameIDs::noteFinderSpaces, new GameProperties_SpaceFinding());
@@ -325,18 +325,6 @@ bool Title::removeUser(QString user)
     }
     else
         return false;    */ return true;
-}
-
-bool Title::isUserExist(QString user)
-{
-    //TODO also in main or user handler
-    /*
-        for(UserSettings storedUser : m_allUsers){
-            if(storedUser.name() == user)
-                return true;
-        }
-        return false;
-        */ return true;
 }
 
 void Title::on_AddUser_clicked()

@@ -31,8 +31,7 @@ MainWindow::~MainWindow()
 void MainWindow::startGame(int gameId)
 {    
     try{
-        removeWidget(m_title);
-        disconnect(m_title, SIGNAL(setUser(UserSettings)), this, SLOT(setUser(UserSettings)));
+        removeWidget(m_title);        
         initGame(gameId);
     }
     catch(Except_StaffGames &e){
@@ -108,8 +107,7 @@ void MainWindow::initTitle()
     m_title = new Title(this);
     m_title->setAttribute(Qt::WA_DeleteOnClose);
     ui->gameContainer->addWidget(m_title);
-    connect(m_title, SIGNAL(startGame(int)), this, SLOT(startGame(int)));
-    connect(m_title, SIGNAL(setUser(UserSettings)), this, SLOT(setUser(UserSettings)));
+    connect(m_title, SIGNAL(startGame(int)), this, SLOT(startGame(int)));    
 }
 
 void MainWindow::initUserNames()
