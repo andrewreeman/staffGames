@@ -153,18 +153,24 @@ void Title::removeShopButton(GameProperties *gameProps)
     QLayout* shopLayout = ui->shopContainerContents->layout();
     int otherGameID;
 
-    for(QPushButton* button : m_shopPushButtons){
+    for(int i=0; i<m_shopPushButtons.size(); ++i){
+        QPushButton* button = m_shopPushButtons.at(i);
         otherGameID = button->property(propertyKeys::gameID.toLatin1()).toInt();
         if(otherGameID == gameID){
             shopLayout->removeWidget(button);
             delete button;
+            m_shopPushButtons.removeAt(i);
+            break;
         }
     }
 
-    for(ButtonRelay* button : m_shopButtonRelays){
+    for(int i=0; i<m_shopButtonRelays.size(); ++i){
+        ButtonRelay* button = m_shopButtonRelays.at(i);
         otherGameID = button->property(propertyKeys::gameID.toLatin1()).toInt();
         if(otherGameID == gameID)
             delete button;
+            m_shopButtonRelays.removeAt(i);
+            break;
     }
 }
 
@@ -268,6 +274,7 @@ bool Title::removeUser(QString userName)
             QString buttonUser = buttonRelay->property(propertyKeys::userName.toLatin1()).toString();
             if(buttonUser == userName)
                 delete m_userButtonRelays.takeAt(i);
+                break;
         }
 
         for(int i=0; i<m_userPushButtons.size(); ++i){
@@ -275,6 +282,7 @@ bool Title::removeUser(QString userName)
             QString buttonUser = button->property(propertyKeys::userName.toLatin1()).toString();
             if(buttonUser == userName)
                 delete m_userPushButtons.takeAt(i);
+                break;
         }
         return true;
     }
