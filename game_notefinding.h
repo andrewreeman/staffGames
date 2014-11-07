@@ -8,10 +8,15 @@
 #include "usersettings.h"
 #include "staffscene.h"
 #include "game.h"
+#include "mainwindow.h"
+
+//TODO classes need pointer to user settings not mainwindow
 
 namespace Ui {
 class Game_NoteFinding;
 }
+
+class MainWindow;
 
 class Game_NoteFinding : public Game
 {
@@ -25,6 +30,7 @@ public:
 
 private slots:
     void lineSelected(int line);    
+    //TODO change name to winButton
     void on_pushButton_clicked();
 
 private:
@@ -40,6 +46,7 @@ private:
     QMap<int, QString> m_lineToNoteMap;    
     int m_answer;    
     QList<int> m_selectableLines;
+    MainWindow* m_mainWindow;
 };
 
 #endif // Game_NoteFinding_H

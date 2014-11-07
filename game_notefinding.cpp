@@ -20,7 +20,7 @@
 #include "mainwindow.h"
 
 Game_NoteFinding::Game_NoteFinding(QWidget *parent) :
-    Game(parent),
+    Game(parent), m_mainWindow( (MainWindow*)parent),
     ui(new Ui::Game_NoteFinding), m_scene(nullptr)
 {    
 }
@@ -152,23 +152,6 @@ void Game_NoteFinding::nextRound()
     m_answer = getRandLine();
     ui->guiChallenge->setText("Find the note: " + m_lineToNoteMap.value(m_answer));
 }
-/*
-QList<QGraphicsItem *> Game_NoteFinding::lines()
-{
-    QList<QGraphicsItem*> items = m_scene->items();
-    QVariant type;
-    QVariant typeStr;
-    QList<QGraphicsItem*> lines;
-
-    for(int i=0; i<items.size(); ++i){
-        type = items.at(i)->data(propertyKeys::type);
-        typeStr = type.toString();
-        if(typeStr == propertyTypes::lineType || typeStr == propertyTypes::whiteLineType){
-            lines.push_back(items.at(i));
-        }
-    }
-    return lines;
-}*/
 
 void Game_NoteFinding::setSelectableLines()
 {
@@ -182,8 +165,7 @@ void Game_NoteFinding::setSelectableLines()
 void Game_NoteFinding::on_pushButton_clicked()
 {
 
-    MainWindow* mainParent = (MainWindow*)parent();
-    mainParent->user()->addScore(ui->score->value());
-    mainParent->user()->write();
+    m_mainWindow->user()->addScore(ui->score->value());
+    m_mainWindow->user()->write();
     emit stopGame();
 }
