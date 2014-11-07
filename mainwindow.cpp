@@ -111,7 +111,6 @@ bool MainWindow::removeUser(QString userName)
         return false;
 }
 //TODO test all games
-//TODO crash when last game bought
 void MainWindow::removeWidget(QWidget *widget)
 {
     ui->gameContainer->removeWidget(widget);
