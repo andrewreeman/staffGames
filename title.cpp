@@ -40,31 +40,6 @@ void Title::on_titleToLogin_clicked()
     addMenu();
     connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(removeMenu()));
 }
-/*
-QList<UserSettings> Title::getAllUserSettings()
-{
-    QList<UserSettings> allUserSettings;
-    QSettings settings;
-    QStringList userNames;
-    bool gameIsOwned;
-
-    settings.beginGroup(userSettingsKeys::users);
-        userNames = settings.childGroups();
-        for(QString user : userNames){
-            settings.beginGroup(user);
-            allUserSettings.push_back( UserSettings(user, settings.value(userSettingsKeys::totalBeats).toInt()) );
-                settings.beginGroup(userSettingsKeys::ownedGames);
-                    for(int i=0; i<gameIDs::numGames; ++i){
-                        gameIsOwned = settings.value(QString::number(i), QVariant(false)).toBool();
-                        if(gameIsOwned)
-                            allUserSettings.last().addOwnedGame(i);
-                    }
-                settings.endGroup();
-            settings.endGroup();
-        }
-    settings.endGroup();
-    return allUserSettings;
-}*/
 
 void Title::makeAllUserButtons()
 {
@@ -191,7 +166,6 @@ void Title::removeShopButton(GameProperties *gameProps)
         if(otherGameID == gameID)
             delete button;
     }
-
 }
 
 void Title::removeAllShopButtons()
@@ -233,6 +207,7 @@ void Title::shopButtonClicked(QVariant gameID)
         QMessageBox::information(this, "Transaction information", "You have unsufficient beats!");
     }
 }
+
 void Title::addMenu()
 {
     QMenuBar* menuBar = m_mainWindow->menuBar();
@@ -276,12 +251,12 @@ void Title::removeUser_clicked()
 
 bool Title::addUser(QString newUser)
 {
+    newUser = newUser.simplified();
     if(m_mainWindow->addUser(newUser)){
         makeUserButton(newUser);
         return true;
     }
     return false;
-
 }
 
 bool Title::removeUser(QString userName)

@@ -9,7 +9,11 @@ namespace titleStackedWidgetIndices{
     const int users = 1;
     const int userHome = 2;
     const int shop = 3;
+}
 
+namespace gameStackedWidgetIndices{
+    const int game = 0;
+    const int won = 1;
 }
 
 namespace gamePrices{

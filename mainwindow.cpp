@@ -84,7 +84,6 @@ bool MainWindow::addUser(QString userName)
             settings.endGroup();
         settings.endGroup();
     };
-
     if(m_userNames.contains(userName)){
         return false;
     }
@@ -159,53 +158,3 @@ void MainWindow::initUserNames()
         m_userNames = settings.childGroups();
     settings.endGroup();
 }
-
-/*
- * setUser(userName){
- *
- *  userInfo = getUserSettingsFromUserName(userName)
- *   if(userInfo.isValid)
- *      delete userDetails
- *      new userDetails(userInfo)
- * }
- *
- * startGame{
- *  game->start(this);
- * delete title;
- * }
- *
- * stopGame{
- *  delete game;
- * new Title(userDetails);
- *
- * }
- *
- *
- * }
- *
- * Title{
- *      MainWindow* main;
- *
- *      main->userScore;
- *       main->userAddScore
- *
- *
- *      setUser(
- *          main->setUser(userName)
- *      }
- *
- *      Title::(){....as normal}
- *      Title::(UserSettings){ start with selected user home page}
- *
- * }
- *
- *Game{
- *  start(MainWindow* parent){
- *      userName = parent->userName
- * }
- *
- * }
- *
- *
- *
- * */

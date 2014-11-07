@@ -43,6 +43,7 @@ void Game_NoteFinding::startGame()
     nextRound();
     ui->graphicsView->setDragMode(QGraphicsView::ScrollHandDrag);
     connect(m_scene, SIGNAL( lineSelected(int) ), this, SLOT( lineSelected(int) ));
+    ui->stackedWidget->setCurrentIndex(gameStackedWidgetIndices::game);
 }
 
 void Game_NoteFinding::addSelectableLine(int lineIndex)
@@ -162,7 +163,7 @@ void Game_NoteFinding::setSelectableLines()
 }
 
 
-void Game_NoteFinding::on_pushButton_clicked()
+void Game_NoteFinding::on_playAgain_clicked()
 {
 
     m_mainWindow->user()->addScore(ui->score->value());

@@ -34,13 +34,13 @@
   <property name="styleSheet">
    <string notr="true">background-color: qlineargradient(spread:pad, x1:0.438, y1:0, x2:0.466667, y2:1, stop:0 rgba(72, 158, 191, 255), stop:0.466667 rgba(180, 214, 227, 255), stop:1 rgba(72, 157, 190, 255));</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
-   <item>
-    <layout class="QGridLayout" name="gridLayout">
+  <layout class="QGridLayout" name="gridLayout_3">
+   <item row="0" column="0">
+    <layout class="QVBoxLayout" name="verticalLayout">
      <property name="sizeConstraint">
       <enum>QLayout::SetDefaultConstraint</enum>
      </property>
-     <item row="0" column="0">
+     <item>
       <widget class="QStackedWidget" name="stackedWidget">
        <property name="currentIndex">
         <number>0</number>
@@ -162,7 +162,7 @@ border-bottom-color: qlineargradient(spread:pad, x1:0.438, y1:0, x2:0.442857, y2
           <string>YOU WON!</string>
          </property>
         </widget>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="playAgain">
          <property name="geometry">
           <rect>
            <x>390</x>

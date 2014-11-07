@@ -10,8 +10,6 @@
 #include "game.h"
 #include "mainwindow.h"
 
-//TODO classes need pointer to user settings not mainwindow
-
 namespace Ui {
 class Game_NoteFinding;
 }
@@ -30,8 +28,7 @@ public:
 
 private slots:
     void lineSelected(int line);    
-    //TODO change name to winButton
-    void on_pushButton_clicked();
+    void on_playAgain_clicked();
 
 private:
     void makeMap();
