@@ -63,7 +63,7 @@ private:
 
     void addMenu();
 
-    Ui::Title *ui;
+
 
     QList<ButtonRelay*> m_userButtonRelays;
     QList<QPushButton*> m_userPushButtons;
@@ -77,6 +77,7 @@ private:
     QMap<int, GameProperties*> m_gameProperties;
 
     MainWindow* m_mainWindow;
+    Ui::Title *ui;
 };
 
 #endif // TITLE_H

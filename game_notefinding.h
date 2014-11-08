@@ -38,12 +38,12 @@ private:
     void writeUserSettings();
     virtual void setSelectableLines();
 
-    Ui::Game_NoteFinding *ui;
-    StaffScene* m_scene; 
     QMap<int, QString> m_lineToNoteMap;    
     int m_answer;    
     QList<int> m_selectableLines;
     MainWindow* m_mainWindow;
+    Ui::Game_NoteFinding *ui;
+    StaffScene* m_scene;
 };
 
 #endif // Game_NoteFinding_H
