@@ -45,7 +45,8 @@ void MainWindow::stopGame()
 {
     removeWidget(m_game);
     m_game = nullptr;
-    initTitle();
+    initTitle(true);
+
 }
 
 void MainWindow::setUser(QString userName)
@@ -110,8 +111,7 @@ bool MainWindow::removeUser(QString userName)
     else
         return false;
 }
-//TODO test all games
-//TODO game end should return to user home not title
+
 void MainWindow::removeWidget(QWidget *widget)
 {
     ui->gameContainer->removeWidget(widget);
@@ -144,13 +144,14 @@ void MainWindow::initGame(int gameId)
     }
 }
 
-void MainWindow::initTitle()
+void MainWindow::initTitle(bool isUserSelected)
 {
-    m_title = new Title(this);
+    m_title = new Title(this, isUserSelected);
     m_title->setAttribute(Qt::WA_DeleteOnClose);
     ui->gameContainer->addWidget(m_title);
     connect(m_title, SIGNAL(startGame(int)), this, SLOT(startGame(int)));    
 }
+
 
 void MainWindow::initUserNames()
 {

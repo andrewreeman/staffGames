@@ -20,7 +20,7 @@ class Title : public QWidget
     Q_OBJECT
 
 public:
-    explicit Title(QWidget *parent = 0);
+    explicit Title(QWidget *parent = 0, bool isUserSelected = false);
     ~Title();
 
 signals:
@@ -50,6 +50,7 @@ private:
 
     void makeAllUserButtons();
     void makeUserButton(QString name);
+    void removeAllUserButtons();
 
     void makeAllGameButtons();
     void makeGameButton(GameProperties* gameProps);

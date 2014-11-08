@@ -12,7 +12,7 @@
 #include <QAction>
 #include <QMessageBox>
 
-Title::Title(QWidget *parent) :
+Title::Title(QWidget *parent, bool isUserSelected) :
     QWidget(parent), m_mainWindow( (MainWindow*)parent),
     ui(new Ui::Title)
 {
@@ -23,8 +23,14 @@ Title::Title(QWidget *parent) :
     };
 
     ui->setupUi(this);
-    ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::title);
     constructGamePropertiesList();
+
+    if(isUserSelected){
+        userButtonClicked(m_mainWindow->user()->name());
+    }
+    else{
+       ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::title);
+    }
 }
 
 Title::~Title()
@@ -68,6 +74,19 @@ void Title::makeUserButton(QString name)
     connect(buttonRelay, SIGNAL(buttonClicked(QVariant)), this, SLOT(userButtonClicked(QVariant)));
 }
 
+void Title::removeAllUserButtons()
+{
+    QLayout* userLayout = ui->userNameContainerContents->layout();
+
+    for(QPushButton* button : m_userPushButtons)
+        userLayout->removeWidget(button);
+
+    qDeleteAll(m_userPushButtons);
+    m_userPushButtons.clear();
+    qDeleteAll(m_userButtonRelays);
+    m_userButtonRelays.clear();
+}
+
 
 void Title::userButtonClicked(QVariant userName)
 {
@@ -80,6 +99,7 @@ void Title::userButtonClicked(QVariant userName)
     ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::userHome);
     makeAllGameButtons();
     makeAllShopButtons();
+    removeAllUserButtons();
 }
 
 
@@ -314,11 +334,13 @@ void Title::on_shopButton_clicked()
 void Title::on_backToUserGames_clicked()
 {
     ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::userHome);
+    //on_titleToLogin_clicked();
 }
 
 void Title::on_backToUserList_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::users);
+    on_titleToLogin_clicked();
+    /*ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::users);
     addMenu();
-    connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(removeMenu()));
+    connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(removeMenu()));*/
 }

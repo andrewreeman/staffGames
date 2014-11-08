@@ -41,7 +41,7 @@ public slots:
 private:
     void removeWidget(QWidget* widget);
     void initGame(int gameId);
-    void initTitle();
+    void initTitle(bool isUserSelected = false);
     void initUserNames();
 
     GameFactory m_gameFactory;
