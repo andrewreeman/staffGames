@@ -62,7 +62,7 @@ void Game_NoteFinding::makeMap()
     QList<QChar> noteLetters{'F', 'E', 'D', 'C', 'B', 'A', 'G'}; // top staff note first descending
     QStringList totalLetters;
     int numLedgerNotes = staffLayout::numLedgerNotes;
-    int numStaffNotes = staffLayout::numStaffLines;
+    int numStaffNotes = staffLayout::numStaffLines * 2;
     int totalNotes = (numLedgerNotes*2)+numStaffNotes;
     int noteIndex = noteLetters.size() - numLedgerNotes;    
     int currentOctave = 3;
@@ -157,11 +157,12 @@ void Game_NoteFinding::nextRound()
 void Game_NoteFinding::setSelectableLines()
 {
     // all lines
-    for(int i=0; i<m_lineToNoteMap.size(); ++i){
-        addSelectableLine( i - (staffLayout::numLedgerNotes*2));
-    };
+    QMapIterator<int, QString> iter(m_lineToNoteMap);
+    while(iter.hasNext()){
+          iter.next();
+        addSelectableLine(iter.key());
+    }
 }
-
 
 void Game_NoteFinding::on_playAgain_clicked()
 {

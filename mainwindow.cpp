@@ -111,6 +111,7 @@ bool MainWindow::removeUser(QString userName)
         return false;
 }
 //TODO test all games
+//TODO game end should return to user home not title
 void MainWindow::removeWidget(QWidget *widget)
 {
     ui->gameContainer->removeWidget(widget);
