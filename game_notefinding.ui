@@ -48,7 +48,7 @@
        <widget class="QWidget" name="game">
         <layout class="QGridLayout" name="gridLayout_2">
          <item row="0" column="0">
-          <widget class="QGraphicsView" name="graphicsView">
+          <widget class="GraphicsView" name="graphicsView">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
              <horstretch>0</horstretch>
@@ -187,6 +187,13 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0.097, x2:1, y2:0, stop:0
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>GraphicsView</class>
+   <extends>QGraphicsView</extends>
+   <header>graphicsview.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

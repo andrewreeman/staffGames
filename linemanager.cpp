@@ -132,6 +132,7 @@ void lineManager::createLowerLedgers()
     }
 }
 
+//TODO look in pinchzoom and solve the issue there first
 QRectF lineManager::boundingRect() const
 {    
     return QRectF(0, 0, 0, 0);
