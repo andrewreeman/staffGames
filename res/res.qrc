@@ -31,7 +31,4 @@
         <file>treble--5.wav</file>
         <file>treble--6.wav</file>
     </qresource>
-    <qresource prefix="/stylesheet">
-        <file>global.css</file>
-    </qresource>
 </RCC>

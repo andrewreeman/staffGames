@@ -32,7 +32,6 @@ Title::Title(QWidget *parent, bool isUserSelected) :
     else{
        ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::title);
     }
-    loadStyleSheet();
 }
 
 Title::~Title()
@@ -47,13 +46,6 @@ void Title::on_titleToLogin_clicked()
     makeAllUserButtons();    
     addMenu();
     connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(removeMenu()));
-}
-
-void Title::loadStyleSheet(){
-    QFile style(":/stylesheet/global.css");
-
-    style.open(QFile::ReadOnly);
-    setStyleSheet(style.readAll());
 }
 
 void Title::makeAllUserButtons()
@@ -74,7 +66,9 @@ void Title::makeUserButton(QString name)
     ButtonRelay* buttonRelay = new ButtonRelay(button,name, this);
 
     button->setProperty(propertyKeys::userName.toLatin1(), QVariant(name));
+    button->setProperty(propertyKeys::dynamicButton.toLatin1(), QVariant(true));
     buttonRelay->setProperty(propertyKeys::userName.toLatin1(), QVariant(name));
+
 
 
     m_userPushButtons.append(button);

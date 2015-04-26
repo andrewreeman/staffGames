@@ -23,13 +23,37 @@
    <bool>false</bool>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(255, 255, 255)</string>
+   <string notr="true">QLabel#titleLabel{
+    background-color: #3C8BFF;
+    color: rgb(255, 255, 255);
+}
+
+QPushButton{
+    font-size: 20px;
+    font-family: &quot;Arial&quot;;
+    border: 1px solid #3C8BFF;
+	border-radius: 50px;
+    min-height: 100px;
+}
+
+QDialog QPushButton{
+    min-height: 30px;
+}
+
+QPushButton:pressed{
+    background-color: #3C8BFF;
+    color: rgb(255, 255, 255);  
+}
+
+*[dynamicButton=&quot;true&quot;]{
+	border-radius: 100px;
+}</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="page">
       <layout class="QHBoxLayout" name="horizontalLayout">
@@ -97,18 +121,11 @@ color: rgb(255, 255, 255);*/</string>
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>100</height>
+             <height>102</height>
             </size>
            </property>
-           <property name="font">
-            <font>
-             <family>Arial</family>
-             <pointsize>20</pointsize>
-            </font>
-           </property>
            <property name="styleSheet">
-            <string notr="true">border: 1px solid #3C8BFF;
-</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>Push to start</string>
@@ -142,13 +159,16 @@ color: rgb(255, 255, 255);*/</string>
          <property name="widgetResizable">
           <bool>true</bool>
          </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
          <widget class="QWidget" name="userNameContainerContents">
           <property name="geometry">
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>129</width>
-            <height>45</height>
+            <width>651</width>
+            <height>570</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -184,8 +204,8 @@ color: rgb(255, 255, 255);*/</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>103</width>
-            <height>78</height>
+            <width>505</width>
+            <height>570</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -228,8 +248,8 @@ color: rgb(255, 255, 255);*/</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>103</width>
-            <height>45</height>
+            <width>65</width>
+            <height>120</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_6">
