@@ -45,6 +45,7 @@ private slots:
 
 private:
 
+    void loadStyleSheet();
     bool addUser(QString newUser);
     bool removeUser(QString userName);
 

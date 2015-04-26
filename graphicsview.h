@@ -16,7 +16,8 @@ public slots:
 
 
 private:
-    int totalScaleFactor;
+    float totalScaleFactor;
+    //TODO when zoom in first touch centers on note meaning note doesnt move when first selected
 };
 
 #endif // GRAPHICSVIEW_H

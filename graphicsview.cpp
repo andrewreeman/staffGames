@@ -1,6 +1,7 @@
 #include "graphicsview.h"
 #include <QEvent>
 #include <QTouchEvent>
+#include <QDebug>
 
 GraphicsView::GraphicsView(QWidget *parent) :
     QGraphicsView(parent), totalScaleFactor(1)
@@ -25,18 +26,22 @@ bool GraphicsView::viewportEvent(QEvent *event)
                  qreal currentScaleFactor =
                          QLineF(touchPoint0.pos(), touchPoint1.pos()).length()
                          / QLineF(touchPoint0.startPos(), touchPoint1.startPos()).length();
+
+                 setTransform(QTransform().scale(totalScaleFactor * currentScaleFactor,
+                                                 totalScaleFactor * currentScaleFactor));
+
                  if (touchEvent->touchPointStates() & Qt::TouchPointReleased) {
                      // if one of the fingers is released, remember the current scale
                      // factor so that adding another finger later will continue zooming
                      // by adding new scale factor to the existing remembered value.
                      totalScaleFactor *= currentScaleFactor;
-                     currentScaleFactor = 1;
+                     //currentScaleFactor = 1;
                  }
-                 setTransform(QTransform().scale(totalScaleFactor * currentScaleFactor,
-                                                 totalScaleFactor * currentScaleFactor));
+                 qDebug() << totalScaleFactor;
+
              }
              return false; // don't consume as touch is needed for mouse
-                     //TODO when zoom is too much things disappear. boundingrect issue?;
+
          }
          default:
              break;

@@ -1,0 +1,13 @@
+QLabel#titleLabel{
+    background-color: #3C8BFF;
+    color: rgb(255, 255, 255);
+}
+
+QPushButton{
+
+}
+
+QPushButton:pressed{
+    background-color: #3C8BFF;
+    color: rgb(255, 255, 255);  
+}

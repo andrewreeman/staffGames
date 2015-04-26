@@ -7,7 +7,7 @@
         <file alias="fail2">fail2.wav</file>
         <file alias="fail3">fail3.wav</file>
         <file alias="fail4">fail4.wav</file>
-        <file alias="fail5">fail5.wav</file>   
+        <file alias="fail5">fail5.wav</file>
         <file>treble-0.wav</file>
         <file>treble-1.wav</file>
         <file>treble-2.wav</file>
@@ -30,5 +30,8 @@
         <file>treble--4.wav</file>
         <file>treble--5.wav</file>
         <file>treble--6.wav</file>
+    </qresource>
+    <qresource prefix="/stylesheet">
+        <file>global.css</file>
     </qresource>
 </RCC>

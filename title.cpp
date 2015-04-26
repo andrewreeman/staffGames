@@ -11,6 +11,7 @@
 #include <QMenu>
 #include <QAction>
 #include <QMessageBox>
+#include <QFile>
 
 Title::Title(QWidget *parent, bool isUserSelected) :
     QWidget(parent), m_mainWindow( (MainWindow*)parent),
@@ -31,6 +32,7 @@ Title::Title(QWidget *parent, bool isUserSelected) :
     else{
        ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::title);
     }
+    loadStyleSheet();
 }
 
 Title::~Title()
@@ -40,11 +42,18 @@ Title::~Title()
 }
 
 void Title::on_titleToLogin_clicked()
-{    
+{     
     ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::users);
     makeAllUserButtons();    
     addMenu();
     connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(removeMenu()));
+}
+
+void Title::loadStyleSheet(){
+    QFile style(":/stylesheet/global.css");
+
+    style.open(QFile::ReadOnly);
+    setStyleSheet(style.readAll());
 }
 
 void Title::makeAllUserButtons()
