@@ -37,8 +37,8 @@ QVariant Note::itemChange(GraphicsItemChange change, const QVariant &value)
     }
     else if(change == ItemPositionChange && scene())
         scene()->views().at(0)->ensureVisible(this, 10, 100);
-//TODO WEIRD BEHAVIOUR WHEN MOVE NOTES
     return QGraphicsItem::itemChange(change, value);
+    //TODO use labels on click instead of buttons for dynamic users and shop items because of multi-line support
 }
 
 QRectF Note::boundingRect() const

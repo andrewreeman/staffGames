@@ -23,21 +23,48 @@
    <bool>false</bool>
   </property>
   <property name="styleSheet">
-   <string notr="true">QLabel#titleLabel{
-    background-color: #3C8BFF;
-    color: rgb(255, 255, 255);
+   <string notr="true">*{
+	background-color: rgb(255, 255, 255);
+   color: rgb(61, 54, 54);
+}
+QLabel{
+   background-color: #3C8BFF;
+   color: rgb(255, 255, 255);
+}
+QLabel#gameTitle{
+  min-height: 200px;
+  qproperty-alignment: AlignCenter;
+  font-size: 40px;
+ font-family: &quot;GFS Artemisia&quot;;
+}
+
+*[titleLabel=&quot;true&quot;]{
+     font-size: 28px;
+    min-height: 50px;
+/*	border-bottom: 5px solid rgb(78,60,255);*/
+	border-bottom: 5px solid rgb(255,176,60);
+ }
+
+QLabel#userScore{
+	border-bottom: none;
 }
 
 QPushButton{
-    font-size: 20px;
+	 font-size: 20px;
     font-family: &quot;Arial&quot;;
     border: 1px solid #3C8BFF;
-	border-radius: 50px;
+	 border-radius: 10px;
     min-height: 100px;
 }
 
 QDialog QPushButton{
-    min-height: 30px;
+    min-height: 50px;
+	 min-width: 100px
+}
+
+QDialog QLabel{
+	  background-color: rgb(255, 255, 255);
+     color: rgb(61, 54, 54);
 }
 
 QPushButton:pressed{
@@ -46,21 +73,31 @@ QPushButton:pressed{
 }
 
 *[dynamicButton=&quot;true&quot;]{
-	border-radius: 100px;
+	border-radius: 50px;
+   background-color: #3C8BFF;
+   color: rgb(255, 255, 255);  
+}
+
+*[dynamicButton=&quot;true&quot;]:pressed{
+	background-color: rgb(255, 255, 255);  
+   color: #3C8BFF;
 }</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="page">
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_7">
          <item>
-          <widget class="QLabel" name="titleLabel">
+          <widget class="QLabel" name="gameTitle">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
              <horstretch>0</horstretch>
@@ -76,12 +113,11 @@ QPushButton:pressed{
            <property name="font">
             <font>
              <family>GFS Artemisia</family>
-             <pointsize>40</pointsize>
+             <pointsize>-1</pointsize>
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">/*background-color: #3C8BFF;
-color: rgb(255, 255, 255);*/</string>
+            <string notr="true"/>
            </property>
            <property name="frameShape">
             <enum>QFrame::NoFrame</enum>
@@ -96,10 +132,7 @@ color: rgb(255, 255, 255);*/</string>
             <string>Staff Games</string>
            </property>
            <property name="scaledContents">
-            <bool>true</bool>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
+            <bool>false</bool>
            </property>
           </widget>
          </item>
@@ -173,11 +206,59 @@ color: rgb(255, 255, 255);*/</string>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_4">
            <item>
+            <widget class="QLabel" name="userLabel">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Select A User</string>
+             </property>
+             <property name="scaledContents">
+              <bool>false</bool>
+             </property>
+             <property name="margin">
+              <number>0</number>
+             </property>
+             <property name="indent">
+              <number>10</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_3">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
             <widget class="QPushButton" name="AddUser">
              <property name="text">
               <string>Add new user</string>
              </property>
             </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_4">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
            </item>
           </layout>
          </widget>
@@ -188,13 +269,6 @@ color: rgb(255, 255, 255);*/</string>
      <widget class="QWidget" name="UserGames">
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
-        <widget class="QLabel" name="userScore">
-         <property name="text">
-          <string>TextLabel</string>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QScrollArea" name="gameContainer">
          <property name="widgetResizable">
           <bool>true</bool>
@@ -204,11 +278,37 @@ color: rgb(255, 255, 255);*/</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>505</width>
+            <width>565</width>
             <height>570</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_5">
+           <item>
+            <widget class="QLabel" name="userName">
+             <property name="text">
+              <string>TextLabel</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+             </property>
+             <property name="indent">
+              <number>10</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_5">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
            <item>
             <widget class="QPushButton" name="backToUserList">
              <property name="text">
@@ -217,20 +317,64 @@ color: rgb(255, 255, 255);*/</string>
             </widget>
            </item>
            <item>
+            <spacer name="verticalSpacer_6">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
             <widget class="QPushButton" name="shopButton">
              <property name="text">
               <string>Shop</string>
              </property>
             </widget>
            </item>
+           <item>
+            <spacer name="verticalSpacer_7">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
           </layout>
          </widget>
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="userName">
+        <widget class="QLabel" name="userScore">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>80</width>
+           <height>0</height>
+          </size>
+         </property>
          <property name="text">
           <string>TextLabel</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="indent">
+          <number>-1</number>
          </property>
         </widget>
        </item>
@@ -248,7 +392,7 @@ color: rgb(255, 255, 255);*/</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>65</width>
+            <width>80</width>
             <height>120</height>
            </rect>
           </property>

@@ -65,6 +65,7 @@ namespace propertyKeys{
     const QString gameID = "gameID";
     const QString userName = "userName";
     const QString dynamicButton = "dynamicButton";
+    const QString titleLabel = "titleLabel";
 }
 
 namespace ledgerType{

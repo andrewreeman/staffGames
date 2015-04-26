@@ -12,6 +12,7 @@
 #include <QAction>
 #include <QMessageBox>
 #include <QFile>
+#include <QSizePolicy>
 
 Title::Title(QWidget *parent, bool isUserSelected) :
     QWidget(parent), m_mainWindow( (MainWindow*)parent),
@@ -32,6 +33,10 @@ Title::Title(QWidget *parent, bool isUserSelected) :
     else{
        ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::title);
     }
+    ui->gameTitle->setProperty(propertyKeys::titleLabel.toLatin1(), true);
+    ui->userLabel->setProperty(propertyKeys::titleLabel.toLatin1(), true);
+    ui->userName->setProperty(propertyKeys::titleLabel.toLatin1(), true);
+    ui->userScore->setProperty(propertyKeys::titleLabel.toLatin1(), true);
 }
 
 Title::~Title()
@@ -66,9 +71,8 @@ void Title::makeUserButton(QString name)
     ButtonRelay* buttonRelay = new ButtonRelay(button,name, this);
 
     button->setProperty(propertyKeys::userName.toLatin1(), QVariant(name));
-    button->setProperty(propertyKeys::dynamicButton.toLatin1(), QVariant(true));
+    button->setProperty(propertyKeys::dynamicButton.toLatin1(), true);
     buttonRelay->setProperty(propertyKeys::userName.toLatin1(), QVariant(name));
-
 
 
     m_userPushButtons.append(button);
@@ -118,6 +122,7 @@ void Title::makeGameButton(GameProperties* gameProps)
     QPushButton* button = new QPushButton(gameProps->gameTitle());
     ButtonRelay* buttonRelay = new ButtonRelay(button, gameProps->gameId(), this);
 
+    button->setProperty(propertyKeys::dynamicButton.toLatin1(), true);
     m_gamePushButtons.append(button);
     m_gameButtonRelays.append(buttonRelay);
     scrollLayout->addWidget(button);
@@ -160,6 +165,7 @@ void Title::makeShopButton(GameProperties *gameProps)
     ButtonRelay* buttonRelay = new ButtonRelay(button, gameID, this);
 
     button->setProperty(propertyKeys::gameID.toLatin1(), QVariant(gameID));
+    button->setProperty(propertyKeys::dynamicButton.toLatin1(), true);
     buttonRelay->setProperty(propertyKeys::gameID.toLatin1(), QVariant(gameID));
 
     m_shopPushButtons.append(button);
