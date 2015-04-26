@@ -19,7 +19,7 @@ public:
     void selectLine(int lineNumber);
     void setCorrectState(int lineNumber, bool correctState);
     StaffLine* line(int lineNumber)const;
-//TODO menu bars not accessible on tablet.
+
 signals:
     void lineSelected(int lineNumber);
 public slots:

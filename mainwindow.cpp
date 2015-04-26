@@ -46,7 +46,6 @@ void MainWindow::stopGame()
     removeWidget(m_game);
     m_game = nullptr;
     initTitle(true);
-
 }
 
 void MainWindow::setUser(QString userName)

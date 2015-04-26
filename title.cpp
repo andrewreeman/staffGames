@@ -102,7 +102,7 @@ void Title::userButtonClicked(QVariant userName)
 
     m_mainWindow->setUser(userName.toString());
     ui->userName->setText(userName.toString());
-    ui->userScore->setText( QString::number( m_mainWindow->user()->score() ) );
+    ui->userScore->setText( "Total beats: \n " + QString::number( m_mainWindow->user()->score() ) );
     ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::userHome);
     makeAllGameButtons();
     makeAllShopButtons();
@@ -219,7 +219,6 @@ void Title::removeAllShopButtons()
 void Title::gameButtonClicked(QVariant gameID)
 {
     emit startGame(gameID.toInt());
-
 }
 
 void Title::shopButtonClicked(QVariant gameID)
@@ -343,13 +342,9 @@ void Title::on_shopButton_clicked()
 void Title::on_backToUserGames_clicked()
 {
     ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::userHome);
-    //on_titleToLogin_clicked();
 }
 
 void Title::on_backToUserList_clicked()
 {
     on_titleToLogin_clicked();
-    /*ui->stackedWidget->setCurrentIndex(titleStackedWidgetIndices::users);
-    addMenu();
-    connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(removeMenu()));*/
 }
